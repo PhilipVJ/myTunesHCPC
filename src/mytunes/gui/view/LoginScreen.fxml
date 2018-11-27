@@ -19,5 +19,6 @@
       <Button layoutX="500.0" layoutY="279.0" mnemonicParsing="false" onAction="#deleteUser" text="Delete" />
       <Button fx:id="newUser" layoutX="389.0" layoutY="169.0" mnemonicParsing="false" onAction="#createUser" text="Create User" />
       <TextField fx:id="userName" layoutX="338.0" layoutY="121.0" />
+      <Label fx:id="loginInfo" layoutX="354.0" layoutY="334.0" text="Click here to login -&gt;" />
    </children>
 </AnchorPane>

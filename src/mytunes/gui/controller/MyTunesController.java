@@ -22,7 +22,7 @@ import mytunes.be.User;
  */
 public class MyTunesController implements Initializable
 {
-User currentUser;
+private User currentUser;
     @FXML
     private ListView<?> playlistView;
     @FXML

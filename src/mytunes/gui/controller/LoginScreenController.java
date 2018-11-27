@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -46,6 +47,8 @@ public class LoginScreenController implements Initializable
     private MTModel mtmodel;
     @FXML
     private AnchorPane rootPane2;
+    @FXML
+    private Label loginInfo;
 
     /**
      * Initializes the controller class.
@@ -81,6 +84,13 @@ public class LoginScreenController implements Initializable
     private void userLogin(ActionEvent event) throws IOException, SQLException
     {
         User user = userView.getSelectionModel().getSelectedItem();
+        
+        if (user==null)
+        {
+            loginInfo.setText("Please select a user");
+        }
+        
+        else {
     
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/myTunes.fxml"));
         Parent root = (Parent)loader.load();
@@ -90,6 +100,8 @@ public class LoginScreenController implements Initializable
         Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue
         stage.setScene(new Scene(root));
         stage.show();
+        
+        }
     }
 
     @FXML
