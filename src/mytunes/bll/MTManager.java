@@ -22,7 +22,18 @@ UserDbDAO userDB = new UserDbDAO();
 public List<User> getAllUsers() throws IOException, SQLException{
     
 return userDB.getAllUsers();
+
     
+}
+
+ public void deleteUser(User userToDelete) throws IOException, SQLException
+{   
+userDB.deleteUser(userToDelete);
+}
+
+public void addUser(String username) throws IOException, SQLException
+{
+userDB.addUser(username);
 }
 
     

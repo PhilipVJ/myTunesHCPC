@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="mytunes.gui.controller.LoginScreenController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.LoginScreenController">
    <children>
       <ListView fx:id="userView" layoutX="36.0" layoutY="81.0" prefHeight="279.0" prefWidth="216.0" />
       <Label layoutX="177.0" prefHeight="45.0" prefWidth="334.0" text="MyTunes">
@@ -18,7 +17,7 @@
       </Label>
       <Button layoutX="504.0" layoutY="329.0" mnemonicParsing="false" onAction="#userLogin" text="Login" />
       <Button layoutX="500.0" layoutY="279.0" mnemonicParsing="false" onAction="#deleteUser" text="Delete" />
-      <Button fx:id="newUser" layoutX="389.0" layoutY="169.0" mnemonicParsing="false" text="Create User" />
+      <Button fx:id="newUser" layoutX="389.0" layoutY="169.0" mnemonicParsing="false" onAction="#createUser" text="Create User" />
       <TextField fx:id="userName" layoutX="338.0" layoutY="121.0" />
    </children>
 </AnchorPane>
