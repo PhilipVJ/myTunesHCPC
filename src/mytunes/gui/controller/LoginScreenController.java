@@ -15,10 +15,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import mytunes.be.User;
 import mytunes.bll.MTManager;
 import mytunes.gui.model.MTModel;
@@ -39,6 +44,8 @@ public class LoginScreenController implements Initializable
     private TextField userName;
     
     private MTModel mtmodel;
+    @FXML
+    private AnchorPane rootPane2;
 
     /**
      * Initializes the controller class.
@@ -73,7 +80,16 @@ public class LoginScreenController implements Initializable
     @FXML
     private void userLogin(ActionEvent event) throws IOException, SQLException
     {
+        User user = userView.getSelectionModel().getSelectedItem();
     
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/myTunes.fxml"));
+        Parent root = (Parent)loader.load();
+        
+        MyTunesController mController = loader.getController();
+        mController.setUser(user);
+        Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
