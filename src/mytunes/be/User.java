@@ -30,4 +30,9 @@ public int getID()
     return id;
 }
 
+@Override
+public String toString()
+{
+return username;
+}
 }
