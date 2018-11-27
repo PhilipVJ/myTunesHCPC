@@ -12,9 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+
 
 
 /**
@@ -40,7 +42,7 @@ public class PlaylistDbDAO
             {
             if (generatedKeys.next()) 
                 {
-                addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName);
+                addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName, userId);
                 
                 System.out.println("Following playlist has been added to the database: "+addedPlaylist.getName());
                 return addedPlaylist;
@@ -52,10 +54,29 @@ public class PlaylistDbDAO
         
     }
     
-    public List<Playlist> getAllPlayLists()
+    public List<Playlist> getAllPlayLists() throws IOException, SQLServerException, SQLException
     {
-        return null;
+        ArrayList<Playlist> allPlaylist = new ArrayList<>();
+       DbConnection dc = new DbConnection();
+       Connection con = dc.getConnection();
+        
+       Statement statement = con.createStatement();
+       ResultSet rs = statement.executeQuery("Select * FROM Playlist;");
+                while (rs.next())
+                {
+                    int id = rs.getInt("listId");
+                    String playlistName = rs.getString("playlistName");
+                    int userId = rs.getInt("userId");
+                    allPlaylist.add(new Playlist(id, playlistName, userId));
+                  
+                }
+               for(Playlist x: allPlaylist)
+               {
+                   System.out.println(""+ x.getName());
+               }
+       return allPlaylist;
     }
+    
     
     public void addSongToPlaylist(Song songToAdd)
     {

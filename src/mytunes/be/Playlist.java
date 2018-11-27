@@ -14,11 +14,13 @@ public class Playlist
     private int id;
     private String playlistName;
     private String songs;
+    private int userId;
     
-    public Playlist(int id, String playlistName)
+    public Playlist(int id, String playlistName, int userId)
     {
         this.id = id;
         this.playlistName = playlistName;
+        this.userId = userId;
         
     }
 
