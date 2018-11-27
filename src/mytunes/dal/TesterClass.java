@@ -8,6 +8,7 @@ package mytunes.dal;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.SQLException;
+import mytunes.be.User;
 
 /**
  *
@@ -18,11 +19,13 @@ public class TesterClass
 {
 public static void main(String[] args) throws IOException, SQLServerException, SQLException 
 {
-DbConnection tester = new DbConnection();
-tester.getConnection();
+
 
 UserDbDAO tester2 = new UserDbDAO();
-tester2.addUser("Mogens");
+User Christian = new User(1,"Christian");
+
+tester2.deleteUser(Christian);
+tester2.getAllUsers();
     
 }
 }

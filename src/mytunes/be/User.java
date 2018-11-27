@@ -11,5 +11,23 @@ package mytunes.be;
  */
 public class User
 {
-    
+int id;
+String username;
+
+public User(int id, String username)
+{
+  this.id = id;
+  this.username = username;
+}
+
+public String getName()
+{
+    return username;
+}
+
+public int getID()
+{
+    return id;
+}
+
 }
