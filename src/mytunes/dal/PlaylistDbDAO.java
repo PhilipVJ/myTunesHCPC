@@ -5,9 +5,17 @@
  */
 package mytunes.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+
 
 /**
  *
@@ -16,9 +24,32 @@ import mytunes.be.Song;
 public class PlaylistDbDAO
 {
     
-    public Playlist addPlaylist()
+    public Playlist addPlaylist(int userId, String playlistName) throws IOException, SQLServerException, SQLException
     {
-        return null;
+        DbConnection ds = new DbConnection();
+        Connection con = ds.getConnection();
+        Playlist addedPlaylist = null;
+        
+        String SQL = "INSERT INTO Playlist VALUES (?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1,userId);
+        pstmt.setString(2,playlistName);
+        pstmt.execute();
+  
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) 
+            {
+            if (generatedKeys.next()) 
+                {
+                addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName);
+                
+                System.out.println("Following playlist has been added to the database: "+addedPlaylist.getName());
+                return addedPlaylist;
+                }
+
+            }
+ return addedPlaylist;
+       
+        
     }
     
     public List<Playlist> getAllPlayLists()

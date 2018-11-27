@@ -21,11 +21,14 @@ public static void main(String[] args) throws IOException, SQLServerException, S
 {
 
 
-UserDbDAO tester2 = new UserDbDAO();
-User Christian = new User(1,"Christian");
+//UserDbDAO tester2 = new UserDbDAO();
+//User Christian = new User(1,"Christian");
+//
+//tester2.deleteUser(Christian);
+//tester2.getAllUsers();
 
-tester2.deleteUser(Christian);
-tester2.getAllUsers();
-    
+PlaylistDbDAO test3 = new PlaylistDbDAO();
+
+test3.addPlaylist(5, "Hardtest");
 }
 }

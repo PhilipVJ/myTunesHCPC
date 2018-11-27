@@ -11,5 +11,42 @@ package mytunes.be;
  */
 public class Playlist
 {
+    private int id;
+    private String playlistName;
+    private String songs;
+    
+    public Playlist(int id, String playlistName)
+    {
+        this.id = id;
+        this.playlistName = playlistName;
+        
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public String getName()
+    {
+        return playlistName;
+    }
+
+    public String getSongs()
+    {
+        return songs;
+    }
+
+    @Override
+    public String toString()
+    {
+        return playlistName;
+    }
+
+    public void addSongs(String songs)
+    {
+        this.songs = songs;
+    }
+
     
 }
