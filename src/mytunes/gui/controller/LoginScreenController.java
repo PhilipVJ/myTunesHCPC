@@ -42,16 +42,21 @@ public class LoginScreenController implements Initializable
 
     /**
      * Initializes the controller class.
+     * 
+     
      */
+    
+    public LoginScreenController() throws IOException, SQLException
+    {
+    mtmodel = new MTModel();
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+     
         try
         {
-            mtmodel = new MTModel();
-            ObservableList<User> allUsers = FXCollections.observableArrayList(mtmodel.getUsers());
-            userView.setItems(allUsers);
-            
+            userView.setItems(mtmodel.getUsers());
         } catch (IOException ex)
         {
             Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,18 +64,32 @@ public class LoginScreenController implements Initializable
         {
             Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
               
       
     }    
 
     @FXML
-    private void userLogin(ActionEvent event)
+    private void userLogin(ActionEvent event) throws IOException, SQLException
     {
+    
     }
 
     @FXML
-    private void deleteUser(ActionEvent event)
+    private void deleteUser(ActionEvent event) throws IOException, SQLException
     {
+    User userToDelete = userView.getSelectionModel().getSelectedItem();
+    mtmodel.deleteUser(userToDelete);
     }
+
+    @FXML
+    private void createUser(ActionEvent event) throws IOException, SQLException
+    {
+    String username = userName.getText();
+    mtmodel.addUser(username);
+    userName.clear();
+    }
+    
+    
     
 }

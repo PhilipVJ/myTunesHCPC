@@ -75,9 +75,7 @@ public List<User> getAllUsers() throws IOException, SQLServerException, SQLExcep
                     allUsers.add(new User(id,username));
                   
                 }
-       for (User x: allUsers){
-           System.out.println(""+x.getName());
-       }
+
        return allUsers;
             }
 
