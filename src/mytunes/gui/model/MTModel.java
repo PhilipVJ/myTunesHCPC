@@ -29,25 +29,28 @@ private MTManager mtmanager;
 public MTModel() throws IOException, SQLException
 {
 mtmanager = new MTManager();
-users = FXCollections.observableArrayList();
-users.addAll(mtmanager.getAllUsers());
+
+
 
 }
 
 public ObservableList<User> getUsers() throws IOException, SQLException
 {
+users = FXCollections.observableList(mtmanager.getAllUsers());
 return users;
 
 }
 
 public void deleteUser(User userToDelete) throws IOException, SQLException
 {
-mtmanager.deleteUser(userToDelete);   
+mtmanager.deleteUser(userToDelete); 
+
 }
 
 public void addUser(String username) throws IOException, SQLException
 {
 mtmanager.addUser(username);
+
 }
 
     
