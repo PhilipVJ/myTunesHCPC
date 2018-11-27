@@ -8,7 +8,6 @@ package mytunes.bll;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import javafx.collections.ObservableList;
 import mytunes.be.User;
 import mytunes.dal.UserDbDAO;
 
@@ -23,6 +22,7 @@ UserDbDAO userDB = new UserDbDAO();
 public List<User> getAllUsers() throws IOException, SQLException{
     
 return userDB.getAllUsers();
+
     
 }
 
