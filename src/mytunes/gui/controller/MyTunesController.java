@@ -20,8 +20,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+
 import mytunes.be.Playlist;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
@@ -47,7 +52,17 @@ private User currentUser;
     
     private MTModel mtmodel;
     @FXML
+
     private AnchorPane rootPane2;
+
+    private ImageView nextSongbtn;
+    @FXML
+    private ImageView previousSongbtn;
+    @FXML
+    private ImageView searchBtn;
+    
+    
+
     /**
      * Initializes the controller class.
      */
@@ -130,19 +145,20 @@ private User currentUser;
     }
 
     @FXML
-    private void playSong(ActionEvent event)
+    private void nextSong(MouseEvent event)
     {
     }
 
     @FXML
-    private void previousSong(ActionEvent event)
+    private void playSong(MouseEvent event)
     {
     }
 
     @FXML
-    private void nextSong(ActionEvent event)
+    private void previousSong(MouseEvent event)
     {
     }
+
 
     @FXML
     private void refresh(ActionEvent event) throws IOException, SQLException
@@ -152,7 +168,6 @@ private User currentUser;
     }
     
 
-    
 
     
 }
