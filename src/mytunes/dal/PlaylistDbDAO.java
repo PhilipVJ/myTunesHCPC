@@ -54,26 +54,30 @@ public class PlaylistDbDAO
         
     }
     
-    public List<Playlist> getAllPlayLists() throws IOException, SQLServerException, SQLException
+    public List<Playlist> getPlaylistsByUser(int userID) throws IOException, SQLServerException, SQLException
     {
         ArrayList<Playlist> allPlaylist = new ArrayList<>();
        DbConnection dc = new DbConnection();
        Connection con = dc.getConnection();
         
-       Statement statement = con.createStatement();
-       ResultSet rs = statement.executeQuery("Select * FROM Playlist;");
-                while (rs.next())
-                {
-                    int id = rs.getInt("listId");
-                    String playlistName = rs.getString("playlistName");
-                    int userId = rs.getInt("userId");
-                    allPlaylist.add(new Playlist(id, playlistName, userId));
-                  
-                }
-               for(Playlist x: allPlaylist)
-               {
-                   System.out.println(""+ x.getName());
-               }
+
+            Statement statement = con.createStatement();
+            PreparedStatement pstmt = con.prepareStatement
+            ("Select * FROM Playlist WHERE userId = (?)");
+            pstmt.setInt(1, userID);
+            ResultSet rs = pstmt.executeQuery();
+         
+            while (rs.next())
+            {
+            int playlistID = rs.getInt("listId");
+            String PlaylistName = rs.getString("playlistName");
+            allPlaylist.add(new Playlist(playlistID, PlaylistName, userID));
+             
+                
+            }
+       for (Playlist x : allPlaylist){
+           System.out.println(""+x.getName());
+       }
        return allPlaylist;
     }
     
@@ -81,6 +85,24 @@ public class PlaylistDbDAO
     public void addSongToPlaylist(Song songToAdd)
     {
 
+    }
+    
+    public void renamePlaylist(int playlistID, String newName) throws IOException, SQLServerException, SQLException
+    {
+       
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            Statement statement = con.createStatement();
+            PreparedStatement pstmt = con.prepareStatement
+            ("UPDATE Playlist SET playlistName = (?) WHERE listId = (?)");
+            pstmt.setString(1, newName);
+            pstmt.setInt(2, playlistID);
+            pstmt.execute();
+            pstmt.close();
+                            
+             
+ 
+             
     }
     
     public void deleteSongFromPlaylist(Song songToDelete)

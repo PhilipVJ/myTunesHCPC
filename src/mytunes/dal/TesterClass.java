@@ -7,7 +7,9 @@ package mytunes.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import mytunes.be.Playlist;
 import mytunes.be.User;
 
@@ -29,11 +31,14 @@ public static void main(String[] args) throws IOException, SQLServerException, S
 //tester2.getAllUsers();
 
 PlaylistDbDAO test3 = new PlaylistDbDAO();
-
-
-test3.addPlaylist(5, "SmallTest");
-test3.getAllPlayLists();
-
+//
+//
+//test3.addPlaylist(6, "Pop");
+////test3.addPlaylist(7,"Rock");
+//test3.getAllPlayLists();
+//test3.renamePlaylist(2, "Techno");
+//test3.getAllPlayLists();
+test3.getPlaylistsByUser(6);
 
 }
 }
