@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mytunes.be.Song;
 
 /**
@@ -54,9 +56,26 @@ public class SongDbDAO {
         }
     }
     
-    public void editSong()
+    public void editSong(Song song) throws SQLServerException, SQLException
     {
-        
+        try (Connection con = dbConnector.getConnection()) {
+            String sql = "UPDATE song SET" + "name=?, artist=?, album=?, genre=?, path=?"
+                    + "WHERE songId=?";
+            PreparedStatement pStat = con.prepareStatement(sql);
+            pStat.setString(1, song.getName());
+            pStat.setString(2, song.getArtist());
+            pStat.setString(3, song.getAlbum());
+            pStat.setString(4, song.getGenre());
+            pStat.setString(5, song.getPath());
+            pStat.setInt(6, song.getId());
+            
+            int affected = pStat.executeUpdate();
+            if (affected < 1)
+                throw new SQLException ("Can not edit song");
+            }
+        catch (SQLException exc) {
+            Logger.getLogger(SongDbDAO.class.getName()).log(Level.SEVERE, null, exc);
+        }
     }
     
     public void deleteSong()
