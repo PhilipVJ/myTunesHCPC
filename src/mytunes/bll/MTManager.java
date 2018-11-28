@@ -45,5 +45,10 @@ public List<Playlist> getPlaylists(int userID) throws IOException, SQLException
 return playlistDB.getPlaylistsByUser(userID);
 }
 
+public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
+{
+playlistDB.addPlaylist(userID, playlistName);
+}
+
     
 }

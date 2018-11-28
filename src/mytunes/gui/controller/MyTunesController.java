@@ -13,10 +13,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
@@ -41,16 +46,27 @@ private User currentUser;
     private Label userName;
     
     private MTModel mtmodel;
+    @FXML
+    private AnchorPane rootPane2;
     /**
      * Initializes the controller class.
      */
     public MyTunesController() throws IOException, SQLException{
-        mtmodel = new MTModel();
+        
     }
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-
+    try
+    {
+        mtmodel = new MTModel();
+    } catch (IOException ex)
+    {
+        Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex)
+    {
+        Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }    
 
     void setUser(User user) throws IOException, SQLException
@@ -61,8 +77,16 @@ private User currentUser;
     }
 
     @FXML
-    private void newPlaylist(ActionEvent event)
+    private void newPlaylist(ActionEvent event) throws IOException, SQLException
     {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylist.fxml"));
+        Parent root = (Parent)loader.load();
+        
+        AddPlaylistController aController = loader.getController();
+        aController.setUser(currentUser);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
@@ -119,5 +143,16 @@ private User currentUser;
     private void nextSong(ActionEvent event)
     {
     }
+
+    @FXML
+    private void refresh(ActionEvent event) throws IOException, SQLException
+    {
+     playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
+    
+    }
+    
+
+    
+
     
 }

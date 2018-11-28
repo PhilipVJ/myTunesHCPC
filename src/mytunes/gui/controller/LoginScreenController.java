@@ -94,7 +94,7 @@ public class LoginScreenController implements Initializable
     
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/myTunes.fxml"));
         Parent root = (Parent)loader.load();
-        
+        System.out.println("Test"+user.getID());
         MyTunesController mController = loader.getController();
         mController.setUser(user);
         Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue

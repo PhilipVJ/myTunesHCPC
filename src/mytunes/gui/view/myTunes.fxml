@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="712.0" prefWidth="988.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="mytunes.gui.controller.MyTunesController">
+<AnchorPane id="AnchorPane" fx:id="rootPane2" prefHeight="712.0" prefWidth="988.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
    <children>
       <ListView fx:id="playlistView" layoutX="14.0" layoutY="177.0" prefHeight="429.0" prefWidth="200.0" />
       <ListView fx:id="playlistSongsView" layoutX="243.0" layoutY="177.0" prefHeight="429.0" prefWidth="200.0" />
@@ -35,5 +34,6 @@
          </font>
       </Label>
       <Label fx:id="userName" layoutX="907.0" layoutY="139.0" text="Label" />
+      <Button layoutX="7.0" layoutY="669.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
    </children>
 </AnchorPane>

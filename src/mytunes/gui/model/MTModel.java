@@ -32,9 +32,6 @@ public MTModel() throws IOException, SQLException
 {
 mtmanager = new MTManager();
 
-
-
-
 }
 
 public ObservableList<User> getUsers() throws IOException, SQLException
@@ -62,6 +59,12 @@ public ObservableList<Playlist> getPlaylists(int userID) throws IOException, SQL
 playlists = FXCollections.observableList(mtmanager.getPlaylists(userID));
 return playlists;
 }
+
+    public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
+    {
+        
+        mtmanager.addPlaylist(userID, playlistName);
+    }
 
     
 }
