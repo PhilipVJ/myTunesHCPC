@@ -92,7 +92,7 @@ public class LoginScreenController implements Initializable
         
         else {
     
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/myTunes.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MyTunes.fxml"));
         Parent root = (Parent)loader.load();
         System.out.println("Test"+user.getID());
         MyTunesController mController = loader.getController();
