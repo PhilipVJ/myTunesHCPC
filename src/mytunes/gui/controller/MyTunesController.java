@@ -55,11 +55,14 @@ private User currentUser;
 
     private AnchorPane rootPane2;
 
+    @FXML
     private ImageView nextSongbtn;
     @FXML
     private ImageView previousSongbtn;
     @FXML
     private ImageView searchBtn;
+    @FXML
+    private ImageView playSongbtn;
     
     
 
@@ -139,10 +142,6 @@ private User currentUser;
     {
     }
 
-    @FXML
-    private void searchBtn(ActionEvent event)
-    {
-    }
 
     @FXML
     private void nextSong(MouseEvent event)
