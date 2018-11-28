@@ -134,16 +134,21 @@ private User currentUser;
     }
 
     @FXML
-    private void newSong(ActionEvent event)
+    private void newSong(ActionEvent event) throws IOException
     {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open Resource File");
     Stage stage = (Stage) rootPane2.getScene().getWindow();
     File mp3file = fileChooser.showOpenDialog(stage);
-        System.out.println(""+mp3file.getAbsolutePath());
-//    final Media media = new Media(mp3file.getPath());
-//    final MediaPlayer mediaPlayer = new MediaPlayer(media);
-//    mediaPlayer.play();
+   
+    
+    String path =mp3file.getAbsolutePath();
+    Media hit = new Media(new File(path).toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(hit);
+    mediaPlayer.play();
+
+    
+    
     }
 
     @FXML

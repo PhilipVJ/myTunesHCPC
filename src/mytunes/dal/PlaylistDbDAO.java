@@ -75,9 +75,7 @@ public class PlaylistDbDAO
              
                 
             }
-       for (Playlist x : allPlaylist){
-           System.out.println(""+x.getName());
-       }
+
        return allPlaylist;
     }
     
