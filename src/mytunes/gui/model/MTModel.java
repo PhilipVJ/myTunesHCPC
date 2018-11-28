@@ -60,11 +60,14 @@ playlists = FXCollections.observableList(mtmanager.getPlaylists(userID));
 return playlists;
 }
 
-    public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
-    {
-        
+public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
+    {        
         mtmanager.addPlaylist(userID, playlistName);
     }
 
-    
+
+public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
+{
+    mtmanager.deletePlaylist(playlistToDelete);
+}
 }

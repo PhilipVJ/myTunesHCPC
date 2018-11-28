@@ -50,5 +50,8 @@ public void addPlaylist(int userID, String playlistName) throws IOException, SQL
 playlistDB.addPlaylist(userID, playlistName);
 }
 
-    
+public void deletePlaylist (Playlist playlistToDelete) throws IOException, SQLException
+{
+    playlistDB.deletePlaylist(playlistToDelete);
+}
 }

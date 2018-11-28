@@ -60,13 +60,15 @@ private User currentUser;
     private AnchorPane rootPane2;
 
     @FXML
-    private ImageView nextSongbtn;
-    @FXML
     private ImageView previousSongbtn;
     @FXML
     private ImageView searchBtn;
     @FXML
     private ImageView playSongbtn;
+    @FXML
+    private ImageView nextSongBtn;
+    @FXML
+    private Label playlistinfo;
     
     
 
@@ -117,8 +119,15 @@ private User currentUser;
     }
 
     @FXML
-    private void deletePlaylist(ActionEvent event)
+    private void deletePlaylist(ActionEvent event) throws IOException, SQLException
     {
+        Playlist pl = playlistView.getSelectionModel().getSelectedItem();
+        
+        if(pl==null)
+        {
+            playlistinfo.setText("Please select a playlist");
+        }
+       mtmodel.deletePlaylist(pl);
     }
 
     @FXML
@@ -132,8 +141,9 @@ private User currentUser;
     }
 
     @FXML
-    private void deleteSong(ActionEvent event)
+    private void deleteSong(ActionEvent event) throws IOException
     {
+       
     }
 
     @FXML
