@@ -33,8 +33,6 @@
             <Font size="38.0" />
          </font>
       </Label>
-
-      <Label fx:id="userName" layoutX="865.0" layoutY="137.0" text="Label" />
       <Button layoutX="7.0" layoutY="669.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
 
       <Label fx:id="userName" layoutX="923.0" layoutY="128.0" text="Label">
