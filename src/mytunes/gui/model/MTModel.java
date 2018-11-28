@@ -69,9 +69,8 @@ playlists = FXCollections.observableList(mtmanager.getPlaylists(userID));
 return playlists;
 }
 
-    public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
-    {
-        
+public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
+    {        
         mtmanager.addPlaylist(userID, playlistName);
     }
     
@@ -80,5 +79,9 @@ public void addSong(File mediaFile) throws IOException, TagException, CannotRead
     mtmanager.addSong(mediaFile);
 }
 
-    
+
+public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
+{
+    mtmanager.deletePlaylist(playlistToDelete);
+}
 }

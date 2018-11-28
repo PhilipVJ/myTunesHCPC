@@ -62,8 +62,16 @@ public void addPlaylist(int userID, String playlistName) throws IOException, SQL
 playlistDB.addPlaylist(userID, playlistName);
 }
 
+
 public void addSong(File mediaFile) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
 {
 songDB.addSong(mediaFile);
 }
+
+public void deletePlaylist (Playlist playlistToDelete) throws IOException, SQLException
+{
+    playlistDB.deletePlaylist(playlistToDelete);
+}
+
+
 }
