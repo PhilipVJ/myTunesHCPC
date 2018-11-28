@@ -5,6 +5,12 @@
  */
 package mytunes.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import mytunes.be.Song;
 
@@ -12,16 +18,40 @@ import mytunes.be.Song;
  *
  * @author Philip
  */
-public class SongDbDAO
-{
+public class SongDbDAO {
+        
+        private DbConnection dbConnector;
+
+
     public List<Song> searchSongs(String keyword)
     {
         return null;
     }
     
-    public Song addSong()
+    public void addSong(Song song) throws SQLServerException, SQLException
     {
-        return null;
+        try (Connection con = dbConnector.getConnection()) {
+            String sql = "INSERT INTO song" + "(name, artist,album,genre, path)"    //evt trackLength?
+                    + "VALUES (?,?,?,?,?)";
+            PreparedStatement pStat = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pStat.setString(1, song.getName());
+            pStat.setString(2, song.getArtist());
+            pStat.setString(3, song.getAlbum());
+            pStat.setString(4, song.getGenre());
+            pStat.setString(5, song.getPath());
+            
+            int affected = pStat.executeUpdate();
+            if(affected < 1)
+                throw new SQLException("Could not save song");
+            
+            
+            //Ved ikke om dette fungerer, men det skulle generere id og sætte song id
+            
+            ResultSet rs = pStat.getGeneratedKeys();
+            if (rs.next()) {
+                song.setId(rs.getInt(1));
+            }
+        }
     }
     
     public void editSong()
