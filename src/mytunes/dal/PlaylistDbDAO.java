@@ -56,7 +56,7 @@ public class PlaylistDbDAO
     
     public List<Playlist> getPlaylistsByUser(int userID) throws IOException, SQLServerException, SQLException
     {
-        ArrayList<Playlist> allPlaylist = new ArrayList<>();
+       ArrayList<Playlist> allPlaylist = new ArrayList<>();
        DbConnection dc = new DbConnection();
        Connection con = dc.getConnection();
         

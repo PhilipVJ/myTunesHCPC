@@ -34,6 +34,14 @@ import javafx.stage.FileChooser;
 import mytunes.be.Playlist;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
+import org.farng.mp3.MP3File;
+import org.farng.mp3.TagException;
+import org.farng.mp3.id3.AbstractID3v2;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  * FXML Controller class
@@ -137,18 +145,21 @@ private User currentUser;
     }
 
     @FXML
-    private void newSong(ActionEvent event) throws IOException
+    private void newSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
     {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Open Resource File");
+    fileChooser.setTitle("Open Music File");
     Stage stage = (Stage) rootPane2.getScene().getWindow();
-    File mp3file = fileChooser.showOpenDialog(stage);
-   
+    File mediafile = fileChooser.showOpenDialog(stage);
+    mtmodel.addSong(mediafile);
     
-    String path =mp3file.getAbsolutePath();
-    Media hit = new Media(new File(path).toURI().toString());
-    MediaPlayer mediaPlayer = new MediaPlayer(hit);
-    mediaPlayer.play();
+ 
+    
+    
+//    MediaPlayer mediaPlayer = new MediaPlayer(hit);
+//    mediaPlayer.play();
+    
+    
 
     
     

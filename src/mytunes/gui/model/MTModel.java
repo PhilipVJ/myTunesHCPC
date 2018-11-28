@@ -5,6 +5,7 @@
  */
 package mytunes.gui.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -13,6 +14,14 @@ import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
 import mytunes.be.User;
 import mytunes.bll.MTManager;
+import org.farng.mp3.MP3File;
+import org.farng.mp3.TagException;
+import org.farng.mp3.id3.AbstractID3v2;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  *
@@ -65,6 +74,11 @@ return playlists;
         
         mtmanager.addPlaylist(userID, playlistName);
     }
+    
+public void addSong(File mediaFile) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
+{
+    mtmanager.addSong(mediaFile);
+}
 
     
 }

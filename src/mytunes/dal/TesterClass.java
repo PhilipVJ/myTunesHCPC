@@ -6,12 +6,18 @@
 package mytunes.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.be.User;
+import org.farng.mp3.TagException;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  *
@@ -20,7 +26,7 @@ import mytunes.be.User;
 public class TesterClass
 
 {
-public static void main(String[] args) throws IOException, SQLServerException, SQLException 
+public static void main(String[] args) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException 
 {
 
 
@@ -29,16 +35,15 @@ public static void main(String[] args) throws IOException, SQLServerException, S
 //
 //tester2.deleteUser(Christian);
 //tester2.getAllUsers();
+    
+ SongDbDAO tester4 = new SongDbDAO();
+ ArrayList<Song>allSongs=tester4.getAllSongs();
+ for (Song x : allSongs)
+ {
+     System.out.println(""+x.getTitle());
+ }
 
-PlaylistDbDAO test3 = new PlaylistDbDAO();
-//
-//
-//test3.addPlaylist(6, "Pop");
-////test3.addPlaylist(7,"Rock");
-//test3.getAllPlayLists();
-//test3.renamePlaylist(2, "Techno");
-//test3.getAllPlayLists();
-test3.getPlaylistsByUser(6);
+    
 
 }
 }
