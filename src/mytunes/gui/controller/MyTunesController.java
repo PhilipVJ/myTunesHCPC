@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,6 +27,9 @@ import javafx.stage.Stage;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
 
 import mytunes.be.Playlist;
 import mytunes.be.User;
@@ -132,6 +136,14 @@ private User currentUser;
     @FXML
     private void newSong(ActionEvent event)
     {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open Resource File");
+    Stage stage = (Stage) rootPane2.getScene().getWindow();
+    File mp3file = fileChooser.showOpenDialog(stage);
+        System.out.println(""+mp3file.getAbsolutePath());
+//    final Media media = new Media(mp3file.getPath());
+//    final MediaPlayer mediaPlayer = new MediaPlayer(media);
+//    mediaPlayer.play();
     }
 
     @FXML
