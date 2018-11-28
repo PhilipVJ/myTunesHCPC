@@ -39,19 +39,19 @@
          <font>
             <Font size="24.0" />
          </font></Label>
-      <ImageView fx:id="nextSongbtn" fitHeight="50.0" fitWidth="50.0" layoutX="394.0" layoutY="89.0" onMouseClicked="#nextSong">
+      <ImageView fx:id="nextSongBtn" fitHeight="50.0" fitWidth="50.0" layoutX="394.0" layoutY="89.0" onMouseClicked="#nextSong">
          <image>
-            <Image url="@NextSong.jpg" />
+            <Image url="@NextSong.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="nextSongbtn" fitHeight="50.0" fitWidth="50.0" layoutX="318.0" layoutY="89.0" onMouseClicked="#playSong">
+      <ImageView fx:id="playSongbtn" fitHeight="50.0" fitWidth="50.0" layoutX="318.0" layoutY="89.0" onMouseClicked="#playSong">
          <image>
-            <Image url="@PlaySong.jpg" />
+            <Image url="@PlaySong.png" />
          </image>
       </ImageView>
       <ImageView fx:id="previousSongbtn" fitHeight="50.0" fitWidth="50.0" layoutX="243.0" layoutY="89.0" onMouseClicked="#previousSong">
          <image>
-            <Image url="@PreviousSong.jpg" />
+            <Image url="@PreviousSong.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="20.0" fitWidth="43.0" layoutX="445.0" layoutY="180.0">
@@ -59,9 +59,9 @@
             <Image url="@Arrow.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="searchBtn" fitHeight="30.0" fitWidth="30.0" layoutX="944.0" layoutY="29.0">
+      <ImageView fx:id="searchBtn" fitHeight="35.0" fitWidth="37.0" layoutX="910.0" layoutY="21.0">
          <image>
-            <Image url="@Searchbtn.jpg" />
+            <Image url="@Searchbtn.png" />
          </image>
       </ImageView>
 

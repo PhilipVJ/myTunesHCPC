@@ -112,13 +112,13 @@ public class PlaylistDbDAO
     {
         int playlistId = playlistToDelete.getId();
 
-DbConnection dc = new DbConnection();
-Connection con = dc.getConnection();
-PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)");
-pstmt.setInt(1,playlistId);
-pstmt.execute();
-pstmt.close();
-System.out.println("Following playlist has been deleted: "+playlistId);
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+        PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)");
+        pstmt.setInt(1,playlistId);
+        pstmt.execute();
+        pstmt.close();
+        System.out.println("Following playlist has been deleted: "+playlistId);
     }
     
     
