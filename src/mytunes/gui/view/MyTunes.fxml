@@ -35,11 +35,11 @@
       </Label>
       <Button layoutX="7.0" layoutY="669.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
 
-      <Label fx:id="userName" layoutX="923.0" layoutY="128.0" text="Label">
+      <Label fx:id="userName" layoutX="907.0" layoutY="129.0" text="Label">
          <font>
             <Font size="24.0" />
          </font></Label>
-      <ImageView fx:id="nextSongbtn" fitHeight="50.0" fitWidth="50.0" layoutX="394.0" layoutY="89.0" onMouseClicked="#nextSong">
+      <ImageView fx:id="nextSongBtn" fitHeight="50.0" fitWidth="50.0" layoutX="394.0" layoutY="89.0" onMouseClicked="#nextSong">
          <image>
             <Image url="@NextSong.png" />
          </image>
