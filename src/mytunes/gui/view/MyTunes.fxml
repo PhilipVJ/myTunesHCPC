@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane id="AnchorPane" fx:id="rootPane2" prefHeight="712.0" prefWidth="988.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
 
 
@@ -34,11 +33,9 @@
             <Font size="38.0" />
          </font>
       </Label>
-
-      <Label fx:id="userName" layoutX="907.0" layoutY="139.0" text="Label" />
       <Button layoutX="7.0" layoutY="669.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
 
-      <Label fx:id="userName" layoutX="923.0" layoutY="128.0" text="Label">
+      <Label fx:id="userName" layoutX="907.0" layoutY="129.0" text="Label">
          <font>
             <Font size="24.0" />
          </font></Label>
