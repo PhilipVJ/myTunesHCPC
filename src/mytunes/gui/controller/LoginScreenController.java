@@ -109,7 +109,7 @@ public class LoginScreenController implements Initializable
     {
     User userToDelete = userView.getSelectionModel().getSelectedItem();
     mtmodel.deleteUser(userToDelete);
-    userView.setItems(mtmodel.getUsers());
+    userView.setItems(mtmodel.getUsers());// istedet for dette, så prøv at addUser til observablelist inde i modelklassen. Burde virke.
     }
 
     @FXML
@@ -118,7 +118,7 @@ public class LoginScreenController implements Initializable
     String username = userName.getText();
     mtmodel.addUser(username);
     userName.clear();
-    userView.setItems(mtmodel.getUsers());
+    userView.setItems(mtmodel.getUsers()); // istedet for dette, så prøv at addUser til observablelist inde i modelklassen. Burde virke.
     }
     
     

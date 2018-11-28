@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import mytunes.be.Playlist;
 import mytunes.be.User;
 import mytunes.bll.MTManager;
 
@@ -23,6 +24,7 @@ public class MTModel
 
 {
 private ObservableList<User> users;
+private ObservableList<Playlist> playlists;
 private MTManager mtmanager;
 
 
@@ -38,6 +40,7 @@ mtmanager = new MTManager();
 public ObservableList<User> getUsers() throws IOException, SQLException
 {
 users = FXCollections.observableList(mtmanager.getAllUsers());
+
 return users;
 
 }
@@ -52,6 +55,12 @@ public void addUser(String username) throws IOException, SQLException
 {
 mtmanager.addUser(username);
 
+}
+
+public ObservableList<Playlist> getPlaylists(int userID) throws IOException, SQLException
+{
+playlists = FXCollections.observableList(mtmanager.getPlaylists(userID));
+return playlists;
 }
 
     
