@@ -59,8 +59,14 @@ public class Song
     {
         return time;
     }
-    
 
+    @Override
+    public String toString()
+    {
+        return  artist +  title +  genre +  time;
+    }
+    
+    
     
     
   

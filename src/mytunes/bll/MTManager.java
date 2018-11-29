@@ -92,5 +92,8 @@ public String getSecToMin(int time)
    
 }
 
-
+public List<Song> getSongs() throws IOException, SQLException
+{
+    return songDB.getAllSongs();
+}
 }

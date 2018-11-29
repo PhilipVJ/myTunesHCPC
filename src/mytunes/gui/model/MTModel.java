@@ -35,6 +35,7 @@ public class MTModel
 {
 private ObservableList<User> users;
 private ObservableList<Playlist> playlists;
+private ObservableList<Song> songs;
 private MTManager mtmanager;
 
 
@@ -90,4 +91,11 @@ public String getSecToMin(int time)
 {
    return mtmanager.getSecToMin(time);
 }
+
+public ObservableList<Song> getSongs(int userID) throws IOException, SQLException
+{
+    songs = FXCollections.observableList(mtmanager.getSongs());
+    return songs;
+}
+
 }
