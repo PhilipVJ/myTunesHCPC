@@ -103,6 +103,9 @@ public void editSong(Song editedSong) throws SQLException, SQLServerException, I
 songDB.editSong(editedSong);
 }
 
-
+public void deleteSong(Song deleteSongs) throws IOException, SQLException
+{
+    songDB.deleteSong(deleteSongs);
+}
 
 }

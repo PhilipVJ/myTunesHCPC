@@ -25,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import mytunes.be.Playlist;
@@ -62,14 +63,15 @@ private User currentUser;
 
     @FXML
     private ImageView previousSongbtn;
-    @FXML
-    private ImageView searchBtn;
+    
     @FXML
     private ImageView playSongbtn;
     @FXML
     private ImageView nextSongBtn;
     @FXML
     private Label playlistinfo;
+    @FXML
+    private ImageView searchBtn;
     
     
 
@@ -142,9 +144,10 @@ private User currentUser;
     }
 
     @FXML
-    private void deleteSong(ActionEvent event) throws IOException
+    private void deleteSong(ActionEvent event) throws IOException, SQLException
     {
-       
+       Song songs = allSongsView.getSelectionModel().getSelectedItem();
+       mtmodel.deleteSong(songs);
     }
 
     @FXML
@@ -220,6 +223,16 @@ private User currentUser;
      
      
      
+    }
+
+    @FXML
+    private void searchEnter(KeyEvent event)
+    {
+    }
+
+    @FXML
+    private void searchClicked(MouseEvent event)
+    {
     }
     
     

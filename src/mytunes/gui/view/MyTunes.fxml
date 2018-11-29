@@ -59,14 +59,12 @@
             <Image url="@Arrow.png" />
          </image>
       </ImageView>
-
-      <ImageView fx:id="searchBtn" fitHeight="30.0" fitWidth="30.0" layoutX="945.0" layoutY="26.0">
-
+      <Label fx:id="playlistinfo" layoutX="22.0" layoutY="154.0" />
+      <ImageView fx:id="searchBtn" fitHeight="30.0" fitWidth="30.0" layoutX="944.0" layoutY="29.0" onKeyPressed="#searchEnter" onMouseClicked="#searchClicked">
          <image>
-            <Image url="@Searchbtn.png" />
+            <Image url="@search-button-png-search-icon-png-image-9966-600.png" />
          </image>
       </ImageView>
-      <Label fx:id="playlistinfo" layoutX="22.0" layoutY="154.0" />
 
    </children>
 </AnchorPane>
