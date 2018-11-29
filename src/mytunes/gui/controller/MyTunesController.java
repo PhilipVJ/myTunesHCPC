@@ -145,13 +145,19 @@ private User currentUser;
     }
 
     @FXML
-    private void upPlaylist(ActionEvent event)
+    private void upPlaylist(ActionEvent event) throws IOException, SQLException
     {
+    Song songToMoveUp = playlistSongsView.getSelectionModel().getSelectedItem();
+    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    mtmodel.moveSongUp(playlistChosen, songToMoveUp);
     }
 
     @FXML
-    private void downPlaylist(ActionEvent event)
+    private void downPlaylist(ActionEvent event) throws IOException, SQLException
     {
+    Song songToMoveDown = playlistSongsView.getSelectionModel().getSelectedItem();
+    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    mtmodel.moveSongDown(playlistChosen, songToMoveDown);
     }
 
 
@@ -264,6 +270,7 @@ private User currentUser;
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.addSongToPlaylist(songToMove,playlistChosen);
+    
     
     
     }

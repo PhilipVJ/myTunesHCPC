@@ -219,5 +219,62 @@ public class PlaylistDbDAO
             }
         
     }
+
+    public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
+    {
+       int playlistID = playlistChosen.getId();
+       int songPosition = songToMoveUp.getPosition();
+       int songID = songToMoveUp.getId();
+       
+       DbConnection dc = new DbConnection();
+       Connection con = dc.getConnection();
+       
+       PreparedStatement pstmt2 = con.prepareStatement
+       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+       pstmt2.setInt(1, songPosition);
+       pstmt2.setInt(2, playlistID);
+       pstmt2.setInt(3, songPosition-1);
+       pstmt2.execute();
+       
+    
+       PreparedStatement pstmt = con.prepareStatement
+       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
+       pstmt.setInt(1, songPosition-1);
+       pstmt.setInt(2, playlistID);
+       pstmt.setInt(3, songPosition);
+       pstmt.setInt(4, songID);
+       pstmt.execute();
+       
+       
+       
+       
+    }
+
+    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLServerException, SQLException
+    {
+       int playlistID = playlistChosen.getId();
+       int songPosition = songToMoveDown.getPosition();
+       int songID = songToMoveDown.getId();
+       
+       DbConnection dc = new DbConnection();
+       Connection con = dc.getConnection();
+       
+       PreparedStatement pstmt2 = con.prepareStatement
+       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+       pstmt2.setInt(1, songPosition);
+       pstmt2.setInt(2, playlistID);
+       pstmt2.setInt(3, songPosition+1);
+       pstmt2.execute();
+       
+    
+       PreparedStatement pstmt = con.prepareStatement
+       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
+       pstmt.setInt(1, songPosition+1);
+       pstmt.setInt(2, playlistID);
+       pstmt.setInt(3, songPosition);
+       pstmt.setInt(4, songID);
+       pstmt.execute();
+       
+    }
     
 }

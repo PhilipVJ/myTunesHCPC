@@ -141,4 +141,14 @@ mtmanager.deleteSongFromLibrary(songToDelete);
     {
         mtmanager.editPlaylist(id, newName);
     }
+
+public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
+{
+     mtmanager.moveSongUp(playlistChosen, songToMoveUp);
+}
+
+    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
+    {
+       mtmanager.moveSongDown(playlistChosen, songToMoveDown);
+    }
 }

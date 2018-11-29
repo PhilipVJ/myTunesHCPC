@@ -130,5 +130,15 @@ public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLExce
   songDB.deleteSongFromLibrary(songToDelete);
 }
 
+public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
+{
+playlistDB.moveSongUp(playlistChosen, songToMoveUp);
+}
+
+    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
+    {
+     playlistDB.moveSongDown(playlistChosen, songToMoveDown);
+    }
+
 
 }
