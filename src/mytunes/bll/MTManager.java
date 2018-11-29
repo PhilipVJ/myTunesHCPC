@@ -92,5 +92,10 @@ public String getSecToMin(int time)
    
 }
 
+public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
+{
+songDB.editSong(editedSong);
+}
+
 
 }

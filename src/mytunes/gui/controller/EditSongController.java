@@ -5,7 +5,9 @@
  */
 package mytunes.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mytunes.be.Song;
+import mytunes.gui.model.MTModel;
 
 /**
  * FXML Controller class
@@ -35,10 +38,17 @@ public class EditSongController implements Initializable
     private TextField time;
     
     private Song songToEdit;
+    
+    private MTModel mtmodel;
 
     /**
      * Initializes the controller class.
      */
+    public EditSongController() throws IOException, SQLException
+    {
+    mtmodel = new MTModel();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -56,6 +66,19 @@ public class EditSongController implements Initializable
     @FXML
     private void saveSong(ActionEvent event)
     {
+    String newTitle = title.getText();
+    String newArtist = artist.getText();
+    String newGenre = genre.getText();
+    String songTime = songToEdit.getTime();
+    String filepath = songToEdit.getFilepath();
+    int songID = songToEdit.getId();
+    
+    
+    Song editedSong = new Song(newArtist, newTitle, newGenre, filepath, songID, songTime);
+    mtmodel.editSong(editedSong);
+        
+    Stage stage = (Stage) rootPane2.getScene().getWindow();
+    stage.close();    
     }
 
     void setSong(Song songToEdit)

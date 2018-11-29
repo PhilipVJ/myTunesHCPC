@@ -90,4 +90,9 @@ public String getSecToMin(int time)
 {
    return mtmanager.getSecToMin(time);
 }
+
+public void editSong(Song editedSong)
+{
+mtmanager.editSong(editedSong);
+}
 }
