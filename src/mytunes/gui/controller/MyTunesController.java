@@ -182,7 +182,7 @@ private User currentUser;
     Parent root = (Parent)loader.load();
     EditSongController editSongCon = loader.getController();
     editSongCon.setSong(songToEdit);
-    Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue
+    Stage stage = new Stage();
     stage.setScene(new Scene(root));
     stage.show();
     
@@ -209,6 +209,7 @@ private User currentUser;
     private void refresh(ActionEvent event) throws IOException, SQLException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
+     allSongsView.setItems(mtmodel.getSongs(currentUser.getID()));
     
     }
     
