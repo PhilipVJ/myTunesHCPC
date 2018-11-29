@@ -5,7 +5,6 @@
  */
 package mytunes.gui.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,19 +26,12 @@ import javafx.stage.Stage;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.stage.FileChooser;
 
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
-import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
-import org.farng.mp3.id3.AbstractID3v2;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
@@ -223,6 +215,9 @@ private User currentUser;
     public void setListViews() throws IOException, SQLException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
+     allSongsView.setItems(mtmodel.getSongs(currentUser.getID()));
+     
+     
      
     }
     

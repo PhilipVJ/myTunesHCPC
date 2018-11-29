@@ -64,6 +64,7 @@ public class SongDbDAO {
 
         
         try (Connection con = dbCon.getConnection()) {
+            System.out.println("Here");
             String SQL = "INSERT INTO Songs VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1,title);
@@ -71,7 +72,7 @@ public class SongDbDAO {
             pstmt.setString(3,artist);
             pstmt.setString(4,genre);
             pstmt.setString(5,time);
-            
+            System.out.println("Here 2");
             pstmt.execute();
             
         }
