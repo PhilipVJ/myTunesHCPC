@@ -174,8 +174,18 @@ private User currentUser;
     }
 
     @FXML
-    private void editSong(ActionEvent event)
+    private void editSong(ActionEvent event) throws IOException
     {
+    Song songToEdit = allSongsView.getSelectionModel().getSelectedItem();
+    
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSong.fxml"));
+    Parent root = (Parent)loader.load();
+    EditSongController editSongCon = loader.getController();
+    editSongCon.setSong(songToEdit);
+    Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue
+    stage.setScene(new Scene(root));
+    stage.show();
+    
     }
 
 

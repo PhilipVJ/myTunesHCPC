@@ -5,6 +5,7 @@
  */
 package mytunes.gui.model;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -92,10 +93,17 @@ public String getSecToMin(int time)
    return mtmanager.getSecToMin(time);
 }
 
+
 public ObservableList<Song> getSongs(int userID) throws IOException, SQLException
 {
     songs = FXCollections.observableList(mtmanager.getSongs());
     return songs;
+}
+
+
+public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
+{
+mtmanager.editSong(editedSong);
 }
 
 }
