@@ -110,14 +110,20 @@ return playlistDB.getPlaylistSongs(chosenPlaylist);
 }
 
 
-public void deleteSong(Song deleteSongs) throws IOException, SQLException
+public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song deleteSongs) throws IOException, SQLException
 {
-    songDB.deleteSong(deleteSongs);
+    playlistDB.deleteSongFromPlaylist(chosenPlaylist, deleteSongs);
+    
 }
 
 public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
 {
   playlistDB.addSongToPlaylist(songToMove, playlistChosen);
+}
+
+public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
+{
+  songDB.deleteSong(songToDelete);
 }
 
 

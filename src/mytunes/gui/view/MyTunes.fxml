@@ -22,10 +22,10 @@
       <Button layoutX="135.0" layoutY="614.0" mnemonicParsing="false" onAction="#deletePlaylist" text="Delete" />
       <Button layoutX="283.0" layoutY="607.0" mnemonicParsing="false" onAction="#upPlaylist" text="Up" />
       <Button layoutX="274.0" layoutY="638.0" mnemonicParsing="false" onAction="#downPlaylist" text="Down" />
-      <Button layoutX="356.0" layoutY="614.0" mnemonicParsing="false" onAction="#deleteSong" text="Delete" />
+      <Button layoutX="356.0" layoutY="614.0" mnemonicParsing="false" onAction="#deleteSongFromPlaylist" text="Delete" />
       <Button layoutX="566.0" layoutY="614.0" mnemonicParsing="false" onAction="#newSong" text="New" />
       <Button layoutX="694.0" layoutY="614.0" mnemonicParsing="false" onAction="#editSong" text="Edit" />
-      <Button layoutX="828.0" layoutY="614.0" mnemonicParsing="false" onAction="#deleteSong" text="Delete" />
+      <Button layoutX="828.0" layoutY="614.0" mnemonicParsing="false" onAction="#deleteSongFromFileLibrary" text="Delete" />
       <Label layoutX="707.0" layoutY="34.0" text="Filter" />
       <TextField fx:id="searchTxt" layoutX="748.0" layoutY="28.0" />
       <Label layoutX="27.0" layoutY="16.0" prefHeight="55.0" prefWidth="175.0" text="myTunes">

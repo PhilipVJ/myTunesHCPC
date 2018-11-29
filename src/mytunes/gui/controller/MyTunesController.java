@@ -145,12 +145,7 @@ private User currentUser;
     {
     }
 
-    @FXML
-    private void deleteSong(ActionEvent event) throws IOException, SQLException
-    {
-       Song songs = allSongsView.getSelectionModel().getSelectedItem();
-       mtmodel.deleteSong(songs);
-    }
+
 
     @FXML
     private void newSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
@@ -257,6 +252,22 @@ private User currentUser;
     mtmodel.addSongToPlaylist(songToMove,playlistChosen);
     
     
+    }
+
+    @FXML
+    private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException
+    {
+    Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
+    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
+    }
+
+    @FXML
+    private void deleteSongFromFileLibrary(ActionEvent event) throws IOException, SQLException
+    {
+   Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
+   mtmodel.deleteSongFromLibrary(songToMove);
+   
     }
     
     

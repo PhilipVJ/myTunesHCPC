@@ -117,10 +117,7 @@ public class PlaylistDbDAO
              
     }
     
-    public void deleteSongFromPlaylist(Song songToDelete)
-    {
-        
-    }
+
     
     public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLServerException, SQLException
     {
@@ -180,5 +177,19 @@ public class PlaylistDbDAO
         return nextId;
     }
     
+    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLServerException, SQLException
+    {
+        int songID = songToDelete.getId();
+        int playlistID = chosenPlaylist.getId();
+        
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+        PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?)");
+        pstmt.setInt(1,songID);
+        pstmt.setInt(2,playlistID);
+        pstmt.execute();
+        pstmt.close();
+        System.out.println("Following song has been deleted: "+songID);
+    }
     
 }
