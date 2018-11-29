@@ -236,6 +236,7 @@ private User currentUser;
      playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));
     }
 
+@FXML
     private void searchEnter(KeyEvent event)
     {
     }
