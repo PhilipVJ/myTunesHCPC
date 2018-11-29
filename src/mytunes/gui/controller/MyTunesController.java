@@ -207,7 +207,7 @@ private User currentUser;
     private void playSong(MouseEvent event)
     {
     ObservableList<Song>allSongs = allSongsView.getItems();
-        System.out.println(""+allSongs.size());
+    System.out.println(""+allSongs.size());
     Mp3Player tester = new Mp3Player();
     tester.play(allSongs);
         

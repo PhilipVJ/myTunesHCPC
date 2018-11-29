@@ -136,7 +136,7 @@ public class PlaylistDbDAO
     {
         SongDbDAO songDB = new SongDbDAO();
         
-        ArrayList<Song> playlistSongs = new ArrayList<Song>();
+        ArrayList<Song> playlistSongs = new ArrayList<>();
         int playlistId = playList.getId();
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
@@ -174,7 +174,7 @@ public class PlaylistDbDAO
             }
         }
         System.out.println(""+nextId);
-        return nextId;
+        return nextId;  // Metoden her kan sagtens gøres kortere. Den skal bare returnere den position i rækken. Der er ikke længere huller den skal tjekke.
     }
     
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLServerException, SQLException
@@ -182,6 +182,8 @@ public class PlaylistDbDAO
         int songID = songToDelete.getId();
         int position = songToDelete.getPosition();
         int playlistID = chosenPlaylist.getId();
+        int playlistSize = getPlaylistSongs(chosenPlaylist).size();
+        
         
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
@@ -192,6 +194,30 @@ public class PlaylistDbDAO
         pstmt.execute();
         pstmt.close();
         System.out.println("Following song has been deleted: "+songID);
+        fixSongPositionsAfterDeletion(playlistSize,playlistID, position);
+    }
+    
+    private void fixSongPositionsAfterDeletion(int playlistSize, int playlistId, int positionOfDeleted) throws IOException, SQLServerException, SQLException
+    {
+            int position = positionOfDeleted;
+            int plSize = playlistSize;
+            int playId = playlistId;
+            
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+                      
+            
+            for (int i=position+1;i<=plSize;i++){
+            System.out.println("Working");
+            PreparedStatement pstmt = con.prepareStatement
+            ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+            pstmt.setInt(1, i-1);
+            pstmt.setInt(2, playId);
+            pstmt.setInt(3, i);
+            pstmt.execute();
+            pstmt.close();
+            }
+        
     }
     
 }

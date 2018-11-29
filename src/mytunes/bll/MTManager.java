@@ -127,7 +127,7 @@ public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws I
 
 public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
 {
-  songDB.deleteSong(songToDelete);
+  songDB.deleteSongFromLibrary(songToDelete);
 }
 
 

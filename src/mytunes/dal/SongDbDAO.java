@@ -93,7 +93,7 @@ public class SongDbDAO {
       pstmt.close();
     }
     
-    public void deleteSong(Song songToDelete) throws IOException, SQLServerException, SQLException
+    public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLServerException, SQLException
     {
         int songID = songToDelete.getId();
 
