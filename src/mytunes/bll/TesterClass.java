@@ -16,7 +16,8 @@ public class TesterClass
     
 public static void main(String[] args) throws IOException 
 {
-
+MTManager testerclass = new MTManager();
+testerclass.getSecToMin(120);
 }
 
 

@@ -157,13 +157,18 @@ private User currentUser;
     @FXML
     private void newSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
     {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Open Music File");
-    Stage stage = (Stage) rootPane2.getScene().getWindow();
-    File mediafile = fileChooser.showOpenDialog(stage);
-    mtmodel.addSong(mediafile);
+//    FileChooser fileChooser = new FileChooser();
+//    fileChooser.setTitle("Open Music File");
+//    Stage stage = (Stage) rootPane2.getScene().getWindow();
+//    File mediafile = fileChooser.showOpenDialog(stage);
+//    mtmodel.addSong(mediafile);
     
- 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
+        Parent root = (Parent)loader.load();
+        
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
     
     
 //    MediaPlayer mediaPlayer = new MediaPlayer(hit);

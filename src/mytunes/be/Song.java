@@ -17,9 +17,9 @@ public class Song
     public String genre;
     public String filepath;
     public int id;
-    public int time;
+    public String time;
     
-    public Song(String artist, String title, String genre, String filepath, int id, int time)
+    public Song(String artist, String title, String genre, String filepath, int id, String time)
     {
         this.artist=artist;
         this.title=title;
@@ -29,11 +29,40 @@ public class Song
         this.time=time;
                 
     }
-    
+
+    public String getArtist()
+    {
+        return artist;
+    }
+
     public String getTitle()
     {
         return title;
     }
+
+    public String getGenre()
+    {
+        return genre;
+    }
+
+    public String getFilepath()
+    {
+        return filepath;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public String getTime()
+    {
+        return time;
+    }
+    
+
+    
+    
   
 }
     

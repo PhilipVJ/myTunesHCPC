@@ -41,6 +41,7 @@ public static void main(String[] args) throws IOException, SQLServerException, S
  for (Song x : allSongs)
  {
      System.out.println(""+x.getTitle());
+     System.out.println(""+x.getTime());
  }
 
     

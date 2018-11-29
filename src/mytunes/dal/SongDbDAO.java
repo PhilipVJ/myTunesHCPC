@@ -48,26 +48,20 @@ public class SongDbDAO {
         return null;
     }
     
-    public void addSong(File mediaFile) throws SQLServerException, SQLException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void addSong(Song songToAdd) throws SQLServerException, SQLException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-    MP3File mp3file = new MP3File(mediaFile);
-    System.out.println(""+mp3file.hasID3v2Tag());
-    AbstractID3v2 ID3 = mp3file.getID3v2Tag();
-    String artist = ID3.getLeadArtist();
-    String title = ID3.getSongTitle();
-    String genre = ID3.getSongGenre();
-     String path = mediaFile.toURI().toString();
-        
-      
-       
-    
-    int duration = 0;
-    AudioFile audioFile = AudioFileIO.read(mediaFile);
-    duration = audioFile.getAudioHeader().getTrackLength(); 
-    DbConnection dbCon = new DbConnection();
     
    
-     
+    String artist = songToAdd.getArtist();
+    String title = songToAdd.getTitle();
+    String genre = songToAdd.getGenre();
+    String path = songToAdd.getFilepath();
+    String time = songToAdd.getTime();
+        System.out.println(""+path);
+        System.out.println(""+time);
+
+    DbConnection dbCon = new DbConnection();
+
         
         try (Connection con = dbCon.getConnection()) {
             String SQL = "INSERT INTO Songs VALUES (?, ?, ?, ?, ?)";
@@ -76,7 +70,7 @@ public class SongDbDAO {
             pstmt.setString(2,path);
             pstmt.setString(3,artist);
             pstmt.setString(4,genre);
-            pstmt.setInt(5,duration);
+            pstmt.setString(5,time);
             System.out.println("Ready to execute");
             pstmt.execute();
             
@@ -123,7 +117,7 @@ public class SongDbDAO {
          String path = rs.getString("Filepath");
          String artist = rs.getString("Artist");
          String genre = rs.getString("Genre");
-         int time = rs.getInt("Time");
+         String time = rs.getString("Time");
          int id = rs.getInt("SongID");
         
         allSongs.add(new Song(artist, title, genre, path, id, time));

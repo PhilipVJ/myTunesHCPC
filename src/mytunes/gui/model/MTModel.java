@@ -12,6 +12,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.bll.MTManager;
 import org.farng.mp3.MP3File;
@@ -74,14 +75,19 @@ public void addPlaylist(int userID, String playlistName) throws IOException, SQL
         mtmanager.addPlaylist(userID, playlistName);
     }
     
-public void addSong(File mediaFile) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
+public void addSong(Song songToAdd) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
 {
-    mtmanager.addSong(mediaFile);
+    mtmanager.addSong(songToAdd);
 }
 
 
 public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
 {
     mtmanager.deletePlaylist(playlistToDelete);
+}
+
+public String getSecToMin(int time)
+{
+   return mtmanager.getSecToMin(time);
 }
 }

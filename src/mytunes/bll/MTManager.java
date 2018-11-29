@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.dal.PlaylistDbDAO;
 import mytunes.dal.SongDbDAO;
@@ -63,14 +64,32 @@ playlistDB.addPlaylist(userID, playlistName);
 }
 
 
-public void addSong(File mediaFile) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+public void addSong(Song songToAdd) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
 {
-songDB.addSong(mediaFile);
+songDB.addSong(songToAdd);
 }
 
 public void deletePlaylist (Playlist playlistToDelete) throws IOException, SQLException
 {
     playlistDB.deletePlaylist(playlistToDelete);
+}
+
+public String getSecToMin(int time)
+{
+   String inMinutes= "";
+   
+   int inMin = time/60;
+   int remainingSec = time-(inMin*60);
+   
+   if (remainingSec>=10){
+   inMinutes=""+inMin+":"+remainingSec;
+   System.out.println(""+inMinutes);
+   return inMinutes;}
+   
+   inMinutes=""+inMin+":0"+remainingSec;
+    System.out.println(""+inMinutes);
+   return inMinutes;
+   
 }
 
 
