@@ -63,7 +63,7 @@ public class Song
     @Override
     public String toString()
     {
-        return  artist +  title +  genre +  time;
+        return  ""+artist+"-"+title+"     "+genre+"    "+time;
     }
     
     
