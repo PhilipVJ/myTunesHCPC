@@ -8,9 +8,11 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -151,12 +153,7 @@ private User currentUser;
     {
     }
 
-    @FXML
-    private void deleteSong(ActionEvent event) throws IOException, SQLException
-    {
-       Song songs = allSongsView.getSelectionModel().getSelectedItem();
-       mtmodel.deleteSong(songs);
-    }
+
 
     @FXML
     private void newSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
@@ -253,6 +250,32 @@ private User currentUser;
     private void searchClicked(MouseEvent event)
     {
 
+    }
+
+    @FXML
+    private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException
+    {
+    Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
+    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    mtmodel.addSongToPlaylist(songToMove,playlistChosen);
+    
+    
+    }
+
+    @FXML
+    private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException
+    {
+    Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
+    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
+    }
+
+    @FXML
+    private void deleteSongFromFileLibrary(ActionEvent event) throws IOException, SQLException
+    {
+   Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
+   mtmodel.deleteSongFromLibrary(songToMove);
+   
     }
     
     

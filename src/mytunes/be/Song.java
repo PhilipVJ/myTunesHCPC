@@ -70,8 +70,11 @@ public class Song
     public void setPosition(int position){
         songPosition=position;
     }
-            
     
+    public int getPosition()
+    {
+    return songPosition;
+    }
     
     
     

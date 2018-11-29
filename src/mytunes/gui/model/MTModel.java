@@ -119,9 +119,20 @@ return playlistSongs;
 
 }
 
-public void deleteSong(Song songToDelete) throws IOException, SQLException
+public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLException
 {
-    mtmanager.deleteSong(songToDelete);
+    mtmanager.deleteSongFromPlaylist(chosenPlaylist,songToDelete);
+}
+
+public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
+{
+ mtmanager.addSongToPlaylist(songToMove,playlistChosen);
+}
+
+public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
+{
+mtmanager.deleteSongFromLibrary(songToDelete);
+
 }
 
 
