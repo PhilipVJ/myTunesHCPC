@@ -63,6 +63,10 @@ public void addPlaylist(int userID, String playlistName) throws IOException, SQL
 playlistDB.addPlaylist(userID, playlistName);
 }
 
+public void editPlaylist(int id, String newName) throws IOException, SQLException
+{
+    playlistDB.renamePlaylist(id, newName);
+}
 
 public void addSong(Song songToAdd) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
 {

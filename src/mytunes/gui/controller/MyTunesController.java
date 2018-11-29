@@ -117,8 +117,16 @@ private User currentUser;
     }
 
     @FXML
-    private void editPlaylist(ActionEvent event)
+    private void editPlaylist(ActionEvent event) throws IOException
     {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistName.fxml"));
+    Parent root = (Parent)loader.load();
+    EditPlaylistNameController editPlaylistName = loader.getController();
+    editPlaylistName.setPlaylist(playlistView.getSelectionModel().getSelectedItem());
+    Stage stage = new Stage();
+    stage.setScene(new Scene(root));
+    stage.show();
+    
     }
 
     @FXML
