@@ -34,6 +34,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
+import mytunes.gui.model.Mp3Player;
 import org.farng.mp3.TagException;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
@@ -197,6 +198,11 @@ private User currentUser;
     @FXML
     private void playSong(MouseEvent event)
     {
+    ObservableList<Song>allSongs = allSongsView.getItems();
+        System.out.println(""+allSongs.size());
+    Mp3Player tester = new Mp3Player();
+    tester.play(allSongs);
+        
     }
 
     @FXML
@@ -209,7 +215,7 @@ private User currentUser;
     private void refresh(ActionEvent event) throws IOException, SQLException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
-     allSongsView.setItems(mtmodel.getSongs(currentUser.getID()));
+     allSongsView.setItems(mtmodel.getSongs());
     
      
     
@@ -218,7 +224,7 @@ private User currentUser;
     public void setListViews() throws IOException, SQLException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
-     allSongsView.setItems(mtmodel.getSongs(currentUser.getID()));
+     allSongsView.setItems(mtmodel.getSongs());
      
      
      

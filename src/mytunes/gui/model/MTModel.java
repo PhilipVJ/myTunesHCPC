@@ -97,7 +97,7 @@ public String getSecToMin(int time)
 
 
 
-public ObservableList<Song> getSongs(int userID) throws IOException, SQLException
+public ObservableList<Song> getSongs() throws IOException, SQLException
 {
     songs = FXCollections.observableList(mtmanager.getSongs());
     return songs;

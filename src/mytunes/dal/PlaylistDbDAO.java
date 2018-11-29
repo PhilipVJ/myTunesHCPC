@@ -180,13 +180,15 @@ public class PlaylistDbDAO
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLServerException, SQLException
     {
         int songID = songToDelete.getId();
+        int position = songToDelete.getPosition();
         int playlistID = chosenPlaylist.getId();
         
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
-        PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?)");
+        PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?) AND songPosition=(?)");
         pstmt.setInt(1,songID);
         pstmt.setInt(2,playlistID);
+        pstmt.setInt(3,position);
         pstmt.execute();
         pstmt.close();
         System.out.println("Following song has been deleted: "+songID);
