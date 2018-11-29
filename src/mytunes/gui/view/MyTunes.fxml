@@ -54,7 +54,7 @@
             <Image url="@PreviousSong.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="20.0" fitWidth="43.0" layoutX="445.0" layoutY="180.0">
+      <ImageView fitHeight="20.0" fitWidth="43.0" layoutX="445.0" layoutY="180.0" onMouseClicked="#addSongToUserPlaylist">
          <image>
             <Image url="@Arrow.png" />
          </image>

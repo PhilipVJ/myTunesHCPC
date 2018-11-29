@@ -124,4 +124,9 @@ public void deleteSong(Song songToDelete) throws IOException, SQLException
     mtmanager.deleteSong(songToDelete);
 }
 
+public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
+{
+ mtmanager.addSongToPlaylist(songToMove,playlistChosen);
+}
+
 }

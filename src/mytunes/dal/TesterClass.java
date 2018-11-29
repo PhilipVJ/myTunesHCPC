@@ -35,14 +35,6 @@ public static void main(String[] args) throws IOException, SQLServerException, S
 //
 //tester2.deleteUser(Christian);
 //tester2.getAllUsers();
-    
- SongDbDAO tester4 = new SongDbDAO();
- ArrayList<Song>allSongs=tester4.getAllSongs();
- for (Song x : allSongs)
- {
-     System.out.println(""+x.getTitle());
-     System.out.println(""+x.getTime());
- }
 
     
 

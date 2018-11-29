@@ -115,5 +115,10 @@ public void deleteSong(Song deleteSongs) throws IOException, SQLException
     songDB.deleteSong(deleteSongs);
 }
 
+public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
+{
+  playlistDB.addSongToPlaylist(songToMove, playlistChosen);
+}
+
 
 }

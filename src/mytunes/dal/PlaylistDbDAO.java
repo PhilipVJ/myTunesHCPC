@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
@@ -80,8 +81,21 @@ public class PlaylistDbDAO
     }
     
     
-    public void addSongToPlaylist(Song songToAdd)
+    public void addSongToPlaylist(Song songToAdd, Playlist chosenPlaylist) throws IOException, SQLServerException, SQLException
     {
+    DbConnection dc = new DbConnection();
+    Connection con = dc.getConnection();
+    
+  
+    
+    Statement statement = con.createStatement();
+    String SQL = "INSERT INTO PlaylistContent VALUES (?, ?, ?)";
+    PreparedStatement pstmt = con.prepareStatement(SQL);
+    pstmt.setInt(1, chosenPlaylist.getId());
+    pstmt.setInt(2, songToAdd.getId());
+    pstmt.setInt(3, getNextSongPosition(chosenPlaylist));
+    System.out.println("Ready to execute");
+    pstmt.execute();
 
     }
     
@@ -143,10 +157,27 @@ public class PlaylistDbDAO
            playlistSongs.add(songToAdd);
 
             }
-   
+      playlistSongs.sort( Comparator.comparing( Song::getPosition ) ); 
       return playlistSongs;
   
         
+    }
+
+    private int getNextSongPosition(Playlist chosenPlaylist) throws IOException, SQLException
+    {
+        int nextId=1;
+        List<Song> allSongsFromPlaylist = getPlaylistSongs(chosenPlaylist);
+
+        for (Song x : allSongsFromPlaylist)
+        {
+                       
+            if (x.getPosition()==nextId)
+            {
+                nextId++;
+            }
+        }
+        System.out.println(""+nextId);
+        return nextId;
     }
     
     
