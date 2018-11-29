@@ -18,6 +18,7 @@ public class Song
     public String filepath;
     public int id;
     public String time;
+    public int songPosition;
     
     public Song(String artist, String title, String genre, String filepath, int id, String time)
     {
@@ -63,8 +64,13 @@ public class Song
     @Override
     public String toString()
     {
-        return  ""+artist+"-"+title+"     "+genre+"    "+time;
+        return  ""+artist+" - "+title+"     "+genre+"    "+time;
     }
+    
+    public void setPosition(int position){
+        songPosition=position;
+    }
+            
     
     
     

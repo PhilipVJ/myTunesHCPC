@@ -37,6 +37,8 @@ public class MTModel
 private ObservableList<User> users;
 private ObservableList<Playlist> playlists;
 private ObservableList<Song> songs;
+private ObservableList<Song> playlistSongs;
+
 private MTManager mtmanager;
 
 
@@ -106,6 +108,14 @@ public ObservableList<Song> getSongs(int userID) throws IOException, SQLExceptio
 public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
 {
 mtmanager.editSong(editedSong);
+}
+
+public ObservableList<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
+{
+playlistSongs = FXCollections.observableList(mtmanager.getPlaylistSongs(chosenPlaylist));
+return playlistSongs;
+       
+
 }
 
 }

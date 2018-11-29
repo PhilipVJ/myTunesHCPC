@@ -121,6 +121,33 @@ public class PlaylistDbDAO
         System.out.println("Following playlist has been deleted: "+playlistId);
     }
     
+    public List<Song> getPlaylistSongs(Playlist playList) throws IOException, SQLServerException, SQLException
+    {
+        SongDbDAO songDB = new SongDbDAO();
+        
+        ArrayList<Song> playlistSongs = new ArrayList<Song>();
+        int playlistId = playList.getId();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+        PreparedStatement pstmt = con.prepareStatement
+         ("Select * FROM PlaylistContent WHERE playlistId = (?)");
+        pstmt.setInt(1,playlistId);
+        ResultSet rs = pstmt.executeQuery();
+         
+            while (rs.next())
+            {
+            int SongID = rs.getInt("songID");
+            int SongPosition = rs.getInt("songPosition");
+           Song songToAdd = songDB.getSong(SongID);
+           songToAdd.setPosition(SongPosition);
+           playlistSongs.add(songToAdd);
+
+            }
+   
+      return playlistSongs;
+  
+        
+    }
     
     
 }

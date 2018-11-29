@@ -64,7 +64,7 @@ public class SongDbDAO {
 
         
         try (Connection con = dbCon.getConnection()) {
-            System.out.println("Here");
+            
             String SQL = "INSERT INTO Songs VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1,title);
@@ -72,7 +72,7 @@ public class SongDbDAO {
             pstmt.setString(3,artist);
             pstmt.setString(4,genre);
             pstmt.setString(5,time);
-            System.out.println("Here 2");
+            
             pstmt.execute();
             
         }
@@ -118,6 +118,33 @@ public class SongDbDAO {
       }
                     
         return allSongs;
+    }
+    
+    public Song getSong(int songID) throws SQLException, IOException
+    {
+        Song songToGet=null;
+        DbConnection dc = new DbConnection();
+      Connection con = dc.getConnection();
+      Statement statement = con.createStatement();
+      PreparedStatement pstmt = con.prepareStatement
+      ("Select * FROM Songs WHERE songID= (?)");
+      pstmt.setInt(1, songID);
+      ResultSet rs = pstmt.executeQuery();
+      
+      while (rs.next())
+      {
+         String title = rs.getString("Title");
+         String path = rs.getString("Filepath");
+         String artist = rs.getString("Artist");
+         String genre = rs.getString("Genre");
+         String time = rs.getString("Time");
+         int id = rs.getInt("SongID");
+         songToGet=new Song(artist, title, genre, path, id, time);
+
+        
+    }
+      
+      return songToGet;
     }
     
 

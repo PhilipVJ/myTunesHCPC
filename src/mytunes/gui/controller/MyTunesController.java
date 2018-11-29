@@ -47,7 +47,7 @@ private User currentUser;
     @FXML
     private ListView<Playlist> playlistView;
     @FXML
-    private ListView<?> playlistSongsView;
+    private ListView<Song> playlistSongsView;
     @FXML
     private ListView<Song> allSongsView;
     @FXML
@@ -211,6 +211,8 @@ private User currentUser;
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
      allSongsView.setItems(mtmodel.getSongs(currentUser.getID()));
     
+     
+    
     }
     
     public void setListViews() throws IOException, SQLException
@@ -220,6 +222,14 @@ private User currentUser;
      
      
      
+    }
+
+    @FXML
+    private void refreshPlaylistSongs(ActionEvent event) throws IOException, SQLException
+    {
+    Playlist chosenPlaylist = playlistView.getSelectionModel().getSelectedItem();
+     
+     playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));
     }
     
     

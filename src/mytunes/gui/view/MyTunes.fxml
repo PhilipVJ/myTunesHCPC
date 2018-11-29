@@ -67,6 +67,7 @@
          </image>
       </ImageView>
       <Label fx:id="playlistinfo" layoutX="22.0" layoutY="154.0" />
+      <Button layoutX="355.0" layoutY="669.0" mnemonicParsing="false" onAction="#refreshPlaylistSongs" text="Refresh" />
 
    </children>
 </AnchorPane>
