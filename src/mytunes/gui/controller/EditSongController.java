@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -64,7 +65,7 @@ public class EditSongController implements Initializable
     }
 
     @FXML
-    private void saveSong(ActionEvent event)
+    private void saveSong(ActionEvent event) throws SQLException, SQLServerException, IOException
     {
     String newTitle = title.getText();
     String newArtist = artist.getText();
