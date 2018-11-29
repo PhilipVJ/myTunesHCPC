@@ -93,9 +93,17 @@ public class SongDbDAO {
       pstmt.close();
     }
     
-    public void deleteSong()
+    public void deleteSong(Song songToDelete) throws IOException, SQLServerException, SQLException
     {
-        
+        int songID = songToDelete.getId();
+
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+        PreparedStatement pstmt = con.prepareStatement("DELETE FROM Songs WHERE songID=(?)");
+        pstmt.setInt(1,songID);
+        pstmt.execute();
+        pstmt.close();
+        System.out.println("Following song has been deleted: "+songID);
     }
     
     public ArrayList<Song> getAllSongs() throws IOException, SQLServerException, SQLException

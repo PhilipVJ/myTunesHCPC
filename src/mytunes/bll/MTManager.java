@@ -103,9 +103,16 @@ public void editSong(Song editedSong) throws SQLException, SQLServerException, I
 songDB.editSong(editedSong);
 }
 
+
 public List<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
 {
 return playlistDB.getPlaylistSongs(chosenPlaylist);
+}
+
+
+public void deleteSong(Song deleteSongs) throws IOException, SQLException
+{
+    songDB.deleteSong(deleteSongs);
 }
 
 

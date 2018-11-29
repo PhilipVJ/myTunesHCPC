@@ -110,12 +110,18 @@ public void editSong(Song editedSong) throws SQLException, SQLServerException, I
 mtmanager.editSong(editedSong);
 }
 
+
 public ObservableList<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
 {
 playlistSongs = FXCollections.observableList(mtmanager.getPlaylistSongs(chosenPlaylist));
 return playlistSongs;
        
 
+}
+
+public void deleteSong(Song songToDelete) throws IOException, SQLException
+{
+    mtmanager.deleteSong(songToDelete);
 }
 
 }
