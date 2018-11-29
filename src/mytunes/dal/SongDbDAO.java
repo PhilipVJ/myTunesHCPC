@@ -77,26 +77,19 @@ public class SongDbDAO {
         }
     }
     
-    public void editSong(Song song) throws SQLServerException, SQLException
+    public void editSong(Song song) throws SQLServerException, SQLException, IOException
     {
-//        try (Connection con = dbConnector.getConnection()) {
-//            String sql = "UPDATE song SET" + "name=?, artist=?, album=?, genre=?, path=?"
-//                    + "WHERE songId=?";
-//            PreparedStatement pStat = con.prepareStatement(sql);
-//            pStat.setString(1, song.getName());
-//            pStat.setString(2, song.getArtist());
-//            pStat.setString(3, song.getAlbum());
-//            pStat.setString(4, song.getGenre());
-//            pStat.setString(5, song.getPath());
-//            pStat.setInt(6, song.getId());
-//            
-//            int affected = pStat.executeUpdate();
-//            if (affected < 1)
-//                throw new SQLException ("Can not edit song");
-//            }
-//        catch (SQLException exc) {
-//            Logger.getLogger(SongDbDAO.class.getName()).log(Level.SEVERE, null, exc);
-//        }
+      DbConnection dc = new DbConnection();
+      Connection con = dc.getConnection();
+      Statement statement = con.createStatement();
+      PreparedStatement pstmt = con.prepareStatement
+      ("UPDATE Songs SET Title = (?), Artist = (?), Genre = (?) WHERE songId = (?)");
+      pstmt.setString(1, song.getTitle());
+      pstmt.setString(2, song.getArtist());
+      pstmt.setString(3, song.getGenre());
+      pstmt.setInt(4, song.getId());
+      pstmt.execute();
+      pstmt.close();
     }
     
     public void deleteSong()

@@ -32,6 +32,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
 import org.farng.mp3.MP3File;
@@ -56,7 +57,7 @@ private User currentUser;
     @FXML
     private ListView<?> playlistSongsView;
     @FXML
-    private ListView<?> allSongsView;
+    private ListView<Song> allSongsView;
     @FXML
     private TextField searchTxt;
     @FXML
@@ -181,8 +182,18 @@ private User currentUser;
     }
 
     @FXML
-    private void editSong(ActionEvent event)
+    private void editSong(ActionEvent event) throws IOException
     {
+    Song songToEdit = allSongsView.getSelectionModel().getSelectedItem();
+    
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSong.fxml"));
+    Parent root = (Parent)loader.load();
+    EditSongController editSongCon = loader.getController();
+    editSongCon.setSong(songToEdit);
+    Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue
+    stage.setScene(new Scene(root));
+    stage.show();
+    
     }
 
 
