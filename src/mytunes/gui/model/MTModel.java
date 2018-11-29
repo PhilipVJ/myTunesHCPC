@@ -135,4 +135,10 @@ mtmanager.deleteSongFromLibrary(songToDelete);
 
 }
 
+
+
+    public void editPlaylist(int id, String newName) throws IOException, SQLException
+    {
+        mtmanager.editPlaylist(id, newName);
+    }
 }
