@@ -96,6 +96,7 @@ public class LoginScreenController implements Initializable
         Parent root = (Parent)loader.load();
         MyTunesController mController = loader.getController();
         mController.setUser(user);
+        mController.setListViews();
         Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue
         stage.setScene(new Scene(root));
         stage.show();

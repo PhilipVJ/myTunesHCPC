@@ -83,11 +83,11 @@ public String getSecToMin(int time)
    
    if (remainingSec>=10){
    inMinutes=""+inMin+":"+remainingSec;
-   System.out.println(""+inMinutes);
+   
    return inMinutes;}
    
    inMinutes=""+inMin+":0"+remainingSec;
-    System.out.println(""+inMinutes);
+   
    return inMinutes;
    
 }

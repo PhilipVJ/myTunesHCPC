@@ -105,7 +105,7 @@ private User currentUser;
     {
         currentUser=user;
         userName.setText(user.getName());
-        playlistView.setItems(mtmodel.getPlaylists(currentUser.getID())); // Skal måske smides et andet sted
+//        playlistView.setItems(mtmodel.getPlaylists(currentUser.getID())); // Skal måske smides et andet sted
     }
 
     @FXML
@@ -208,6 +208,13 @@ private User currentUser;
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
     
     }
+    
+    public void setListViews() throws IOException, SQLException
+    {
+     playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
+     
+    }
+    
     
 
 

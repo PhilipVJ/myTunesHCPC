@@ -57,8 +57,8 @@ public class SongDbDAO {
     String genre = songToAdd.getGenre();
     String path = songToAdd.getFilepath();
     String time = songToAdd.getTime();
-        System.out.println(""+path);
-        System.out.println(""+time);
+        
+        
 
     DbConnection dbCon = new DbConnection();
 
@@ -71,7 +71,7 @@ public class SongDbDAO {
             pstmt.setString(3,artist);
             pstmt.setString(4,genre);
             pstmt.setString(5,time);
-            System.out.println("Ready to execute");
+            
             pstmt.execute();
             
         }

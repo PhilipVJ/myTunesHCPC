@@ -77,7 +77,7 @@ public class AddSongController implements Initializable
    File mediafile = fileChooser.showOpenDialog(stage);
    
     MP3File mp3file = new MP3File(mediafile);
-    System.out.println(""+mp3file.hasID3v2Tag());
+    
     AbstractID3v2 ID3 = mp3file.getID3v2Tag();
     
     String artist = ID3.getLeadArtist();
@@ -117,6 +117,10 @@ public class AddSongController implements Initializable
     
     Song songToAdd = new Song(songArtist, songTitle, songGenre, songFilepath, 0, songTime);
     mtmodel.addSong(songToAdd);
+    
+    Stage stage = (Stage) rootPane2.getScene().getWindow();
+    
+    stage.close();
     }
     
 }
