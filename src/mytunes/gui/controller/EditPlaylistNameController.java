@@ -36,6 +36,7 @@ public class EditPlaylistNameController implements Initializable
     private Playlist plToEdit;
     
     private MTModel mtmodel;
+    private MyTunesController mTController;
     @FXML
     private AnchorPane rootPane3;
     /**
@@ -69,7 +70,7 @@ public class EditPlaylistNameController implements Initializable
         
         mtmodel.editPlaylist(plToEdit.getId(), newName);
     
-   
+    mTController.refreshList();
     Stage stage = (Stage) rootPane3.getScene().getWindow();
     stage.close();
     }
@@ -77,6 +78,11 @@ public class EditPlaylistNameController implements Initializable
     public void setPlaylist(Playlist selectedItem)
     {
         plToEdit = selectedItem;
+    }
+    
+    public void setPrevController(MyTunesController prev)
+    {
+    mTController=prev;
     }
 
     

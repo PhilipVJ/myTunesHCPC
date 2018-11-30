@@ -35,6 +35,8 @@ private User currentUser;
     private MTModel mtmodel;
     @FXML
     private AnchorPane rootPane2;
+    
+    private MyTunesController mTController;
     /**
      * Initializes the controller class.
      */
@@ -59,8 +61,14 @@ private User currentUser;
     String playlistName = playListName.getText();
     mtmodel.addPlaylist(currentUser.getID(), playlistName);
     Stage stage = (Stage) rootPane2.getScene().getWindow();
-    
+    mTController.refreshList();
     stage.close();
     
     }
+    
+    public void setPrevController(MyTunesController prev)
+    {
+    mTController=prev;
+    }
+            
 }

@@ -109,11 +109,18 @@ private User currentUser;
     @FXML
     private void newPlaylist(ActionEvent event) throws IOException, SQLException
     {
+        // FXMLLoader loads the AddPlaylist fxml
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylist.fxml"));
         Parent root = (Parent)loader.load();
         
+        
         AddPlaylistController aController = loader.getController();
         aController.setUser(currentUser);
+        
+        
+        MyTunesController mTController = this;
+        aController.setPrevController(this);
+        
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();
@@ -126,6 +133,10 @@ private User currentUser;
     Parent root = (Parent)loader.load();
     EditPlaylistNameController editPlaylistName = loader.getController();
     editPlaylistName.setPlaylist(playlistView.getSelectionModel().getSelectedItem());
+    
+    MyTunesController mTController = this;
+    editPlaylistName.setPrevController(this);
+    
     Stage stage = new Stage();
     stage.setScene(new Scene(root));
     stage.show();
@@ -142,6 +153,7 @@ private User currentUser;
             playlistinfo.setText("Please select a playlist");
         }
        mtmodel.deletePlaylist(pl);
+       refreshList();
     }
 
     @FXML
@@ -177,6 +189,7 @@ private User currentUser;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
         Parent root = (Parent)loader.load();
         
+        
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();
@@ -200,6 +213,10 @@ private User currentUser;
     Parent root = (Parent)loader.load();
     EditSongController editSongCon = loader.getController();
     editSongCon.setSong(songToEdit);
+    
+    MyTunesController mTController = this;
+    editSongCon.setPrevController(this);
+    
     Stage stage = new Stage();
     stage.setScene(new Scene(root));
     stage.show();
@@ -228,14 +245,11 @@ private User currentUser;
     }
 
 
-    @FXML
-    private void refresh(ActionEvent event) throws IOException, SQLException
+    
+    public void refreshList() throws IOException, SQLException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
-     allSongsView.setItems(mtmodel.getSongs());
-    
-     
-    
+     allSongsView.setItems(mtmodel.getSongs());  
     }
     
     public void setListViews() throws IOException, SQLException
@@ -253,7 +267,8 @@ private User currentUser;
     private void refreshPlaylistSongs() throws IOException, SQLException
     {
     Playlist chosenPlaylist = playlistView.getSelectionModel().getSelectedItem();
-     
+    
+        
      playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));   
     }
 
@@ -294,6 +309,9 @@ private User currentUser;
     {
    Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
    mtmodel.deleteSongFromLibrary(songToMove);
+   allSongsView.setItems(mtmodel.getSongs());  
+   refreshPlaylistSongs();
+  
    
     }
 

@@ -41,6 +41,8 @@ public class EditSongController implements Initializable
     private Song songToEdit;
     
     private MTModel mtmodel;
+    
+    private MyTunesController mTController;
 
     /**
      * Initializes the controller class.
@@ -77,7 +79,7 @@ public class EditSongController implements Initializable
     
     Song editedSong = new Song(newArtist, newTitle, newGenre, filepath, songID, songTime);
     mtmodel.editSong(editedSong);
-        
+    mTController.refreshList();
     Stage stage = (Stage) rootPane2.getScene().getWindow();
     stage.close();    
     }
@@ -89,6 +91,11 @@ public class EditSongController implements Initializable
        this.artist.setText(songToEdit.getArtist());
        this.genre.setText(songToEdit.getGenre());
        this.time.setText(songToEdit.getTime());
+    }
+
+    void setPrevController(MyTunesController prev)
+    {
+      mTController=prev;
     }
     
 }
