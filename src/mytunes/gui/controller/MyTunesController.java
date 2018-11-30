@@ -76,12 +76,14 @@ private User currentUser;
     private Label playlistinfo;
     @FXML
     private ImageView searchBtn;
+    @FXML
+    private Button editBtn;
     
     private Mp3Player mp3Player;
     
     private int chosenView;
-    @FXML
-    private Button editBtn;
+  
+ 
     
     
     
@@ -140,8 +142,10 @@ private User currentUser;
     @FXML
     private void editPlaylist(ActionEvent event) throws IOException
     {
+
     if (!playlistView.getSelectionModel().isEmpty()){
        
+
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistName.fxml"));
     Parent root = (Parent)loader.load();
     EditPlaylistNameController editPlaylistName = loader.getController();
@@ -153,8 +157,13 @@ private User currentUser;
     Stage stage = new Stage();
     stage.setScene(new Scene(root));
     stage.show();
+
     }
     
+
+        
+        
+
     }
 
     @FXML

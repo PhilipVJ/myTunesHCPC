@@ -135,10 +135,10 @@ public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOExce
 playlistDB.moveSongUp(playlistChosen, songToMoveUp);
 }
 
-    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
+public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
     {
      playlistDB.moveSongDown(playlistChosen, songToMoveDown);
     }
 
-
+ 
 }
