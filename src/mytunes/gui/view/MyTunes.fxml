@@ -15,8 +15,8 @@
 
    <children>
       <ListView fx:id="playlistView" layoutX="14.0" layoutY="177.0" onMouseClicked="#choosePlaylist" prefHeight="429.0" prefWidth="200.0" />
-      <ListView fx:id="playlistSongsView" layoutX="243.0" layoutY="177.0" prefHeight="429.0" prefWidth="200.0" />
-      <ListView fx:id="allSongsView" layoutX="494.0" layoutY="177.0" prefHeight="429.0" prefWidth="485.0" />
+      <ListView fx:id="playlistSongsView" layoutX="243.0" layoutY="177.0" onMouseClicked="#playlistSongsChosen" prefHeight="429.0" prefWidth="200.0" />
+      <ListView fx:id="allSongsView" layoutX="494.0" layoutY="177.0" onMouseClicked="#allSongsChosen" prefHeight="429.0" prefWidth="485.0" />
       <Button layoutX="14.0" layoutY="614.0" mnemonicParsing="false" onAction="#newPlaylist" text="New" />
       <Button fx:id="editBtn" layoutX="75.0" layoutY="614.0" mnemonicParsing="false" onAction="#editPlaylist" text="Edit" />
       <Button layoutX="135.0" layoutY="614.0" mnemonicParsing="false" onAction="#deletePlaylist" text="Delete" />
@@ -64,6 +64,9 @@
             <Image url="@search-button-png-search-icon-png-image-9966-600.png" />
          </image>
       </ImageView>
+      <Button layoutX="311.0" layoutY="40.0" mnemonicParsing="false" onAction="#stopSong" text="Stop song" />
+      <Button layoutX="412.0" layoutY="40.0" mnemonicParsing="false" onAction="#pauseSong" text="Pause song" />
+      <Button layoutX="488.0" layoutY="99.0" mnemonicParsing="false" onAction="#resumeSong" text="Resume" />
 
 
    </children>

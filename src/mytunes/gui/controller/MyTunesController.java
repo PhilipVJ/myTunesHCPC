@@ -79,6 +79,12 @@ private User currentUser;
     @FXML
     private Button editBtn;
     
+    private Mp3Player mp3Player;
+    
+    private int chosenView;
+    
+    
+    
     
 
     /**
@@ -127,6 +133,8 @@ private User currentUser;
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();
+        
+        
     }
 
     @FXML
@@ -193,9 +201,12 @@ private User currentUser;
 //    File mediafile = fileChooser.showOpenDialog(stage);
 //    mtmodel.addSong(mediafile);
     
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
-        Parent root = (Parent)loader.load();
-        
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
+    Parent root = (Parent)loader.load();
+    AddSongController addSongCon = loader.getController();
+       
+    MyTunesController mTController = this;
+    addSongCon.setPrevController(this);
         
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -239,10 +250,21 @@ private User currentUser;
     @FXML
     private void playSong(MouseEvent event)
     {
+    if (chosenView==2)
+    {
     ObservableList<Song>allSongs = allSongsView.getItems();
-    System.out.println(""+allSongs.size());
-    Mp3Player tester = new Mp3Player();
-    tester.play(allSongs);
+    int songIndex = allSongsView.getSelectionModel().getSelectedIndex();
+    mp3Player = new Mp3Player();
+    mp3Player.initPlay(songIndex, allSongs);
+    }
+    
+    if (chosenView==1)
+    {
+    ObservableList<Song>playlistSongs = playlistSongsView.getItems();
+    int songIndex = playlistSongsView.getSelectionModel().getSelectedIndex();
+    mp3Player = new Mp3Player();
+    mp3Player.initPlay(songIndex, playlistSongs);    
+    }
         
     }
 
@@ -272,8 +294,7 @@ private User currentUser;
     {
     Playlist chosenPlaylist = playlistView.getSelectionModel().getSelectedItem();
     
-        
-     playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));   
+    playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));   
     }
 
 @FXML
@@ -325,6 +346,38 @@ private User currentUser;
         System.out.println("Choosing playlist");
         
     refreshPlaylistSongs();
+    }
+
+    @FXML
+    private void stopSong(ActionEvent event)
+    {
+        mp3Player.stop();
+    }
+
+    @FXML
+    private void pauseSong(ActionEvent event)
+    {
+        mp3Player.pause();
+    }
+
+    @FXML
+    private void resumeSong(ActionEvent event)
+    {
+        mp3Player.resume();
+    }
+
+    @FXML
+    private void playlistSongsChosen(MouseEvent event)
+    {
+    chosenView=1;
+    
+    }
+
+    @FXML
+    private void allSongsChosen(MouseEvent event)
+    {
+    chosenView=2;
+    
     }
     
     

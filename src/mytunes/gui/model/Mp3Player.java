@@ -19,27 +19,21 @@ public class Mp3Player
 {
 int currentSong=0;
 ObservableList<Song> songsToPlay;
+Media media;
+MediaPlayer mediaPlayer;
 
-public void play(ObservableList<Song> songs)
+/**
+ * Initializes the player class and calls the play function, which plays through 
+ * the entire list.
+ * @param songs 
+ */
+public void initPlay(int songIndex, ObservableList<Song> songs)
 {
- songsToPlay=songs;
-    System.out.println(""+currentSong);  
-    String path=songs.get(0).getFilepath();
-    Media media = new Media(path);
-    MediaPlayer mediaPlayer = new MediaPlayer(media);
-    mediaPlayer.play();  
+    currentSong=songIndex; 
+    songsToPlay=songs;
+    play(currentSong,songsToPlay);
     
-    
-    
-    mediaPlayer.setOnEndOfMedia(new Runnable() {
-    @Override
-    public void run()
-    {
-       currentSong++;
-       playSong(currentSong,songsToPlay);
-    }
-    }
-    );
+
   }
 
 //    isPlaying = mediaPlayer.getStatus().equals(Status.PLAYING);
@@ -50,28 +44,49 @@ public void play(ObservableList<Song> songs)
 
 
 
-public void playSong(int song, ObservableList<Song> songs)
+public void play(int songListNr, ObservableList<Song> songs)
 
 {
-    System.out.println(""+song);
+    System.out.println(""+songListNr);
+    System.out.println("listsize"+songs.size());
+    if (currentSong==songs.size())
+    {
+        return;
+    }
     
-    String path=songs.get(song).getFilepath();
-    Media media = new Media(path);
-    MediaPlayer mediaPlayer = new MediaPlayer(media);
+    String path=songs.get(songListNr).getFilepath();
+    media = new Media(path);
+    mediaPlayer = new MediaPlayer(media);
     mediaPlayer.play();  
-    
-    
-    
+
     mediaPlayer.setOnEndOfMedia(new Runnable() {
     @Override
     public void run()
     {
+       
+       //Plays the next song in the list 
        currentSong++;
-       playSong(currentSong,songsToPlay);
+        System.out.println("Currentsong:"+currentSong);
+       play(currentSong,songsToPlay);
     }
     }
     );
   }
+
+    public void stop()
+    {
+        mediaPlayer.stop();
+    }
+    
+    public void pause()
+    {
+        mediaPlayer.pause();
+    }
+
+    public void resume()
+    {
+        mediaPlayer.play();
+    }
 }
 
 
