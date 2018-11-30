@@ -186,9 +186,12 @@ private User currentUser;
 //    File mediafile = fileChooser.showOpenDialog(stage);
 //    mtmodel.addSong(mediafile);
     
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
-        Parent root = (Parent)loader.load();
-        
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
+    Parent root = (Parent)loader.load();
+    AddSongController addSongCon = loader.getController();
+       
+    MyTunesController mTController = this;
+    addSongCon.setPrevController(this);
         
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
