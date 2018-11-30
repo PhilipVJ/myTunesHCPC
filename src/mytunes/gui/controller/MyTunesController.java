@@ -313,8 +313,9 @@ private User currentUser;
     private void refreshPlaylistSongs() throws IOException, SQLException
     {
     Playlist chosenPlaylist = playlistView.getSelectionModel().getSelectedItem();
-    
-    playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));   
+    if (chosenPlaylist!=null){
+    playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist)); 
+    }
     }
 
 @FXML
