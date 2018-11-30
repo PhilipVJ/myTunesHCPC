@@ -49,7 +49,7 @@ public void play(int songListNr, ObservableList<Song> songs)
 {
     System.out.println(""+songListNr);
     System.out.println("listsize"+songs.size());
-    if (currentSong==songs.size())
+    if (currentSong==songs.size() || currentSong==-1)
     {
         return;
     }
@@ -86,6 +86,27 @@ public void play(int songListNr, ObservableList<Song> songs)
     public void resume()
     {
         mediaPlayer.play();
+    }
+
+    public void next()
+    {
+        if (currentSong<songsToPlay.size()-1){
+        System.out.println("Next song");
+        stop();
+        currentSong++;
+        play(currentSong, songsToPlay);
+        }
+    }
+
+    public void previous()
+    {
+        if (currentSong>0){
+        System.out.println("Previous song");
+        stop();
+        currentSong--;
+        play(currentSong, songsToPlay); 
+        }
+        
     }
 }
 

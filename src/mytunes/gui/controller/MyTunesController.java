@@ -71,8 +71,6 @@ private User currentUser;
     @FXML
     private ImageView playSongbtn;
     @FXML
-    private ImageView nextSongBtn;
-    @FXML
     private Label playlistinfo;
     @FXML
     private ImageView searchBtn;
@@ -253,7 +251,11 @@ private User currentUser;
     @FXML
     private void nextSong(MouseEvent event)
     {
+       if(mp3Player!=null){
+        mp3Player.next();
+       }
     }
+    
 
     @FXML
     private void playSong(MouseEvent event)
@@ -279,6 +281,9 @@ private User currentUser;
     @FXML
     private void previousSong(MouseEvent event)
     {
+        if(mp3Player!=null){
+        mp3Player.previous();
+        }
     }
 
 
