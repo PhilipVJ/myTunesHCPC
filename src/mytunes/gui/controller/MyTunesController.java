@@ -150,6 +150,8 @@ private User currentUser;
     Song songToMoveUp = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.moveSongUp(playlistChosen, songToMoveUp);
+    refreshPlaylistSongs();
+    
     }
 
     @FXML
@@ -158,6 +160,7 @@ private User currentUser;
     Song songToMoveDown = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.moveSongDown(playlistChosen, songToMoveDown);
+    refreshPlaylistSongs();
     }
 
 
@@ -246,11 +249,12 @@ private User currentUser;
 
     @FXML
 
-    private void refreshPlaylistSongs(ActionEvent event) throws IOException, SQLException
+    
+    private void refreshPlaylistSongs() throws IOException, SQLException
     {
     Playlist chosenPlaylist = playlistView.getSelectionModel().getSelectedItem();
      
-     playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));
+     playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));   
     }
 
 @FXML
@@ -270,6 +274,7 @@ private User currentUser;
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.addSongToPlaylist(songToMove,playlistChosen);
+    refreshPlaylistSongs();
     
     
     
@@ -281,6 +286,7 @@ private User currentUser;
     Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
+    refreshPlaylistSongs();
     }
 
     @FXML
@@ -290,6 +296,16 @@ private User currentUser;
    mtmodel.deleteSongFromLibrary(songToMove);
    
     }
+
+    @FXML
+    private void choosePlaylist(MouseEvent event) throws IOException, SQLException
+    {
+        System.out.println("Choosing playlist");
+        
+    refreshPlaylistSongs();
+    }
+    
+    
     
     
 

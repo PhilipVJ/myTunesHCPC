@@ -14,7 +14,7 @@
 
 
    <children>
-      <ListView fx:id="playlistView" layoutX="14.0" layoutY="177.0" prefHeight="429.0" prefWidth="200.0" />
+      <ListView fx:id="playlistView" layoutX="14.0" layoutY="177.0" onMouseClicked="#choosePlaylist" prefHeight="429.0" prefWidth="200.0" />
       <ListView fx:id="playlistSongsView" layoutX="243.0" layoutY="177.0" prefHeight="429.0" prefWidth="200.0" />
       <ListView fx:id="allSongsView" layoutX="494.0" layoutY="177.0" prefHeight="429.0" prefWidth="485.0" />
       <Button layoutX="14.0" layoutY="614.0" mnemonicParsing="false" onAction="#newPlaylist" text="New" />
@@ -65,9 +65,6 @@
             <Image url="@search-button-png-search-icon-png-image-9966-600.png" />
          </image>
       </ImageView>
-
-     
-      <Button layoutX="355.0" layoutY="669.0" mnemonicParsing="false" onAction="#refreshPlaylistSongs" text="Refresh" />
 
 
    </children>
