@@ -76,7 +76,6 @@ private User currentUser;
     private Label playlistinfo;
     @FXML
     private ImageView searchBtn;
-    @FXML
     private Button editBtn;
     
     private Mp3Player mp3Player;
