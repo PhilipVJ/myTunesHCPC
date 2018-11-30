@@ -71,8 +71,6 @@ private User currentUser;
     @FXML
     private ImageView playSongbtn;
     @FXML
-    private ImageView nextSongBtn;
-    @FXML
     private Label playlistinfo;
     @FXML
     private ImageView searchBtn;
@@ -81,6 +79,8 @@ private User currentUser;
     private Mp3Player mp3Player;
     
     private int chosenView;
+    @FXML
+    private Label nowPlaying;
   
  
     
@@ -263,16 +263,25 @@ private User currentUser;
     @FXML
     private void nextSong(MouseEvent event)
     {
+       if(mp3Player!=null){
+        mp3Player.next();
+       }
     }
+    
 
     @FXML
     private void playSong(MouseEvent event)
     {
+    if (mp3Player!=null){
+        mp3Player.stop();
+        } 
+        
     if (chosenView==2)
     {
     ObservableList<Song>allSongs = allSongsView.getItems();
     int songIndex = allSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
+    mp3Player.setPrevController(this);
     mp3Player.initPlay(songIndex, allSongs);
     }
     
@@ -281,6 +290,7 @@ private User currentUser;
     ObservableList<Song>playlistSongs = playlistSongsView.getItems();
     int songIndex = playlistSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
+    mp3Player.setPrevController(this);
     mp3Player.initPlay(songIndex, playlistSongs);    
     }
         
@@ -289,6 +299,9 @@ private User currentUser;
     @FXML
     private void previousSong(MouseEvent event)
     {
+        if(mp3Player!=null){
+        mp3Player.previous();
+        }
     }
 
 
@@ -369,19 +382,25 @@ private User currentUser;
     @FXML
     private void stopSong(ActionEvent event)
     {
+        if (mp3Player!=null){
         mp3Player.stop();
+        }
     }
 
     @FXML
     private void pauseSong(ActionEvent event)
     {
+        if (mp3Player!=null){
         mp3Player.pause();
+        }
     }
 
     @FXML
     private void resumeSong(ActionEvent event)
     {
+        if(mp3Player!=null){
         mp3Player.resume();
+        }
     }
 
     @FXML
@@ -396,6 +415,10 @@ private User currentUser;
     {
     chosenView=2;
     
+    }
+    
+    public void setLabel(String song){
+        nowPlaying.setText(song);
     }
     
     
