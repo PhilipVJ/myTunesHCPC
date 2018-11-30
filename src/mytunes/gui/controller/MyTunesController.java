@@ -261,6 +261,10 @@ private User currentUser;
     @FXML
     private void playSong(MouseEvent event)
     {
+    if (mp3Player!=null){
+        mp3Player.stop();
+        } 
+        
     if (chosenView==2)
     {
     ObservableList<Song>allSongs = allSongsView.getItems();
@@ -367,19 +371,25 @@ private User currentUser;
     @FXML
     private void stopSong(ActionEvent event)
     {
+        if (mp3Player!=null){
         mp3Player.stop();
+        }
     }
 
     @FXML
     private void pauseSong(ActionEvent event)
     {
+        if (mp3Player!=null){
         mp3Player.pause();
+        }
     }
 
     @FXML
     private void resumeSong(ActionEvent event)
     {
+        if(mp3Player!=null){
         mp3Player.resume();
+        }
     }
 
     @FXML
