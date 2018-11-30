@@ -10,6 +10,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import mytunes.be.Song;
+import mytunes.gui.controller.MyTunesController;
 
 /**
  *
@@ -21,6 +22,7 @@ int currentSong=0;
 ObservableList<Song> songsToPlay;
 Media media;
 MediaPlayer mediaPlayer;
+MyTunesController mTController;
 
 /**
  * Initializes the player class and calls the play function, which plays through 
@@ -57,6 +59,8 @@ public void play(int songListNr, ObservableList<Song> songs)
     String path=songs.get(songListNr).getFilepath();
     media = new Media(path);
     mediaPlayer = new MediaPlayer(media);
+    String songLabel = ""+songs.get(songListNr).getArtist()+" - "+songs.get(songListNr).getTitle();
+    mTController.setLabel(songLabel);
     mediaPlayer.play();  
 
     mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -107,6 +111,11 @@ public void play(int songListNr, ObservableList<Song> songs)
         play(currentSong, songsToPlay); 
         }
         
+    }
+    
+    public void setPrevController(MyTunesController controller)
+    {
+     mTController = controller;
     }
 }
 

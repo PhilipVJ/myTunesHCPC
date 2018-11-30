@@ -79,6 +79,8 @@ private User currentUser;
     private Mp3Player mp3Player;
     
     private int chosenView;
+    @FXML
+    private Label nowPlaying;
   
  
     
@@ -264,6 +266,7 @@ private User currentUser;
     ObservableList<Song>allSongs = allSongsView.getItems();
     int songIndex = allSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
+    mp3Player.setPrevController(this);
     mp3Player.initPlay(songIndex, allSongs);
     }
     
@@ -272,6 +275,7 @@ private User currentUser;
     ObservableList<Song>playlistSongs = playlistSongsView.getItems();
     int songIndex = playlistSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
+    mp3Player.setPrevController(this);
     mp3Player.initPlay(songIndex, playlistSongs);    
     }
         
@@ -390,6 +394,10 @@ private User currentUser;
     {
     chosenView=2;
     
+    }
+    
+    public void setLabel(String song){
+        nowPlaying.setText(song);
     }
     
     
