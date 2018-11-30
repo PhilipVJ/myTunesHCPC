@@ -142,6 +142,7 @@ private User currentUser;
             playlistinfo.setText("Please select a playlist");
         }
        mtmodel.deletePlaylist(pl);
+       refreshList();
     }
 
     @FXML
@@ -233,9 +234,13 @@ private User currentUser;
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
      allSongsView.setItems(mtmodel.getSongs());
+
+    }
     
-     
-    
+    private void refreshList() throws IOException, SQLException
+    {
+     playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
+     allSongsView.setItems(mtmodel.getSongs());  
     }
     
     public void setListViews() throws IOException, SQLException
@@ -253,7 +258,8 @@ private User currentUser;
     private void refreshPlaylistSongs() throws IOException, SQLException
     {
     Playlist chosenPlaylist = playlistView.getSelectionModel().getSelectedItem();
-     
+    
+        
      playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist));   
     }
 
@@ -294,6 +300,9 @@ private User currentUser;
     {
    Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
    mtmodel.deleteSongFromLibrary(songToMove);
+   allSongsView.setItems(mtmodel.getSongs());  
+   refreshPlaylistSongs();
+  
    
     }
 

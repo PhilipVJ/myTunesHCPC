@@ -104,6 +104,12 @@ public class SongDbDAO {
         pstmt.execute();
         pstmt.close();
         System.out.println("Following song has been deleted: "+songID);
+        // Deletes song from all playlists
+        PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?)");
+        pstmt2.setInt(1,songID);
+        pstmt2.execute();
+        pstmt2.close();
+        
     }
     
     public ArrayList<Song> getAllSongs() throws IOException, SQLServerException, SQLException
