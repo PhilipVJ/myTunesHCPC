@@ -74,7 +74,7 @@ private User currentUser;
     private Label playlistinfo;
     @FXML
     private ImageView searchBtn;
-    private Button editBtn;
+    
     
     private Mp3Player mp3Player;
     
@@ -181,10 +181,16 @@ private User currentUser;
     @FXML
     private void upPlaylist(ActionEvent event) throws IOException, SQLException
     {
+    
+    
     Song songToMoveUp = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    
+    if(!playlistSongsView.getSelectionModel().isEmpty())
+    {
     mtmodel.moveSongUp(playlistChosen, songToMoveUp);
     refreshPlaylistSongs();
+    }
     
     }
 
@@ -193,8 +199,13 @@ private User currentUser;
     {
     Song songToMoveDown = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
-    mtmodel.moveSongDown(playlistChosen, songToMoveDown);
-    refreshPlaylistSongs();
+    
+    if(!playlistSongsView.getSelectionModel().isEmpty())
+    {
+       mtmodel.moveSongDown(playlistChosen, songToMoveDown);
+       refreshPlaylistSongs(); 
+    }
+    
     }
 
 
