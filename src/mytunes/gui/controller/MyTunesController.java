@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -79,6 +80,8 @@ private User currentUser;
     private Mp3Player mp3Player;
     
     private int chosenView;
+    @FXML
+    private Button editBtn;
     
     
     
@@ -137,6 +140,8 @@ private User currentUser;
     @FXML
     private void editPlaylist(ActionEvent event) throws IOException
     {
+    if (!playlistView.getSelectionModel().isEmpty()){
+       
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistName.fxml"));
     Parent root = (Parent)loader.load();
     EditPlaylistNameController editPlaylistName = loader.getController();
@@ -148,6 +153,7 @@ private User currentUser;
     Stage stage = new Stage();
     stage.setScene(new Scene(root));
     stage.show();
+    }
     
     }
 

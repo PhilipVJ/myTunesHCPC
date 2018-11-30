@@ -18,7 +18,7 @@
       <ListView fx:id="playlistSongsView" layoutX="243.0" layoutY="177.0" onMouseClicked="#playlistSongsChosen" prefHeight="429.0" prefWidth="200.0" />
       <ListView fx:id="allSongsView" layoutX="494.0" layoutY="177.0" onMouseClicked="#allSongsChosen" prefHeight="429.0" prefWidth="485.0" />
       <Button layoutX="14.0" layoutY="614.0" mnemonicParsing="false" onAction="#newPlaylist" text="New" />
-      <Button layoutX="75.0" layoutY="614.0" mnemonicParsing="false" onAction="#editPlaylist" text="Edit" />
+      <Button fx:id="editBtn" layoutX="75.0" layoutY="614.0" mnemonicParsing="false" onAction="#editPlaylist" text="Edit" />
       <Button layoutX="135.0" layoutY="614.0" mnemonicParsing="false" onAction="#deletePlaylist" text="Delete" />
       <Button layoutX="283.0" layoutY="607.0" mnemonicParsing="false" onAction="#upPlaylist" text="Up" />
       <Button layoutX="274.0" layoutY="638.0" mnemonicParsing="false" onAction="#downPlaylist" text="Down" />
