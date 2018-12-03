@@ -78,13 +78,15 @@ public class AddSongController implements Initializable
    File mediafile = fileChooser.showOpenDialog(stage);
    
     MP3File mp3file = new MP3File(mediafile);
-    
+    String path = mediafile.toURI().toString();
+    if ( mp3file.hasID3v2Tag()==true){
     AbstractID3v2 ID3 = mp3file.getID3v2Tag();
+   
     
     String artist = ID3.getLeadArtist();
     String title = ID3.getSongTitle();
     String genre = ID3.getSongGenre();
-    String path = mediafile.toURI().toString();
+    
         
     int duration = 0;
     AudioFile audioFile = AudioFileIO.read(mediafile);
@@ -96,6 +98,21 @@ public class AddSongController implements Initializable
     this.time.setText(time);
     this.genre.setText(genre);
     this.filepath.setText(path);
+    }
+    else {
+    int duration = 0;
+    AudioFile audioFile = AudioFileIO.read(mediafile);
+    duration = audioFile.getAudioHeader().getTrackLength();
+    String time = mtmodel.getSecToMin(duration);
+    int lastIndex = path.lastIndexOf('/');
+    String toPrint = path.substring(lastIndex+1, path.length()-4);
+    
+    this.title.setText(toPrint);
+    this.artist.setText("");
+    this.time.setText(time);
+    this.genre.setText("");
+    this.filepath.setText(path);    
+    }
 //   mtmodel.addSong(mediafile);
     }
 

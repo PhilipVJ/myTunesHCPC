@@ -56,13 +56,11 @@ public class PlaylistDbDAO
                 addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName, userId);
                 
                 System.out.println("Following playlist has been added to the database: "+addedPlaylist.getName());
-                System.out.println("Navn:"+addedPlaylist.getName());
-                System.out.println("ID:"+addedPlaylist.getId());
                 return addedPlaylist;
                 }
 
             }
- 
+
  return addedPlaylist;
        
         
@@ -212,14 +210,9 @@ for (Playlist x : allPlaylist){
     
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLServerException, SQLException
     {
-        System.out.println("Test");
         int songID = songToDelete.getId();
-        System.out.println(""+songID);
         int position = songToDelete.getPosition();
-        System.out.println(""+position);
-        
         int playlistID = chosenPlaylist.getId();
-        System.out.println(""+playlistID);
         int playlistSize = getPlaylistSongs(chosenPlaylist).size();
         
         
