@@ -408,7 +408,9 @@ allSongsView.setItems(mtmodel.searchSong(searchTxt.getText()));
 //        System.out.println("Choosing playlist");
 //   
     chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
-    
+
+    currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getName());  
+
     refreshPlaylistSongs();
     }
 
