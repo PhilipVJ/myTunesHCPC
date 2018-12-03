@@ -404,6 +404,7 @@ private User currentUser;
 //        System.out.println("Choosing playlist");
 //   
     chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
+    currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getName());  
     refreshPlaylistSongs();
     }
 
