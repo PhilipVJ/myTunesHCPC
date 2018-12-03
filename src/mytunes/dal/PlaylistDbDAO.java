@@ -58,91 +58,79 @@ public class PlaylistDbDAO
                 System.out.println("Following playlist has been added to the database: "+addedPlaylist.getName());
                 return addedPlaylist;
                 }
-
             }
 
- return addedPlaylist;
-       
-        
+        return addedPlaylist;    
     }
     
     public List<Playlist> getPlaylistsByUser(int userID) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-       ArrayList<Playlist> allPlaylist = new ArrayList<>();
-       DbConnection dc = new DbConnection();
-       Connection con = dc.getConnection();
-        
+        ArrayList<Playlist> allPlaylist = new ArrayList<>();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
 
-            Statement statement = con.createStatement();
-            PreparedStatement pstmt = con.prepareStatement
-            ("Select * FROM Playlist WHERE userId = (?)");
-            pstmt.setInt(1, userID);
-            ResultSet rs = pstmt.executeQuery();
+        Statement statement = con.createStatement();
+        PreparedStatement pstmt = con.prepareStatement("Select * FROM Playlist WHERE userId = (?)");
+        pstmt.setInt(1, userID);
+        ResultSet rs = pstmt.executeQuery();
          
-            while (rs.next())
-            {
+        while (rs.next())
+        {
             int playlistID = rs.getInt("listId");
             String PlaylistName = rs.getString("playlistName");
             allPlaylist.add(new Playlist(playlistID, PlaylistName, userID));
              
                 
-            }
-// Add length in seconds to playlist
+        }
+        // Add length in seconds to playlist
 
 
-for (Playlist x : allPlaylist){
-    List<Song> allSongs = getPlaylistSongs(x);
-    int duration = 0;
+        for (Playlist x : allPlaylist)
+        {
+            List<Song> allSongs = getPlaylistSongs(x);
+            int duration = 0;
     
-    for (Song y: allSongs){
-    int time = MTManager.getMinToSec(y.getTime());
-   duration+=time;
+            for (Song y: allSongs)
+            {
+                int time = MTManager.getMinToSec(y.getTime());
+                duration+=time;
    
+            }
+            x.addLengthInSeconds(duration);
+        }     
+        return allPlaylist;
     }
-    x.addLengthInSeconds(duration);
-}
     
-      
-        
- return allPlaylist;
-    }
     public void addSongToPlaylist(Song songToAdd, Playlist chosenPlaylist) throws IOException, SQLServerException, SQLException
     {
-    DbConnection dc = new DbConnection();
-    Connection con = dc.getConnection();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
     
   
     
-    Statement statement = con.createStatement();
-    String SQL = "INSERT INTO PlaylistContent VALUES (?, ?, ?)";
-    PreparedStatement pstmt = con.prepareStatement(SQL);
-    pstmt.setInt(1, chosenPlaylist.getId());
-    pstmt.setInt(2, songToAdd.getId());
-    pstmt.setInt(3, getNextSongPosition(chosenPlaylist));
-    System.out.println("Ready to execute");
-    pstmt.execute();
+        Statement statement = con.createStatement();
+        String SQL = "INSERT INTO PlaylistContent VALUES (?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setInt(1, chosenPlaylist.getId());
+        pstmt.setInt(2, songToAdd.getId());
+        pstmt.setInt(3, getNextSongPosition(chosenPlaylist));
+        System.out.println("Ready to execute");
+        pstmt.execute();
 
     }
     
     public void renamePlaylist(int playlistID, String newName) throws IOException, SQLServerException, SQLException
     {
        
-            DbConnection dc = new DbConnection();
-            Connection con = dc.getConnection();
-            Statement statement = con.createStatement();
-            PreparedStatement pstmt = con.prepareStatement
-            ("UPDATE Playlist SET playlistName = (?) WHERE listId = (?)");
-            pstmt.setString(1, newName);
-            pstmt.setInt(2, playlistID);
-            pstmt.execute();
-            pstmt.close();
-                            
-             
- 
-             
-    }
-    
-
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+        Statement statement = con.createStatement();
+        PreparedStatement pstmt = con.prepareStatement("UPDATE Playlist SET playlistName = (?) WHERE listId = (?)");
+        pstmt.setString(1, newName);
+        pstmt.setInt(2, playlistID);
+        pstmt.execute();
+        pstmt.close();        
+    }    
     
     public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLServerException, SQLException
     {
@@ -154,8 +142,7 @@ for (Playlist x : allPlaylist){
         pstmt2.setInt(1, playlistId);
         pstmt2.execute();
         pstmt2.close();
-        
-        
+           
         PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)");
         pstmt.setInt(1,playlistId);
         pstmt.execute();
@@ -171,24 +158,21 @@ for (Playlist x : allPlaylist){
         int playlistId = playList.getId();
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
-        PreparedStatement pstmt = con.prepareStatement
-         ("Select * FROM PlaylistContent WHERE playlistId = (?)");
+        PreparedStatement pstmt = con.prepareStatement("Select * FROM PlaylistContent WHERE playlistId = (?)");
         pstmt.setInt(1,playlistId);
         ResultSet rs = pstmt.executeQuery();
          
-            while (rs.next())
-            {
+        while (rs.next())
+        {
             int SongID = rs.getInt("songID");
             int SongPosition = rs.getInt("songPosition");
-           Song songToAdd = songDB.getSong(SongID);
-           songToAdd.setPosition(SongPosition);
-           playlistSongs.add(songToAdd);
+            Song songToAdd = songDB.getSong(SongID);
+            songToAdd.setPosition(SongPosition);
+            playlistSongs.add(songToAdd);
 
-            }
-      playlistSongs.sort( Comparator.comparing( Song::getPosition ) ); 
-      return playlistSongs;
-  
-        
+        }
+        playlistSongs.sort( Comparator.comparing( Song::getPosition ) ); 
+        return playlistSongs;   
     }
 
     private int getNextSongPosition(Playlist chosenPlaylist) throws IOException, SQLException
@@ -198,7 +182,7 @@ for (Playlist x : allPlaylist){
 
         for (Song x : allSongsFromPlaylist)
         {
-                       
+              
             if (x.getPosition()==nextId)
             {
                 nextId++;
@@ -215,7 +199,6 @@ for (Playlist x : allPlaylist){
         int playlistID = chosenPlaylist.getId();
         int playlistSize = getPlaylistSongs(chosenPlaylist).size();
         
-        
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
         PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?) AND songPosition=(?)");
@@ -224,90 +207,75 @@ for (Playlist x : allPlaylist){
         pstmt.setInt(3,position);
         pstmt.execute();
         pstmt.close();
+        
         System.out.println("Following song has been deleted: "+songID);
         fixSongPositionsAfterDeletion(playlistSize,playlistID, position);
     }
     
     private void fixSongPositionsAfterDeletion(int playlistSize, int playlistId, int positionOfDeleted) throws IOException, SQLServerException, SQLException
     {
-            int position = positionOfDeleted;
-            int plSize = playlistSize;
-            int playId = playlistId;
+        int position = positionOfDeleted;
+        int plSize = playlistSize;
+        int playId = playlistId;
             
-            DbConnection dc = new DbConnection();
-            Connection con = dc.getConnection();
-                      
-            
-            for (int i=position+1;i<=plSize;i++){
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+                        
+        for (int i=position+1;i<=plSize;i++)
+        {
             System.out.println("Working");
-            PreparedStatement pstmt = con.prepareStatement
-            ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+            PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
             pstmt.setInt(1, i-1);
             pstmt.setInt(2, playId);
             pstmt.setInt(3, i);
             pstmt.execute();
             pstmt.close();
-            }
-        
+        }   
     }
 
     public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
     {
-       int playlistID = playlistChosen.getId();
-       int songPosition = songToMoveUp.getPosition();
-       int songID = songToMoveUp.getId();
+        int playlistID = playlistChosen.getId();
+        int songPosition = songToMoveUp.getPosition();
+        int songID = songToMoveUp.getId();
        
-       DbConnection dc = new DbConnection();
-       Connection con = dc.getConnection();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
        
-       PreparedStatement pstmt2 = con.prepareStatement
-       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
-       pstmt2.setInt(1, songPosition);
-       pstmt2.setInt(2, playlistID);
-       pstmt2.setInt(3, songPosition-1);
-       pstmt2.execute();
-       
+        PreparedStatement pstmt2 = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+        pstmt2.setInt(1, songPosition);
+        pstmt2.setInt(2, playlistID);
+        pstmt2.setInt(3, songPosition-1);
+        pstmt2.execute();
     
-       PreparedStatement pstmt = con.prepareStatement
-       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
-       pstmt.setInt(1, songPosition-1);
-       pstmt.setInt(2, playlistID);
-       pstmt.setInt(3, songPosition);
-       pstmt.setInt(4, songID);
-       pstmt.execute();
-       
-       
-       
-       
+        PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
+        pstmt.setInt(1, songPosition-1);
+        pstmt.setInt(2, playlistID);
+        pstmt.setInt(3, songPosition);
+        pstmt.setInt(4, songID);
+        pstmt.execute();    
     }
 
     public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLServerException, SQLException
     {
-       int playlistID = playlistChosen.getId();
-       int songPosition = songToMoveDown.getPosition();
-       int songID = songToMoveDown.getId();
+        int playlistID = playlistChosen.getId();
+        int songPosition = songToMoveDown.getPosition();
+        int songID = songToMoveDown.getId();
        
-       DbConnection dc = new DbConnection();
-       Connection con = dc.getConnection();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
        
-       PreparedStatement pstmt2 = con.prepareStatement
-       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
-       pstmt2.setInt(1, songPosition);
-       pstmt2.setInt(2, playlistID);
-       pstmt2.setInt(3, songPosition+1);
-       pstmt2.execute();
-       
+        PreparedStatement pstmt2 = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+        pstmt2.setInt(1, songPosition);
+        pstmt2.setInt(2, playlistID);
+        pstmt2.setInt(3, songPosition+1);
+        pstmt2.execute();
     
-       PreparedStatement pstmt = con.prepareStatement
-       ("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
-       pstmt.setInt(1, songPosition+1);
-       pstmt.setInt(2, playlistID);
-       pstmt.setInt(3, songPosition);
-       pstmt.setInt(4, songID);
-       pstmt.execute();
-       
+        PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
+        pstmt.setInt(1, songPosition+1);
+        pstmt.setInt(2, playlistID);
+        pstmt.setInt(3, songPosition);
+        pstmt.setInt(4, songID);
+        pstmt.execute();
     }
-
-
-    
 }

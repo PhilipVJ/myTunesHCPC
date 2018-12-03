@@ -19,38 +19,23 @@ import java.util.Properties;
 public class DbConnection
 
 {
-
-
-
     private static final String PROP_FILE = "data/database.info";
 
     private SQLServerDataSource ds;
 
     public DbConnection() throws IOException
-
     {
-
         Properties databaseProperties = new Properties();
-
         databaseProperties.load(new FileInputStream(PROP_FILE));
-
         ds = new SQLServerDataSource();
-
         ds.setServerName(databaseProperties.getProperty("Server"));
-
         ds.setDatabaseName(databaseProperties.getProperty("Database"));
-
         ds.setUser(databaseProperties.getProperty("User"));
-
         ds.setPassword(databaseProperties.getProperty("Password"));
-
     }
 
     public Connection getConnection() throws SQLServerException
-
     {
-
         return ds.getConnection();
-
     }
 }

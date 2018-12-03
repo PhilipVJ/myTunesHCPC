@@ -38,56 +38,49 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
  *
  * @author Philip
  */
-public class SongDbDAO {
+public class SongDbDAO 
+{
         
-       
-
-
     public List<Song> searchSongs(String keyword) throws IOException, SQLServerException, SQLException
     {
-      ArrayList<Song> searchedSongs = new ArrayList();
-      DbConnection dc = new DbConnection();
-      Connection con = dc.getConnection();
-      Statement statement = con.createStatement();
-      PreparedStatement pstmt = con.prepareStatement
-              
-      ("Select * FROM Songs WHERE Artist LIKE ? OR Title LIKE ?");
-      pstmt.setString(1, "%"+keyword+"%");
-      pstmt.setString(2, "%"+keyword+"%");
-      ResultSet rs = pstmt.executeQuery();
+        ArrayList<Song> searchedSongs = new ArrayList();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+        Statement statement = con.createStatement();
+        PreparedStatement pstmt = con.prepareStatement("Select * FROM Songs WHERE Artist LIKE ? OR Title LIKE ?");
+        pstmt.setString(1, "%"+keyword+"%");
+        pstmt.setString(2, "%"+keyword+"%");
+        ResultSet rs = pstmt.executeQuery();
       
-      while (rs.next())
-      {
-         String title = rs.getString("Title");
-         String path = rs.getString("Filepath");
-         String artist = rs.getString("Artist");
-         String genre = rs.getString("Genre");
-         String time = rs.getString("Time");
-         int id = rs.getInt("SongID");
-         Song searchedSong=new Song(artist, title, genre, path, id, time);
-         searchedSongs.add(searchedSong);
-
-        
-    }
-    return searchedSongs;
+        while (rs.next())
+        {
+            String title = rs.getString("Title");
+            String path = rs.getString("Filepath");
+            String artist = rs.getString("Artist");
+            String genre = rs.getString("Genre");
+            String time = rs.getString("Time");
+            int id = rs.getInt("SongID");
+            Song searchedSong=new Song(artist, title, genre, path, id, time);
+            searchedSongs.add(searchedSong); 
+        }
+        return searchedSongs;
     }
     
     public void addSong(Song songToAdd) throws SQLServerException, SQLException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-    
-   
-    String artist = songToAdd.getArtist();
-    String title = songToAdd.getTitle();
-    String genre = songToAdd.getGenre();
-    String path = songToAdd.getFilepath();
-    String time = songToAdd.getTime();
+        String artist = songToAdd.getArtist();
+        String title = songToAdd.getTitle();
+        String genre = songToAdd.getGenre();
+        String path = songToAdd.getFilepath();
+        String time = songToAdd.getTime();
         
         
 
-    DbConnection dbCon = new DbConnection();
+        DbConnection dbCon = new DbConnection();
 
         
-        try (Connection con = dbCon.getConnection()) {
+        try (Connection con = dbCon.getConnection()) 
+        {
             
             String SQL = "INSERT INTO Songs VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -97,24 +90,24 @@ public class SongDbDAO {
             pstmt.setString(4,genre);
             pstmt.setString(5,time);
             
-            pstmt.execute();
-            
+            pstmt.execute();    
         }
     }
     
     public void editSong(Song song) throws SQLServerException, SQLException, IOException
     {
-      DbConnection dc = new DbConnection();
-      Connection con = dc.getConnection();
-      Statement statement = con.createStatement();
-      PreparedStatement pstmt = con.prepareStatement
-      ("UPDATE Songs SET Title = (?), Artist = (?), Genre = (?) WHERE songId = (?)");
-      pstmt.setString(1, song.getTitle());
-      pstmt.setString(2, song.getArtist());
-      pstmt.setString(3, song.getGenre());
-      pstmt.setInt(4, song.getId());
-      pstmt.execute();
-      pstmt.close();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
+        
+        Statement statement = con.createStatement();
+        PreparedStatement pstmt = con.prepareStatement("UPDATE Songs SET Title = (?), Artist = (?), Genre = (?) WHERE songId = (?)");
+        pstmt.setString(1, song.getTitle());
+        pstmt.setString(2, song.getArtist());
+        pstmt.setString(3, song.getGenre());
+        pstmt.setInt(4, song.getId());
+        
+        pstmt.execute();
+        pstmt.close();
     }
     
     public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLServerException, SQLException
@@ -123,37 +116,38 @@ public class SongDbDAO {
 
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
+        
         PreparedStatement pstmt = con.prepareStatement("DELETE FROM Songs WHERE songID=(?)");
         pstmt.setInt(1,songID);
         pstmt.execute();
         pstmt.close();
-        System.out.println("Following song has been deleted: "+songID);
-        // Deletes song from all playlists
+        System.out.println("Following song has been deleted: "+songID); // Deletes song from all playlists
+        
         PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?)");
         pstmt2.setInt(1,songID);
         pstmt2.execute();
-        pstmt2.close();
-        
+        pstmt2.close();  
     }
     
     public ArrayList<Song> getAllSongs() throws IOException, SQLServerException, SQLException
     {
-      ArrayList<Song> allSongs = new ArrayList<>();
-      DbConnection dc = new DbConnection();
-     Connection con = dc.getConnection();
-     Statement statement = con.createStatement();
-     ResultSet rs = statement.executeQuery("Select * FROM Songs;");
-      while (rs.next())
-      {
-         String title = rs.getString("Title");
-         String path = rs.getString("Filepath");
-         String artist = rs.getString("Artist");
-         String genre = rs.getString("Genre");
-         String time = rs.getString("Time");
-         int id = rs.getInt("SongID");
+        ArrayList<Song> allSongs = new ArrayList<>();
+        DbConnection dc = new DbConnection();
+        Connection con = dc.getConnection();
         
-        allSongs.add(new Song(artist, title, genre, path, id, time));
-      }
+        Statement statement = con.createStatement();
+        ResultSet rs = statement.executeQuery("Select * FROM Songs;");
+        while (rs.next())
+        {
+            String title = rs.getString("Title");
+            String path = rs.getString("Filepath");
+            String artist = rs.getString("Artist");
+            String genre = rs.getString("Genre");
+            String time = rs.getString("Time");
+            int id = rs.getInt("SongID");
+        
+            allSongs.add(new Song(artist, title, genre, path, id, time));
+        }
                     
         return allSongs;
     }
@@ -162,29 +156,23 @@ public class SongDbDAO {
     {
         Song songToGet=null;
         DbConnection dc = new DbConnection();
-      Connection con = dc.getConnection();
-      Statement statement = con.createStatement();
-      PreparedStatement pstmt = con.prepareStatement
-      ("Select * FROM Songs WHERE songID= (?)");
-      pstmt.setInt(1, songID);
-      ResultSet rs = pstmt.executeQuery();
+        Connection con = dc.getConnection();
+        
+        Statement statement = con.createStatement();
+        PreparedStatement pstmt = con.prepareStatement("Select * FROM Songs WHERE songID= (?)");
+        pstmt.setInt(1, songID);
+        ResultSet rs = pstmt.executeQuery();
       
-      while (rs.next())
-      {
+        while (rs.next())
+        {
          String title = rs.getString("Title");
          String path = rs.getString("Filepath");
          String artist = rs.getString("Artist");
          String genre = rs.getString("Genre");
          String time = rs.getString("Time");
          int id = rs.getInt("SongID");
-         songToGet=new Song(artist, title, genre, path, id, time);
-
-        
-    }
-      
+         songToGet=new Song(artist, title, genre, path, id, time);     
+        }
       return songToGet;
-    }
-    
-
-    
+    } 
 }
