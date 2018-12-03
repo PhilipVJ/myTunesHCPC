@@ -39,6 +39,7 @@ private ObservableList<Playlist> playlists;
 private ObservableList<Song> songs;
 private ObservableList<Song> playlistSongs;
 
+
 private MTManager mtmanager;
 
 
@@ -150,5 +151,11 @@ public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOExce
     public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
     {
        mtmanager.moveSongDown(playlistChosen, songToMoveDown);
+    }
+
+    public ObservableList<Song> searchSong(String text) throws IOException, SQLException
+    {
+      ObservableList<Song> searchedSongs = FXCollections.observableList(mtmanager.searchSong(text));
+        return searchedSongs;
     }
 }

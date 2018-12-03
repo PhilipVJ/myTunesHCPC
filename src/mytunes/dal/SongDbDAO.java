@@ -43,9 +43,33 @@ public class SongDbDAO {
        
 
 
-    public List<Song> searchSongs(String keyword)
+    public List<Song> searchSongs(String keyword) throws IOException, SQLServerException, SQLException
     {
-        return null;
+      ArrayList<Song> searchedSongs = new ArrayList();
+      DbConnection dc = new DbConnection();
+      Connection con = dc.getConnection();
+      Statement statement = con.createStatement();
+      PreparedStatement pstmt = con.prepareStatement
+              
+      ("Select * FROM Songs WHERE Artist LIKE ? OR Title LIKE ?");
+      pstmt.setString(1, "%"+keyword+"%");
+      pstmt.setString(2, "%"+keyword+"%");
+      ResultSet rs = pstmt.executeQuery();
+      
+      while (rs.next())
+      {
+         String title = rs.getString("Title");
+         String path = rs.getString("Filepath");
+         String artist = rs.getString("Artist");
+         String genre = rs.getString("Genre");
+         String time = rs.getString("Time");
+         int id = rs.getInt("SongID");
+         Song searchedSong=new Song(artist, title, genre, path, id, time);
+         searchedSongs.add(searchedSong);
+
+        
+    }
+    return searchedSongs;
     }
     
     public void addSong(Song songToAdd) throws SQLServerException, SQLException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException

@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -342,14 +344,16 @@ private User currentUser;
     }
 
 @FXML
-    private void searchEnter(KeyEvent event)
+    private void searchEnter(KeyEvent event) throws IOException, SQLException
     {
+    
     }
 
     @FXML
-    private void searchClicked(MouseEvent event)
+    private void searchClicked(MouseEvent event) throws IOException, SQLException
     {
 
+allSongsView.setItems(mtmodel.searchSong(searchTxt.getText()));
     }
 
     @FXML
@@ -404,6 +408,7 @@ private User currentUser;
 //        System.out.println("Choosing playlist");
 //   
     chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
+    
     refreshPlaylistSongs();
     }
 

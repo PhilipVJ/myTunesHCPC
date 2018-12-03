@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.User;
@@ -35,7 +36,14 @@ public static void main(String[] args) throws IOException, SQLServerException, S
 //
 //tester2.deleteUser(Christian);
 //tester2.getAllUsers();
-
+    
+    SongDbDAO testerclass = new  SongDbDAO();
+    List<Song> searchedSongs = testerclass.searchSongs("s");
+    System.out.println(""+searchedSongs.size());
+    for (Song x: searchedSongs)
+    {
+        System.out.println(""+x.getArtist()+"    "+x.getTitle());
+    }
     
 
 }

@@ -158,5 +158,10 @@ public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IO
      playlistDB.moveSongDown(playlistChosen, songToMoveDown);
     }
 
+    public List<Song> searchSong(String text) throws IOException, SQLException
+    {
+    return songDB.searchSongs(text);
+    }
+
  
 }
