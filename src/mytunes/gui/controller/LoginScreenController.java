@@ -121,6 +121,12 @@ public class LoginScreenController implements Initializable
     private void createUser(ActionEvent event) throws IOException, SQLException
     {
     String username = userName.getText();
+    if (username.length()==0){
+        userName.setText("Please type in a username");
+        return;
+    }    
+        
+    
     mtmodel.addUser(username);
     userName.clear();
     userView.setItems(mtmodel.getUsers()); // istedet for dette, så prøv at addUser til observablelist inde i modelklassen. Burde virke.

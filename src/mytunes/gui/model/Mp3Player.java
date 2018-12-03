@@ -5,6 +5,8 @@
  */
 package mytunes.gui.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -22,7 +24,12 @@ int currentSong=0;
 ObservableList<Song> songsToPlay;
 Media media;
 MediaPlayer mediaPlayer;
-MyTunesController mTController;
+
+StringProperty currentTitle;
+
+public Mp3Player(){
+    currentTitle = new SimpleStringProperty();
+}
 
 /**
  * Initializes the player class and calls the play function, which plays through 
@@ -34,6 +41,9 @@ public void initPlay(int songIndex, ObservableList<Song> songs)
     currentSong=songIndex; 
     songsToPlay=songs;
     play(currentSong,songsToPlay);
+    
+    
+    
     
 
   }
@@ -60,7 +70,10 @@ public void play(int songListNr, ObservableList<Song> songs)
     media = new Media(path);
     mediaPlayer = new MediaPlayer(media);
     String songLabel = ""+songs.get(songListNr).getArtist()+" - "+songs.get(songListNr).getTitle();
-    mTController.setLabel(songLabel);
+    System.out.println("Song label"+songLabel);
+    currentTitle.set(songLabel);
+    System.out.println(""+currentTitle.toString());
+    
     mediaPlayer.play();  
 
     mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -113,10 +126,12 @@ public void play(int songListNr, ObservableList<Song> songs)
         
     }
     
-    public void setPrevController(MyTunesController controller)
+    
+     public StringProperty getStringPropertyTitle()
     {
-     mTController = controller;
+        return currentTitle;
     }
+
 }
 
 

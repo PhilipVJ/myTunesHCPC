@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -266,6 +267,7 @@ private User currentUser;
     {
        if(mp3Player!=null){
         mp3Player.next();
+        
        }
     }
     
@@ -282,8 +284,9 @@ private User currentUser;
     ObservableList<Song>allSongs = allSongsView.getItems();
     int songIndex = allSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
-    mp3Player.setPrevController(this);
+    
     mp3Player.initPlay(songIndex, allSongs);
+    setLabel();
     }
     
     if (chosenView==1)
@@ -291,8 +294,9 @@ private User currentUser;
     ObservableList<Song>playlistSongs = playlistSongsView.getItems();
     int songIndex = playlistSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
-    mp3Player.setPrevController(this);
-    mp3Player.initPlay(songIndex, playlistSongs);    
+    
+    mp3Player.initPlay(songIndex, playlistSongs);
+    setLabel();
     }
         
     }
@@ -421,9 +425,10 @@ private User currentUser;
     
     }
     
-    public void setLabel(String song){
-        nowPlaying.setText(song);
-    }
+    public void setLabel(){
+       nowPlaying.textProperty().bind(mp3Player.getStringPropertyTitle());
+       
+           }
     
     
     
