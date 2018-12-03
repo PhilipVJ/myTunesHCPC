@@ -212,9 +212,14 @@ for (Playlist x : allPlaylist){
     
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLServerException, SQLException
     {
+        System.out.println("Test");
         int songID = songToDelete.getId();
+        System.out.println(""+songID);
         int position = songToDelete.getPosition();
+        System.out.println(""+position);
+        
         int playlistID = chosenPlaylist.getId();
+        System.out.println(""+playlistID);
         int playlistSize = getPlaylistSongs(chosenPlaylist).size();
         
         

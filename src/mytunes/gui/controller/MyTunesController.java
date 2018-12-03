@@ -355,11 +355,15 @@ private User currentUser;
     @FXML
     private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
+        
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    
+    if(songToMove!=null && playlistChosen!=null){
     mtmodel.addSongToPlaylist(songToMove,playlistChosen);
     refreshPlaylistSongs();
     refreshList();
+    }
     
     
     
