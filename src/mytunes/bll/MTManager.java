@@ -59,9 +59,10 @@ public List<Playlist> getPlaylists(int userID) throws IOException, SQLException,
 return playlistDB.getPlaylistsByUser(userID);
 }
 
-public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
+public Playlist addPlaylist(int userID, String playlistName) throws IOException, SQLException
 {
-playlistDB.addPlaylist(userID, playlistName);
+return playlistDB.addPlaylist(userID, playlistName);
+
 }
 
 public void editPlaylist(int id, String newName) throws IOException, SQLException

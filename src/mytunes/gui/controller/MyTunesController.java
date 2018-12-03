@@ -177,7 +177,7 @@ private User currentUser;
             playlistinfo.setText("Please select a playlist");
         }
        mtmodel.deletePlaylist(pl);
-       refreshList();
+      
     }
 
     @FXML

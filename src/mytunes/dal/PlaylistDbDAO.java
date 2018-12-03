@@ -56,10 +56,13 @@ public class PlaylistDbDAO
                 addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName, userId);
                 
                 System.out.println("Following playlist has been added to the database: "+addedPlaylist.getName());
+                System.out.println("Navn:"+addedPlaylist.getName());
+                System.out.println("ID:"+addedPlaylist.getId());
                 return addedPlaylist;
                 }
 
             }
+ 
  return addedPlaylist;
        
         
@@ -149,6 +152,12 @@ for (Playlist x : allPlaylist){
 
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
+        PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE playlistID=(?)");
+        pstmt2.setInt(1, playlistId);
+        pstmt2.execute();
+        pstmt2.close();
+        
+        
         PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)");
         pstmt.setInt(1,playlistId);
         pstmt.execute();
