@@ -183,38 +183,32 @@ private User currentUser;
 
 
     }
-
     @FXML
-    private void upPlaylist(ActionEvent event) throws IOException, SQLException
+    private void upPlaylist(MouseEvent event) throws IOException, SQLException
     {
-    
-    
-    Song songToMoveUp = playlistSongsView.getSelectionModel().getSelectedItem();
+        Song songToMoveUp = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     
-    if(!playlistSongsView.getSelectionModel().isEmpty())
-    {
-    mtmodel.moveSongUp(playlistChosen, songToMoveUp);
-    refreshPlaylistSongs();
+        if(!playlistSongsView.getSelectionModel().isEmpty())
+            {
+                mtmodel.moveSongUp(playlistChosen, songToMoveUp);
+                refreshPlaylistSongs();
+            }
     }
     
-    }
-
+    
     @FXML
-    private void downPlaylist(ActionEvent event) throws IOException, SQLException
+    private void downPlaylist(MouseEvent event) throws IOException, SQLException
     {
-    Song songToMoveDown = playlistSongsView.getSelectionModel().getSelectedItem();
+        Song songToMoveDown = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     
-    if(!playlistSongsView.getSelectionModel().isEmpty())
-    {
-       mtmodel.moveSongDown(playlistChosen, songToMoveDown);
-       refreshPlaylistSongs(); 
+        if(!playlistSongsView.getSelectionModel().isEmpty())
+            {
+                mtmodel.moveSongDown(playlistChosen, songToMoveDown);
+                refreshPlaylistSongs(); 
+            }
     }
-    
-    }
-
-
 
     @FXML
     private void newSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
@@ -440,6 +434,8 @@ private User currentUser;
        nowPlaying.textProperty().bind(mp3Player.getStringPropertyTitle());
        
            }
+
+    
     
     
     
