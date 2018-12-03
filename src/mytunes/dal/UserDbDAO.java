@@ -14,7 +14,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import mytunes.be.Playlist;
 import mytunes.be.User;
+import org.farng.mp3.TagException;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  *
@@ -45,7 +50,7 @@ public User addUser(String username) throws IOException, SQLServerException, SQL
  return addedUser;
 }
 
-public void deleteUser(User userToDelete) throws IOException, SQLServerException, SQLException
+public void deleteUser(User userToDelete) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
 {
 int userID = userToDelete.getID();
 
@@ -56,6 +61,12 @@ pstmt.setInt(1,userID);
 pstmt.execute();
 pstmt.close();
 System.out.println("Following user has been deleted: "+userToDelete.getName());
+PlaylistDbDAO pDbDAO = new PlaylistDbDAO();
+List<Playlist> allPlaylists = pDbDAO.getPlaylistsByUser(userToDelete.getID());
+for (Playlist x: allPlaylists)
+{
+    pDbDAO.deletePlaylist(x);
+}
   
 
 }

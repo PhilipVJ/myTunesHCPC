@@ -109,7 +109,7 @@ public class LoginScreenController implements Initializable
     }
 
     @FXML
-    private void deleteUser(ActionEvent event) throws IOException, SQLException
+    private void deleteUser(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         User userToDelete = userView.getSelectionModel().getSelectedItem();
         mtmodel.deleteUser(userToDelete);

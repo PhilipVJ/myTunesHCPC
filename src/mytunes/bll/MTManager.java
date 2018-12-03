@@ -45,7 +45,7 @@ public class MTManager
     return userDB.getAllUsers();
     }
 
-    public void deleteUser(User userToDelete) throws IOException, SQLException
+    public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {   
         userDB.deleteUser(userToDelete);
     }
