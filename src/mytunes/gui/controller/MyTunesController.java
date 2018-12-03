@@ -170,12 +170,12 @@ private User currentUser;
     {
         Playlist pl = playlistView.getSelectionModel().getSelectedItem();
         
-        if(pl==null)
+        if(!playlistView.getSelectionModel().isEmpty())
         {
-            playlistinfo.setText("Please select a playlist");
+            mtmodel.deletePlaylist(pl);
+            refreshList();
         }
-       mtmodel.deletePlaylist(pl);
-       refreshList();
+       
     }
 
     @FXML
@@ -244,18 +244,21 @@ private User currentUser;
     private void editSong(ActionEvent event) throws IOException
     {
     Song songToEdit = allSongsView.getSelectionModel().getSelectedItem();
+    if(!allSongsView.getSelectionModel().isEmpty())
+        {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSong.fxml"));
+        Parent root = (Parent)loader.load();
+        EditSongController editSongCon = loader.getController();
+        editSongCon.setSong(songToEdit);
     
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSong.fxml"));
-    Parent root = (Parent)loader.load();
-    EditSongController editSongCon = loader.getController();
-    editSongCon.setSong(songToEdit);
+        MyTunesController mTController = this;
+        editSongCon.setPrevController(this);
     
-    MyTunesController mTController = this;
-    editSongCon.setPrevController(this);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+        }
     
-    Stage stage = new Stage();
-    stage.setScene(new Scene(root));
-    stage.show();
     
     }
 
