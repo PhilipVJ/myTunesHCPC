@@ -56,13 +56,11 @@ public class PlaylistDbDAO
                 addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName, userId);
                 
                 System.out.println("Following playlist has been added to the database: "+addedPlaylist.getName());
-                System.out.println("Navn:"+addedPlaylist.getName());
-                System.out.println("ID:"+addedPlaylist.getId());
                 return addedPlaylist;
                 }
 
             }
- 
+
  return addedPlaylist;
        
         

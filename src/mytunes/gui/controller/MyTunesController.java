@@ -84,6 +84,7 @@ private User currentUser;
     @FXML
     private Label nowPlaying;
   
+    private int chosenPL;
  
     private int markedPl;
     @FXML
@@ -189,11 +190,11 @@ private User currentUser;
     private void upPlaylist(MouseEvent event) throws IOException, SQLException
     {
         Song songToMoveUp = playlistSongsView.getSelectionModel().getSelectedItem();
-    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
     
         if(!playlistSongsView.getSelectionModel().isEmpty())
             {
-                mtmodel.moveSongUp(playlistChosen, songToMoveUp);
+                mtmodel.moveSongUp(chosenPLObj, songToMoveUp);
                 refreshPlaylistSongs();
             }
     }
@@ -203,11 +204,11 @@ private User currentUser;
     private void downPlaylist(MouseEvent event) throws IOException, SQLException
     {
         Song songToMoveDown = playlistSongsView.getSelectionModel().getSelectedItem();
-    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
     
         if(!playlistSongsView.getSelectionModel().isEmpty())
             {
-                mtmodel.moveSongDown(playlistChosen, songToMoveDown);
+                mtmodel.moveSongDown(chosenPLObj, songToMoveDown);
                 refreshPlaylistSongs(); 
             }
     }
@@ -331,10 +332,10 @@ private User currentUser;
 
     private void refreshPlaylistSongs() throws IOException, SQLException
     {
-    Playlist chosenPlaylist = playlistView.getSelectionModel().getSelectedItem();
-    if (chosenPlaylist!=null){
-    playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPlaylist)); 
-    }
+    Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
+    
+    playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPLObj)); 
+    
     }
 
 @FXML
@@ -351,11 +352,15 @@ private User currentUser;
     @FXML
     private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
+        
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    
+    if(songToMove!=null && playlistChosen!=null){
     mtmodel.addSongToPlaylist(songToMove,playlistChosen);
     refreshPlaylistSongs();
     refreshList();
+    }
     
     
     
@@ -364,10 +369,17 @@ private User currentUser;
     @FXML
     private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
+
     
         Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
+
+    Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
+    Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
+    
+    mtmodel.deleteSongFromPlaylist(chosenPLObj, songToDelete);
+
     refreshPlaylistSongs();
     refreshList();
     
@@ -387,8 +399,9 @@ private User currentUser;
     @FXML
     private void choosePlaylist(MouseEvent event) throws IOException, SQLException
     {
-        System.out.println("Choosing playlist");
-        
+//        System.out.println("Choosing playlist");
+//   
+    chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
     refreshPlaylistSongs();
     }
 
