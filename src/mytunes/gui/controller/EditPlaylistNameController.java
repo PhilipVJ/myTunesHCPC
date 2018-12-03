@@ -72,9 +72,12 @@ public class EditPlaylistNameController implements Initializable
     {
         String newName = editPlaylistName.getText();
         
-        
-        mtmodel.editPlaylist(plToEdit.getId(), newName);
-    
+        if(newName.length()==0)
+        {
+            editPlaylistName.setText("Please put new name here");
+            return;
+        }
+    mtmodel.editPlaylist(plToEdit.getId(), newName);
     mTController.refreshList();
     Stage stage = (Stage) rootPane3.getScene().getWindow();
     stage.close();
