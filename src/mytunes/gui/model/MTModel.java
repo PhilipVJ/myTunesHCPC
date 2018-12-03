@@ -68,7 +68,7 @@ mtmanager.addUser(username);
 
 }
 
-public ObservableList<Playlist> getPlaylists(int userID) throws IOException, SQLException
+public ObservableList<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
 {
 playlists = FXCollections.observableList(mtmanager.getPlaylists(userID));
 return playlists;

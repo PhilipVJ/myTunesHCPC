@@ -6,6 +6,7 @@
 package mytunes.be;
 
 import java.util.ArrayList;
+import mytunes.bll.MTManager;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Playlist
     private String playlistName;
     private ArrayList<Song> songs;
     private int userId;
+    private int lengthInSeconds;
     
     public Playlist(int id, String playlistName, int userId)
     {
@@ -44,12 +46,27 @@ public class Playlist
     @Override
     public String toString()
     {
+        if (lengthInSeconds>0){
+          return playlistName+"   "+getFormattedLength();
+        }
+        else{
         return playlistName;
+        }
     }
 
     public void addSongs(Song songToAdd)
     {
         songs.add(songToAdd);
+    }
+    
+    public void addLengthInSeconds(int length)
+    {
+        lengthInSeconds=length;
+    }
+    
+    public String getFormattedLength()
+    {
+      return MTManager.getSecToMin(lengthInSeconds);
     }
 
     

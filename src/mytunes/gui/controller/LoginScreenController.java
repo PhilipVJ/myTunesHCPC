@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -28,6 +29,10 @@ import javafx.stage.Stage;
 import mytunes.be.User;
 import mytunes.bll.MTManager;
 import mytunes.gui.model.MTModel;
+import org.farng.mp3.TagException;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  * FXML Controller class
@@ -81,7 +86,7 @@ public class LoginScreenController implements Initializable
     }    
 
     @FXML
-    private void userLogin(ActionEvent event) throws IOException, SQLException
+    private void userLogin(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         User user = userView.getSelectionModel().getSelectedItem();
         
@@ -116,6 +121,12 @@ public class LoginScreenController implements Initializable
     private void createUser(ActionEvent event) throws IOException, SQLException
     {
     String username = userName.getText();
+    if (username.length()==0){
+        userName.setText("Please type in a username");
+        return;
+    }    
+        
+    
     mtmodel.addUser(username);
     userName.clear();
     userView.setItems(mtmodel.getUsers()); // istedet for dette, så prøv at addUser til observablelist inde i modelklassen. Burde virke.

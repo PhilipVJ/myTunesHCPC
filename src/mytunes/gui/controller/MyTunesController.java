@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -166,7 +168,7 @@ private User currentUser;
     }
 
     @FXML
-    private void deletePlaylist(ActionEvent event) throws IOException, SQLException
+    private void deletePlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         Playlist pl = playlistView.getSelectionModel().getSelectedItem();
         
@@ -268,6 +270,7 @@ private User currentUser;
     {
        if(mp3Player!=null){
         mp3Player.next();
+        
        }
     }
     
@@ -284,8 +287,9 @@ private User currentUser;
     ObservableList<Song>allSongs = allSongsView.getItems();
     int songIndex = allSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
-    mp3Player.setPrevController(this);
+    
     mp3Player.initPlay(songIndex, allSongs);
+    setLabel();
     }
     
     if (chosenView==1)
@@ -293,8 +297,9 @@ private User currentUser;
     ObservableList<Song>playlistSongs = playlistSongsView.getItems();
     int songIndex = playlistSongsView.getSelectionModel().getSelectedIndex();
     mp3Player = new Mp3Player();
-    mp3Player.setPrevController(this);
-    mp3Player.initPlay(songIndex, playlistSongs);    
+    
+    mp3Player.initPlay(songIndex, playlistSongs);
+    setLabel();
     }
         
     }
@@ -309,13 +314,13 @@ private User currentUser;
 
 
     
-    public void refreshList() throws IOException, SQLException
+    public void refreshList() throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
      allSongsView.setItems(mtmodel.getSongs());  
     }
     
-    public void setListViews() throws IOException, SQLException
+    public void setListViews() throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
      allSongsView.setItems(mtmodel.getSongs());
@@ -344,24 +349,26 @@ private User currentUser;
     }
 
     @FXML
-    private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException
+    private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.addSongToPlaylist(songToMove,playlistChosen);
     refreshPlaylistSongs();
+    refreshList();
     
     
     
     }
 
     @FXML
-    private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException
+    private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
     Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
     refreshPlaylistSongs();
+    refreshList();
     }
 
     @FXML
@@ -421,9 +428,10 @@ private User currentUser;
     
     }
     
-    public void setLabel(String song){
-        nowPlaying.setText(song);
-    }
+    public void setLabel(){
+       nowPlaying.textProperty().bind(mp3Player.getStringPropertyTitle());
+       
+           }
     
     
     

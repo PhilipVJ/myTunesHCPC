@@ -6,6 +6,7 @@
 package mytunes.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +18,15 @@ import java.util.Comparator;
 import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.MTManager;
+import org.farng.mp3.MP3File;
+import org.farng.mp3.TagException;
+import org.farng.mp3.id3.AbstractID3v2;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 
 
@@ -55,7 +65,7 @@ public class PlaylistDbDAO
         
     }
     
-    public List<Playlist> getPlaylistsByUser(int userID) throws IOException, SQLServerException, SQLException
+    public List<Playlist> getPlaylistsByUser(int userID) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
        ArrayList<Playlist> allPlaylist = new ArrayList<>();
        DbConnection dc = new DbConnection();
@@ -76,11 +86,25 @@ public class PlaylistDbDAO
              
                 
             }
+// Add length in seconds to playlist
 
-       return allPlaylist;
+
+for (Playlist x : allPlaylist){
+    List<Song> allSongs = getPlaylistSongs(x);
+    int duration = 0;
+    
+    for (Song y: allSongs){
+    int time = MTManager.getMinToSec(y.getTime());
+   duration+=time;
+   
     }
+    x.addLengthInSeconds(duration);
+}
     
-    
+      
+        
+ return allPlaylist;
+    }
     public void addSongToPlaylist(Song songToAdd, Playlist chosenPlaylist) throws IOException, SQLServerException, SQLException
     {
     DbConnection dc = new DbConnection();

@@ -5,10 +5,12 @@
  */
 package mytunes.bll;
 
+import java.io.File;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
+import static javafx.scene.input.KeyCode.C;
 import mytunes.be.Song;
 import mytunes.gui.model.Mp3Player;
 
@@ -21,7 +23,7 @@ public class TesterClass
     
 public static void main(String[] args) throws IOException 
 {
-    
+MTManager.getMinToSec("3:02");
 
 }
 
