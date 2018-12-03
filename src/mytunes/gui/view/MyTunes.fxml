@@ -79,7 +79,7 @@
          </image>
       </ImageView>
 
-      <Slider fx:id="volume" layoutX="28.0" layoutY="80.0" max="1.0" onMouseClicked="#setVolume" />
+      <Slider fx:id="volume" layoutX="28.0" layoutY="80.0" max="1.0" onMouseClicked="#setVolume" value="1.0" />
 
       <Label layoutX="241.0" layoutY="154.0" text="Current playlist:" />
       <Label fx:id="currentPL" layoutX="356.0" layoutY="154.0" />
