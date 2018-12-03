@@ -64,6 +64,11 @@ private User currentUser;
     private void addPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
     String playlistName = playListName.getText();
+    if(playlistName.length()==0)
+        {
+        playListName.setText("Please write a Playlist name");
+        return;
+        }
     mtmodel.addPlaylist(currentUser.getID(), playlistName);
     Stage stage = (Stage) rootPane2.getScene().getWindow();
     mTController.refreshList();
