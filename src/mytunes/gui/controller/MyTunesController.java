@@ -177,7 +177,11 @@ private User currentUser;
             mtmodel.deletePlaylist(pl);
             refreshList();
         }
-       
+
+       mtmodel.deletePlaylist(pl);
+      
+
+
     }
     @FXML
     private void upPlaylist(MouseEvent event) throws IOException, SQLException
