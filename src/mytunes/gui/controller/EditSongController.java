@@ -18,6 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mytunes.be.Song;
 import mytunes.gui.model.MTModel;
+import org.farng.mp3.TagException;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  * FXML Controller class
@@ -67,7 +71,7 @@ public class EditSongController implements Initializable
     }
 
     @FXML
-    private void saveSong(ActionEvent event) throws SQLException, SQLServerException, IOException
+    private void saveSong(ActionEvent event) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
     String newTitle = title.getText();
     String newArtist = artist.getText();

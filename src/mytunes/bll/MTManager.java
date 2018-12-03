@@ -6,6 +6,7 @@
 package mytunes.bll;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -53,7 +54,7 @@ public void addUser(String username) throws IOException, SQLException
 userDB.addUser(username);
 }
 
-public List<Playlist> getPlaylists(int userID) throws IOException, SQLException
+public List<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
 {
 return playlistDB.getPlaylistsByUser(userID);
 }
@@ -78,7 +79,7 @@ public void deletePlaylist (Playlist playlistToDelete) throws IOException, SQLEx
     playlistDB.deletePlaylist(playlistToDelete);
 }
 
-public String getSecToMin(int time)
+public static String getSecToMin(int time)
 {
    String inMinutes= "";
    
@@ -96,6 +97,22 @@ public String getSecToMin(int time)
    
 }
 
+public static int getMinToSec(String time){
+    String timeWork = time;
+    String[] timeInTwo = new String[2];
+    timeInTwo= timeWork.split(":");
+    String p1 = timeInTwo[0];
+    String p2 = timeInTwo[1];
+    int numberp1 = Integer.parseInt(p1);
+    int numberp2 = Integer.parseInt(p2);
+    
+    int total = numberp1*60;
+    int totalup = total+numberp2;
+   
+    
+    return totalup;
+    
+}
 
 public List<Song> getSongs() throws IOException, SQLException
 {
