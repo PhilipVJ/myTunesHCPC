@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
 import javafx.scene.layout.AnchorPane;
@@ -85,6 +86,8 @@ private User currentUser;
     private Label nowPlaying;
   
     private int chosenPL;
+    @FXML
+    private Slider volume;
  
     
     
@@ -437,6 +440,16 @@ private User currentUser;
        nowPlaying.textProperty().bind(mp3Player.getStringPropertyTitle());
        
            }
+
+    @FXML
+    private void setVolume(MouseEvent event)
+    {
+   double newVolume = volume.getValue();
+   if (mp3Player!=null)
+   {
+       mp3Player.setVolume(newVolume);
+   }
+    }
 
     
     

@@ -131,6 +131,11 @@ public void play(int songListNr, ObservableList<Song> songs)
     {
         return currentTitle;
     }
+     
+    public void setVolume(double volume)
+    {
+        mediaPlayer.setVolume(volume);
+    }
 
 }
 
