@@ -228,10 +228,13 @@ private User currentUser;
     @FXML
     private void choosePlaylist(MouseEvent event) throws IOException, SQLException
     { 
+        if (playlistView.getSelectionModel().getSelectedItem()!=null){
+        
         chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
         currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getName());  
 
         refreshPlaylistSongs();
+        }
     }
     
     /*
