@@ -85,7 +85,9 @@ private User currentUser;
     private Label nowPlaying;
   
  
-    
+    private int markedPl;
+    @FXML
+    private Label currentPL;
     
     
     
@@ -362,11 +364,13 @@ private User currentUser;
     @FXML
     private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-    Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
+    
+        Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
     Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
     mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
     refreshPlaylistSongs();
     refreshList();
+    
     }
 
     @FXML
