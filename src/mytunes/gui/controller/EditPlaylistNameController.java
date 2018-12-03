@@ -37,20 +37,20 @@ public class EditPlaylistNameController implements Initializable
 
     @FXML
     private TextField editPlaylistName;
-    private AnchorPane rootPane2;
-    private Playlist plToEdit;
-    
-    private MTModel mtmodel;
-    private MyTunesController mTController;
     @FXML
     private AnchorPane rootPane3;
+    
+    private Playlist plToEdit; 
+    private MTModel mtmodel;
+    private MyTunesController mTController;
+   
     /**
      * Initializes the controller class.
      */
     
     public EditPlaylistNameController() throws IOException, SQLException
     {
-    mtmodel = new MTModel();
+        mtmodel = new MTModel();
     }
     
     @Override
@@ -77,10 +77,11 @@ public class EditPlaylistNameController implements Initializable
             editPlaylistName.setText("Please put new name here");
             return;
         }
-    mtmodel.editPlaylist(plToEdit.getId(), newName);
-    mTController.refreshList();
-    Stage stage = (Stage) rootPane3.getScene().getWindow();
-    stage.close();
+        
+        mtmodel.editPlaylist(plToEdit.getId(), newName);
+        mTController.refreshList();
+        Stage stage = (Stage) rootPane3.getScene().getWindow();
+        stage.close();
     }
 
     public void setPlaylist(Playlist selectedItem)
@@ -90,8 +91,6 @@ public class EditPlaylistNameController implements Initializable
     
     public void setPrevController(MyTunesController prev)
     {
-    mTController=prev;
+        mTController=prev;
     }
-
-    
 }

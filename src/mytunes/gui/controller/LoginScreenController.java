@@ -48,23 +48,23 @@ public class LoginScreenController implements Initializable
     private Button newUser;
     @FXML
     private TextField userName;
-    
-    private MTModel mtmodel;
     @FXML
     private AnchorPane rootPane2;
     @FXML
     private Label loginInfo;
+    
+    private MTModel mtmodel;
+    
 
     /**
-     * Initializes the controller class.
-     * 
-     
+     * Initializes the controller class. 
      */
     
     public LoginScreenController() throws IOException, SQLException
     {
-    mtmodel = new MTModel();
+        mtmodel = new MTModel();
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -72,17 +72,17 @@ public class LoginScreenController implements Initializable
         try
         {
             userView.setItems(mtmodel.getUsers());
-        } catch (IOException ex)
-        {
-            Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex)
+        }
+        
+        catch (IOException ex)
         {
             Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-
-              
-      
+        catch (SQLException ex)
+        {
+            Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
     @FXML
@@ -95,43 +95,39 @@ public class LoginScreenController implements Initializable
             loginInfo.setText("Please select a user");
         }
         
-        else {
-    
+        else 
+        {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MyTunes.fxml"));
         Parent root = (Parent)loader.load();
         MyTunesController mController = loader.getController();
         mController.setUser(user);
         mController.setListViews();
-        Stage stage = (Stage) rootPane2.getScene().getWindow();   // skriv new stage hvis det skal være i et nyt vindue
+        Stage stage = (Stage) rootPane2.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-        
         }
     }
 
     @FXML
     private void deleteUser(ActionEvent event) throws IOException, SQLException
     {
-    User userToDelete = userView.getSelectionModel().getSelectedItem();
-    mtmodel.deleteUser(userToDelete);
-    userView.setItems(mtmodel.getUsers());// istedet for dette, så prøv at addUser til observablelist inde i modelklassen. Burde virke.
+        User userToDelete = userView.getSelectionModel().getSelectedItem();
+        mtmodel.deleteUser(userToDelete);
+        userView.setItems(mtmodel.getUsers());
     }
 
     @FXML
     private void createUser(ActionEvent event) throws IOException, SQLException
     {
-    String username = userName.getText();
-    if (username.length()==0){
-        userName.setText("Please type in a username");
-        return;
-    }    
+        String username = userName.getText();
+        if (username.length()==0)
+        {
+            userName.setText("Please type in a username");
+            return;
+        }    
         
-    
-    mtmodel.addUser(username);
-    userName.clear();
-    userView.setItems(mtmodel.getUsers()); // istedet for dette, så prøv at addUser til observablelist inde i modelklassen. Burde virke.
-    }
-    
-    
-    
+        mtmodel.addUser(username);
+        userName.clear();
+        userView.setItems(mtmodel.getUsers()); 
+    }    
 }

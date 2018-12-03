@@ -33,135 +33,140 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
  */
 public class MTManager
 {
-UserDbDAO userDB = new UserDbDAO(); 
-PlaylistDbDAO playlistDB = new PlaylistDbDAO();
-SongDbDAO songDB = new SongDbDAO();
+    UserDbDAO userDB = new UserDbDAO(); 
+    PlaylistDbDAO playlistDB = new PlaylistDbDAO();
+    SongDbDAO songDB = new SongDbDAO();
 
-public List<User> getAllUsers() throws IOException, SQLException{
-    
-return userDB.getAllUsers();
-
-    
-}
-
- public void deleteUser(User userToDelete) throws IOException, SQLException
-{   
-userDB.deleteUser(userToDelete);
-}
-
-public void addUser(String username) throws IOException, SQLException
-{
-userDB.addUser(username);
-}
-
-public List<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
-{
-return playlistDB.getPlaylistsByUser(userID);
-}
-
-public Playlist addPlaylist(int userID, String playlistName) throws IOException, SQLException
-{
-return playlistDB.addPlaylist(userID, playlistName);
-
-}
-
-public void editPlaylist(int id, String newName) throws IOException, SQLException
-{
-    playlistDB.renamePlaylist(id, newName);
-}
-
-public void addSong(Song songToAdd) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
-{
-songDB.addSong(songToAdd);
-}
-
-public void deletePlaylist (Playlist playlistToDelete) throws IOException, SQLException
-{
-    playlistDB.deletePlaylist(playlistToDelete);
-}
-
-public static String getSecToMin(int time)
-{
-   String inMinutes= "";
-   
-   int inMin = time/60;
-   int remainingSec = time-(inMin*60);
-   
-   if (remainingSec>=10){
-   inMinutes=""+inMin+":"+remainingSec;
-   
-   return inMinutes;}
-   
-   inMinutes=""+inMin+":0"+remainingSec;
-   
-   return inMinutes;
-   
-}
-
-public static int getMinToSec(String time){
-    String timeWork = time;
-    String[] timeInTwo = new String[2];
-    timeInTwo= timeWork.split(":");
-    String p1 = timeInTwo[0];
-    String p2 = timeInTwo[1];
-    int numberp1 = Integer.parseInt(p1);
-    int numberp2 = Integer.parseInt(p2);
-    
-    int total = numberp1*60;
-    int totalup = total+numberp2;
-   
-    
-    return totalup;
-    
-}
-
-public List<Song> getSongs() throws IOException, SQLException
-{
-    return songDB.getAllSongs();
-}
-
-public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
-{
-songDB.editSong(editedSong);
-}
-
-
-public List<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
-{
-return playlistDB.getPlaylistSongs(chosenPlaylist);
-}
-
-
-public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song deleteSongs) throws IOException, SQLException
-{
-    playlistDB.deleteSongFromPlaylist(chosenPlaylist, deleteSongs);
-    
-}
-
-public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
-{
-  playlistDB.addSongToPlaylist(songToMove, playlistChosen);
-}
-
-public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
-{
-  songDB.deleteSongFromLibrary(songToDelete);
-}
-
-public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
-{
-playlistDB.moveSongUp(playlistChosen, songToMoveUp);
-}
-
-public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
+    /*
+        Here starts User related methods.
+    */
+    public List<User> getAllUsers() throws IOException, SQLException
     {
-     playlistDB.moveSongDown(playlistChosen, songToMoveDown);
+    return userDB.getAllUsers();
+    }
+
+    public void deleteUser(User userToDelete) throws IOException, SQLException
+    {   
+        userDB.deleteUser(userToDelete);
+    }
+
+    public void addUser(String username) throws IOException, SQLException
+    {
+        userDB.addUser(username);
+    }
+
+    /*
+        Here starts Playlist related methods.
+    */
+    public List<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    {
+        return playlistDB.getPlaylistsByUser(userID);
+    }
+
+    public Playlist addPlaylist(int userID, String playlistName) throws IOException, SQLException
+    {
+        return playlistDB.addPlaylist(userID, playlistName);
+    }
+
+    public void editPlaylist(int id, String newName) throws IOException, SQLException
+    {
+        playlistDB.renamePlaylist(id, newName);
+    }
+    
+    public void deletePlaylist (Playlist playlistToDelete) throws IOException, SQLException
+    {
+        playlistDB.deletePlaylist(playlistToDelete);
+    }
+    
+    public List<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
+    {
+        return playlistDB.getPlaylistSongs(chosenPlaylist);
+    }
+    
+    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song deleteSongs) throws IOException, SQLException
+    {
+        playlistDB.deleteSongFromPlaylist(chosenPlaylist, deleteSongs);
+    }
+
+    public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
+    {
+        playlistDB.addSongToPlaylist(songToMove, playlistChosen);
+    }
+    
+    public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
+    {
+        playlistDB.moveSongUp(playlistChosen, songToMoveUp);
+    }
+
+    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
+    {
+        playlistDB.moveSongDown(playlistChosen, songToMoveDown);
+    }
+    
+    /*
+        Here starts Song related methods.
+    */
+    public void addSong(Song songToAdd) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    {
+        songDB.addSong(songToAdd);
+    }
+
+    public List<Song> getSongs() throws IOException, SQLException
+    {
+        return songDB.getAllSongs();
+    }
+
+    public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
+    {
+        songDB.editSong(editedSong);
+    }
+    
+    public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
+    {
+        songDB.deleteSongFromLibrary(songToDelete);
     }
 
     public List<Song> searchSong(String text) throws IOException, SQLException
     {
-    return songDB.searchSongs(text);
+        return songDB.searchSongs(text);
     }
-
- 
+    
+    /*
+        Converting seconds to minutes.
+    */
+    public static String getSecToMin(int time)
+    {
+        String inMinutes= "";
+   
+        int inMin = time/60;
+        int remainingSec = time-(inMin*60);
+   
+        if (remainingSec>=10)
+        {
+            inMinutes=""+inMin+":"+remainingSec;
+            return inMinutes;
+        }
+   
+        inMinutes=""+inMin+":0"+remainingSec;   
+        return inMinutes;
+    }
+    
+    /*
+        Converting minuts to seconds.
+    */
+    public static int getMinToSec(String time)
+    {
+        String timeWork = time;
+        String[] timeInTwo = new String[2];
+        timeInTwo= timeWork.split(":");
+        String p1 = timeInTwo[0];
+        String p2 = timeInTwo[1];
+        int numberp1 = Integer.parseInt(p1);
+        int numberp2 = Integer.parseInt(p2);
+    
+        int total = numberp1*60;
+        int totalup = total+numberp2;
+    
+        return totalup; 
+    }   
 }

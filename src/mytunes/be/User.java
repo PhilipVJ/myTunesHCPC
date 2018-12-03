@@ -11,28 +11,28 @@ package mytunes.be;
  */
 public class User
 {
-int id;
-String username;
+    int id;
+    String username;
 
-public User(int id, String username)
-{
-  this.id = id;
-  this.username = username;
-}
+    public User(int id, String username)
+    {
+        this.id = id;
+        this.username = username;
+    }
 
-public String getName()
-{
-    return username;
-}
+    public String getName()
+    {
+        return username;
+    }
 
-public int getID()
-{
-    return id;
-}
+    public int getID()
+    {
+        return id;
+    }
 
-@Override
-public String toString()
-{
-return username;
-}
+    @Override
+    public String toString()
+    {
+        return username;
+    }
 }

@@ -73,7 +73,7 @@ public class Song
     
     public int getPosition()
     {
-    return songPosition;
+        return songPosition;
     }
     
     

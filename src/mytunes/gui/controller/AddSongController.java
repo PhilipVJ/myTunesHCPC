@@ -51,7 +51,6 @@ public class AddSongController implements Initializable
     private AnchorPane rootPane2;
     
     private MTModel mtmodel;
-    
     private MyTunesController MTController;
     
 
@@ -72,78 +71,77 @@ public class AddSongController implements Initializable
     @FXML
     private void chooseFile(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-   FileChooser fileChooser = new FileChooser();
-   fileChooser.setTitle("Open Music File");
-   Stage stage = (Stage) rootPane2.getScene().getWindow();
-   File mediafile = fileChooser.showOpenDialog(stage);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Music File");
+        Stage stage = (Stage) rootPane2.getScene().getWindow();
+        File mediafile = fileChooser.showOpenDialog(stage);
    
-    MP3File mp3file = new MP3File(mediafile);
-    String path = mediafile.toURI().toString();
-    if ( mp3file.hasID3v2Tag()==true){
-    AbstractID3v2 ID3 = mp3file.getID3v2Tag();
-   
-    
-    String artist = ID3.getLeadArtist();
-    String title = ID3.getSongTitle();
-    String genre = ID3.getSongGenre();
-    
+        MP3File mp3file = new MP3File(mediafile);
+        String path = mediafile.toURI().toString();
         
-    int duration = 0;
-    AudioFile audioFile = AudioFileIO.read(mediafile);
-    duration = audioFile.getAudioHeader().getTrackLength();
-    String time = mtmodel.getSecToMin(duration);
+        if ( mp3file.hasID3v2Tag()==true)
+        {
+            AbstractID3v2 ID3 = mp3file.getID3v2Tag();
+   
+            String artist = ID3.getLeadArtist();
+            String title = ID3.getSongTitle();
+            String genre = ID3.getSongGenre();
     
-    this.title.setText(title);
-    this.artist.setText(artist);
-    this.time.setText(time);
-    this.genre.setText(genre);
-    this.filepath.setText(path);
-    }
-    else {
-    int duration = 0;
-    AudioFile audioFile = AudioFileIO.read(mediafile);
-    duration = audioFile.getAudioHeader().getTrackLength();
-    String time = mtmodel.getSecToMin(duration);
-    int lastIndex = path.lastIndexOf('/');
-    String toPrint = path.substring(lastIndex+1, path.length()-4);
+            int duration = 0;
+            AudioFile audioFile = AudioFileIO.read(mediafile);
+            duration = audioFile.getAudioHeader().getTrackLength();
+            String time = mtmodel.getSecToMin(duration);
     
-    this.title.setText(toPrint);
-    this.artist.setText("");
-    this.time.setText(time);
-    this.genre.setText("");
-    this.filepath.setText(path);    
-    }
-//   mtmodel.addSong(mediafile);
+            this.title.setText(title);
+            this.artist.setText(artist);
+            this.time.setText(time);
+            this.genre.setText(genre);
+            this.filepath.setText(path);
+        }
+        
+        else 
+        {
+            int duration = 0;
+            AudioFile audioFile = AudioFileIO.read(mediafile);
+            duration = audioFile.getAudioHeader().getTrackLength();
+            String time = mtmodel.getSecToMin(duration);
+            int lastIndex = path.lastIndexOf('/');
+            String toPrint = path.substring(lastIndex+1, path.length()-4);
+    
+            this.title.setText(toPrint);
+            this.artist.setText("");
+            this.time.setText(time);
+            this.genre.setText("");
+            this.filepath.setText(path);    
+        }
     }
 
     @FXML
     private void cancel(ActionEvent event)
     {
-    Stage stage = (Stage) rootPane2.getScene().getWindow();
-    
-    stage.close();
+        Stage stage = (Stage) rootPane2.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void saveSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
     {
-    String songTitle = this.title.getText();
-    String songArtist = this.artist.getText();
-    String songTime = this.time.getText();
-    String songGenre = this.genre.getText();
-    String songFilepath = this.filepath.getText();
+        String songTitle = this.title.getText();
+        String songArtist = this.artist.getText();
+        String songTime = this.time.getText();
+        String songGenre = this.genre.getText();
+        String songFilepath = this.filepath.getText();
     
-    Song songToAdd = new Song(songArtist, songTitle, songGenre, songFilepath, 0, songTime);
-    mtmodel.addSong(songToAdd);
+        Song songToAdd = new Song(songArtist, songTitle, songGenre, songFilepath, 0, songTime);
+        mtmodel.addSong(songToAdd);
     
-    Stage stage = (Stage) rootPane2.getScene().getWindow();
-    MTController.refreshList();
-    stage.close();
+        Stage stage = (Stage) rootPane2.getScene().getWindow();
+        MTController.refreshList();
+        stage.close();
     }
 
     void setPrevController(MyTunesController prevCon)
     {
-     MTController = prevCon;
+        MTController = prevCon;
     }
-    
 }

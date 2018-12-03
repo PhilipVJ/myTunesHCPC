@@ -43,9 +43,7 @@ public class EditSongController implements Initializable
     private TextField time;
     
     private Song songToEdit;
-    
     private MTModel mtmodel;
-    
     private MyTunesController mTController;
 
     /**
@@ -53,7 +51,7 @@ public class EditSongController implements Initializable
      */
     public EditSongController() throws IOException, SQLException
     {
-    mtmodel = new MTModel();
+        mtmodel = new MTModel();
     }
     
     @Override
@@ -66,26 +64,25 @@ public class EditSongController implements Initializable
     @FXML
     private void cancel(ActionEvent event)
     {
-    Stage stage = (Stage) rootPane2.getScene().getWindow();
-    stage.close();
+        Stage stage = (Stage) rootPane2.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void saveSong(ActionEvent event) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-    String newTitle = title.getText();
-    String newArtist = artist.getText();
-    String newGenre = genre.getText();
-    String songTime = songToEdit.getTime();
-    String filepath = songToEdit.getFilepath();
-    int songID = songToEdit.getId();
+        String newTitle = title.getText();
+        String newArtist = artist.getText();
+        String newGenre = genre.getText();
+        String songTime = songToEdit.getTime();
+        String filepath = songToEdit.getFilepath();
+        int songID = songToEdit.getId();
     
-    
-    Song editedSong = new Song(newArtist, newTitle, newGenre, filepath, songID, songTime);
-    mtmodel.editSong(editedSong);
-    mTController.refreshList();
-    Stage stage = (Stage) rootPane2.getScene().getWindow();
-    stage.close();    
+        Song editedSong = new Song(newArtist, newTitle, newGenre, filepath, songID, songTime);
+        mtmodel.editSong(editedSong);
+        mTController.refreshList();
+        Stage stage = (Stage) rootPane2.getScene().getWindow();
+        stage.close();    
     }
 
     void setSong(Song songToEdit)
@@ -101,5 +98,4 @@ public class EditSongController implements Initializable
     {
       mTController=prev;
     }
-    
 }

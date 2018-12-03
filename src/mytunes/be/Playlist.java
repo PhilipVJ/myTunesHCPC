@@ -46,11 +46,13 @@ public class Playlist
     @Override
     public String toString()
     {
-        if (lengthInSeconds>0){
-          return playlistName+"   "+getFormattedLength();
+        if(lengthInSeconds>0){
+            return playlistName+"   "+getFormattedLength();
         }
-        else{
-        return playlistName;
+        
+        else
+        {
+            return playlistName;
         }
     }
 
@@ -67,7 +69,5 @@ public class Playlist
     public String getFormattedLength()
     {
       return MTManager.getSecToMin(lengthInSeconds);
-    }
-
-    
+    }   
 }

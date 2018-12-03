@@ -34,28 +34,32 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
  */
 public class AddPlaylistController implements Initializable
 {
-private User currentUser;
+    
     @FXML
-    private TextField playListName;
-    private MTModel mtmodel;
+    private TextField playListName; 
     @FXML
     private AnchorPane rootPane2;
     
+    private User currentUser;
     private MyTunesController mTController;
+    private MTModel mtmodel;
+   
+    
     /**
      * Initializes the controller class.
      */
     public AddPlaylistController() throws IOException, SQLException
     {
-    mtmodel = new MTModel();
+        mtmodel = new MTModel();
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
     }    
     
-     void setUser(User user) throws IOException, SQLException
+    void setUser(User user) throws IOException, SQLException
     {
         currentUser=user;
     }
@@ -63,22 +67,21 @@ private User currentUser;
     @FXML
     private void addPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-    String playlistName = playListName.getText();
-    if(playlistName.length()==0)
+        String playlistName = playListName.getText();
+        if(playlistName.length()==0)
         {
-        playListName.setText("Please write a Playlist name");
-        return;
+            playListName.setText("Please write a Playlist name");
+            return;
         }
-    mtmodel.addPlaylist(currentUser.getID(), playlistName);
-    Stage stage = (Stage) rootPane2.getScene().getWindow();
-    mTController.refreshList();
-    stage.close();
-    
+        mtmodel.addPlaylist(currentUser.getID(), playlistName);
+        Stage stage = (Stage) rootPane2.getScene().getWindow();
+        mTController.refreshList();
+        stage.close(); 
     }
     
     public void setPrevController(MyTunesController prev)
     {
-    mTController=prev;
+        mTController=prev;
     }
             
 }
