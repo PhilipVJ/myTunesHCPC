@@ -5,6 +5,8 @@
  */
 package mytunes.be;
 
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author Philip
@@ -12,38 +14,38 @@ package mytunes.be;
 public class Song
 {
     
-    public String artist;
-    public String title;
-    public String genre;
+    public SimpleStringProperty artist;
+    public SimpleStringProperty title;
+    public SimpleStringProperty genre;
     public String filepath;
     public int id;
-    public String time;
+    public SimpleStringProperty time;
     public int songPosition;
     
     public Song(String artist, String title, String genre, String filepath, int id, String time)
     {
-        this.artist=artist;
-        this.title=title;
-        this.genre=genre;
+        this.artist=new SimpleStringProperty(artist);
+        this.title=new SimpleStringProperty(title);
+        this.genre=new SimpleStringProperty(genre);
         this.filepath=filepath;
         this.id=id;
-        this.time=time;
+        this.time=new SimpleStringProperty(time);
                 
     }
 
     public String getArtist()
     {
-        return artist;
+        return artist.get();
     }
 
     public String getTitle()
     {
-        return title;
+        return title.get();
     }
 
     public String getGenre()
     {
-        return genre;
+        return genre.get();
     }
 
     public String getFilepath()
@@ -58,7 +60,7 @@ public class Song
 
     public String getTime()
     {
-        return time;
+        return time.get();
     }
 
     @Override

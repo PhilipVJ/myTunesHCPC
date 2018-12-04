@@ -27,7 +27,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
@@ -52,11 +55,10 @@ public class MyTunesController implements Initializable
 {
 private User currentUser;
     @FXML
-    private ListView<Playlist> playlistView;
+    private TableView<Playlist> playlistView;
+
     @FXML
-    private ListView<Song> playlistSongsView;
-    @FXML
-    private ListView<Song> allSongsView;
+    private TableView<Song> allSongsView;
     @FXML
     private TextField searchTxt;
     @FXML
@@ -82,6 +84,26 @@ private User currentUser;
     private Mp3Player mp3Player;
     private int chosenView; 
     private int chosenPL; 
+    @FXML
+    private TableColumn<Playlist, String> playlistNameCol;
+    @FXML
+    private TableColumn<Playlist, String> playlistLengthCol;
+    @FXML
+    private TableView<Song> playlistSongView;
+    @FXML
+    private TableColumn<Song, String> playlistSongArtist;
+    @FXML
+    private TableColumn<Song, String> playlistSongTitle;
+    @FXML
+    private TableColumn<Song, String> playlistSongLength;
+    @FXML
+    private TableColumn<Song, String> allSongsArtist;
+    @FXML
+    private TableColumn<Song, String> allSongsTitle;
+    @FXML
+    private TableColumn<Song, String> allSongsGenre;
+    @FXML
+    private TableColumn<Song, String> allSongsLength;
    
     
     /**
@@ -98,6 +120,17 @@ private User currentUser;
         try
         {
             mtmodel = new MTModel();
+            playlistNameCol.setCellValueFactory(new PropertyValueFactory<Playlist, String>("playlistName"));
+            playlistLengthCol.setCellValueFactory(new PropertyValueFactory<Playlist, String>("lengthInMin"));
+            
+            playlistSongArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
+            playlistSongTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
+            playlistSongLength.setCellValueFactory(new PropertyValueFactory<Song, String>("time"));
+            
+            allSongsArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
+            allSongsTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
+            allSongsLength.setCellValueFactory(new PropertyValueFactory<Song, String>("time"));
+            allSongsGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("genre"));
         } 
         catch (IOException ex)
         {
@@ -171,10 +204,10 @@ private User currentUser;
     @FXML
     private void upPlaylist(MouseEvent event) throws IOException, SQLException
     {
-        Song songToMoveUp = playlistSongsView.getSelectionModel().getSelectedItem();
+        Song songToMoveUp = playlistSongView.getSelectionModel().getSelectedItem();
         Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
     
-        if(!playlistSongsView.getSelectionModel().isEmpty())
+        if(!playlistSongView.getSelectionModel().isEmpty())
         {
             mtmodel.moveSongUp(chosenPLObj, songToMoveUp);
                 refreshPlaylistSongs();
@@ -184,10 +217,10 @@ private User currentUser;
     @FXML
     private void downPlaylist(MouseEvent event) throws IOException, SQLException
     {
-        Song songToMoveDown = playlistSongsView.getSelectionModel().getSelectedItem();
+        Song songToMoveDown = playlistSongView.getSelectionModel().getSelectedItem();
         Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
     
-        if(!playlistSongsView.getSelectionModel().isEmpty())
+        if(!playlistSongView.getSelectionModel().isEmpty())
         {
             mtmodel.moveSongDown(chosenPLObj, songToMoveDown);
             refreshPlaylistSongs(); 
@@ -211,7 +244,7 @@ private User currentUser;
     @FXML
     private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-        Song songToDelete = playlistSongsView.getSelectionModel().getSelectedItem();
+        Song songToDelete = playlistSongView.getSelectionModel().getSelectedItem();
         Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
         mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
 
@@ -223,13 +256,14 @@ private User currentUser;
         refreshList();
     }
     
-    @FXML
+@FXML
     private void choosePlaylist(MouseEvent event) throws IOException, SQLException
     { 
         if (playlistView.getSelectionModel().getSelectedItem()!=null){
         
         chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
-        currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getName());  
+            System.out.println(""+chosenPL);
+        currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getPlaylistName());  
 
         refreshPlaylistSongs();
         }
@@ -300,7 +334,12 @@ private User currentUser;
     private void refreshPlaylistSongs() throws IOException, SQLException
     {
     Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
-    playlistSongsView.setItems(mtmodel.getPlaylistSongs(chosenPLObj)); 
+    ObservableList<Song>allSongs = mtmodel.getPlaylistSongs(chosenPLObj);
+    for (Song x:allSongs)
+    {
+        System.out.println(""+x.getTitle());
+    }
+    playlistSongView.setItems(allSongs);
     }
 
     /*
@@ -341,8 +380,8 @@ private User currentUser;
     
         if (chosenView==1)
         {
-            ObservableList<Song>playlistSongs = playlistSongsView.getItems();
-            int songIndex = playlistSongsView.getSelectionModel().getSelectedIndex();
+            ObservableList<Song>playlistSongs = playlistSongView.getItems();
+            int songIndex = playlistSongView.getSelectionModel().getSelectedIndex();
             mp3Player = new Mp3Player();
     
             mp3Player.initPlay(songIndex, playlistSongs);
@@ -373,6 +412,7 @@ private User currentUser;
         if(mp3Player!=null)
         {
             mp3Player.stop();
+            
         }
     }
 
@@ -405,13 +445,13 @@ private User currentUser;
         }
     }
     
-    @FXML
+@FXML
     private void playlistSongsChosen(MouseEvent event)
     {
         chosenView=1; 
     }
 
-    @FXML
+@FXML
     private void allSongsChosen(MouseEvent event)
     {
         chosenView=2;

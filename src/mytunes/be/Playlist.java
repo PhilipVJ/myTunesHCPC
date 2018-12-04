@@ -6,6 +6,7 @@
 package mytunes.be;
 
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
 import mytunes.bll.MTManager;
 
 /**
@@ -15,15 +16,16 @@ import mytunes.bll.MTManager;
 public class Playlist
 {
     private int id;
-    private String playlistName;
+    private SimpleStringProperty playlistName;
     private ArrayList<Song> songs;
     private int userId;
     private int lengthInSeconds;
+    private SimpleStringProperty lengthInMin;
     
     public Playlist(int id, String playlistName, int userId)
     {
         this.id = id;
-        this.playlistName = playlistName;
+        this.playlistName = new SimpleStringProperty(playlistName);
         this.userId = userId;
         
     }
@@ -33,9 +35,9 @@ public class Playlist
         return id;
     }
 
-    public String getName()
+    public String getPlaylistName()
     {
-        return playlistName;
+        return playlistName.get();
     }
 
     public ArrayList<Song> getSongs()
@@ -47,12 +49,12 @@ public class Playlist
     public String toString()
     {
         if(lengthInSeconds>0){
-            return playlistName+"   "+getFormattedLength();
+            return playlistName+"   "+getLengthInMin();
         }
         
         else
         {
-            return playlistName;
+            return playlistName.get();
         }
     }
 
@@ -64,15 +66,16 @@ public class Playlist
     public void addLengthInSeconds(int length)
     {
         lengthInSeconds=length;
+        
     }
     
-    public String getFormattedLength()
+    public String getLengthInMin()
     {
       return MTManager.getSecToMin(lengthInSeconds);
     }
     
     public void setName(String name)
     {
-        playlistName=name;
+        playlistName.set(name);
     }
 }

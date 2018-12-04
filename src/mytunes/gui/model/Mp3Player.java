@@ -93,6 +93,7 @@ public void play(int songListNr, ObservableList<Song> songs)
     public void stop()
     {
         mediaPlayer.stop();
+        currentTitle.set("Song has been stopped");
     }
     
     public void pause()
