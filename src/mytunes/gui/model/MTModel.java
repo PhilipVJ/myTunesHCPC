@@ -98,6 +98,7 @@ public class MTModel
                 break;
             }
         }
+        playlistSongs.clear();
     }
     
     public ObservableList<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException

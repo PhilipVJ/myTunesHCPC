@@ -21,7 +21,7 @@ public class DbConnection
 {
     private static final String PROP_FILE = "data/database.info";
 
-    private SQLServerDataSource ds;
+    private final SQLServerDataSource ds;
 
     public DbConnection() throws IOException
     {

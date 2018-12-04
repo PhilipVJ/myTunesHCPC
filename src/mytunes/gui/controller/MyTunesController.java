@@ -23,6 +23,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -196,7 +198,7 @@ private User currentUser;
         if(!playlistView.getSelectionModel().isEmpty())
         {
             mtmodel.deletePlaylist(pl);
-           
+           currentPL.setText("Choose a playlist");
         }
         
     }
@@ -205,7 +207,7 @@ private User currentUser;
     private void upPlaylist(MouseEvent event) throws IOException, SQLException
     {
         Song songToMoveUp = playlistSongView.getSelectionModel().getSelectedItem();
-        Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
+        Playlist chosenPLObj = new Playlist(chosenPL, "");
     
         if(!playlistSongView.getSelectionModel().isEmpty())
         {
@@ -218,7 +220,7 @@ private User currentUser;
     private void downPlaylist(MouseEvent event) throws IOException, SQLException
     {
         Song songToMoveDown = playlistSongView.getSelectionModel().getSelectedItem();
-        Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
+        Playlist chosenPLObj = new Playlist(chosenPL, "");
     
         if(!playlistSongView.getSelectionModel().isEmpty())
         {
@@ -231,7 +233,7 @@ private User currentUser;
     private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {     
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
-    Playlist chosenPLObj = new Playlist(chosenPL, "", currentUser.getID());
+    Playlist chosenPLObj = new Playlist(chosenPL, "");
     
         if(songToMove!=null && chosenPLObj!=null)
         {
@@ -245,7 +247,7 @@ private User currentUser;
     private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         Song songToDelete = playlistSongView.getSelectionModel().getSelectedItem();
-        Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
+        Playlist chosenPLObj = new Playlist(chosenPL, "");
     
         mtmodel.deleteSongFromPlaylist(chosenPLObj, songToDelete);
 
@@ -309,6 +311,7 @@ private User currentUser;
         Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
         mtmodel.deleteSongFromLibrary(songToMove);
         refreshList();
+        refreshPlaylistSongs();
         
         
     }
@@ -331,11 +334,18 @@ private User currentUser;
 
     private void refreshPlaylistSongs() throws IOException, SQLException
     {
-    Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
+    Playlist chosenPLObj = new Playlist(chosenPL, "");
     ObservableList<Song>allSongs = mtmodel.getPlaylistSongs(chosenPLObj);
     for (Song x:allSongs)
     {
-        System.out.println(""+x.getTitle());
+       if (x.getFilepath()=="error"){
+           Alert alert = new Alert(AlertType.INFORMATION);
+           alert.setTitle("Important information");
+           alert.setHeaderText("A mediafile on your playlist has been deleted from the library");
+           alert.setContentText("You must delete it from your playlist immediately!");
+
+           alert.showAndWait();
+       }
     }
     playlistSongView.setItems(allSongs);
     }

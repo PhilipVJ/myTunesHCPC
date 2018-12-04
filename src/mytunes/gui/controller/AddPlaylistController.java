@@ -12,14 +12,10 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import mytunes.be.Playlist;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
 import org.farng.mp3.TagException;
@@ -47,6 +43,8 @@ public class AddPlaylistController implements Initializable
     
     /**
      * Initializes the controller class.
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
     public AddPlaylistController() throws IOException, SQLException
     {

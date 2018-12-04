@@ -6,13 +6,8 @@
 package mytunes.dal;
 
 
-import java.net.URL;
-import java.util.List;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,16 +16,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import mytunes.be.Playlist;
 
 import mytunes.be.Song;
-import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
-import org.farng.mp3.id3.AbstractID3v2;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
@@ -41,7 +29,14 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
  */
 public class SongDbDAO 
 {
-        
+  /**
+   * This method returns a list of song objects which contains the searchword.
+   * @param keyword
+   * @return
+   * @throws IOException
+   * @throws SQLServerException
+   * @throws SQLException 
+   */      
     public List<Song> searchSongs(String keyword) throws IOException, SQLServerException, SQLException
     {
         ArrayList<Song> searchedSongs = new ArrayList();
@@ -111,18 +106,17 @@ public class SongDbDAO
     {
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
-        
-        Statement statement = con.createStatement();
-        PreparedStatement pstmt = con.prepareStatement("UPDATE Songs SET Title = (?), Artist = (?), Genre = (?) WHERE songId = (?)");
-        pstmt.setString(1, song.getTitle());
-        pstmt.setString(2, song.getArtist());
-        pstmt.setString(3, song.getGenre());
-        pstmt.setInt(4, song.getId());
-        
-        pstmt.execute();
-        pstmt.close();
+   
+        try (PreparedStatement pstmt = con.prepareStatement("UPDATE Songs SET Title = (?), Artist = (?), Genre = (?) WHERE songId = (?)"))
+        {
+            pstmt.setString(1, song.getTitle());
+            pstmt.setString(2, song.getArtist());
+            pstmt.setString(3, song.getGenre());
+            pstmt.setInt(4, song.getId());
+            pstmt.execute();
+        }
     }
-    
+
     public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLServerException, SQLException
     {
         int songID = songToDelete.getId();
@@ -130,16 +124,12 @@ public class SongDbDAO
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
         
-        PreparedStatement pstmt = con.prepareStatement("DELETE FROM Songs WHERE songID=(?)");
-        pstmt.setInt(1,songID);
-        pstmt.execute();
-        pstmt.close();
-        System.out.println("Following song has been deleted: "+songID); // Deletes song from all playlists
-        
-        PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?)");
-        pstmt2.setInt(1,songID);
-        pstmt2.execute();
-        pstmt2.close();  
+        try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM Songs WHERE songID=(?)"))
+        {
+            pstmt.setInt(1,songID);
+            pstmt.execute();
+        }
+        System.out.println("Following song has been deleted: "+songID); 
     }
     
     public ArrayList<Song> getAllSongs() throws IOException, SQLServerException, SQLException

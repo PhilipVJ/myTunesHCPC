@@ -15,18 +15,18 @@ import mytunes.bll.MTManager;
  */
 public class Playlist
 {
-    private int id;
+    private final int id;
     private SimpleStringProperty playlistName;
     private ArrayList<Song> songs;
-    private int userId;
+ 
     private int lengthInSeconds;
-    private SimpleStringProperty lengthInMin;
+
     
-    public Playlist(int id, String playlistName, int userId)
+    public Playlist(int id, String playlistName)
     {
         this.id = id;
         this.playlistName = new SimpleStringProperty(playlistName);
-        this.userId = userId;
+  
         
     }
 

@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -56,6 +55,8 @@ public class AddSongController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
     public AddSongController() throws IOException, SQLException
     {
@@ -83,19 +84,19 @@ public class AddSongController implements Initializable
         {
             AbstractID3v2 ID3 = mp3file.getID3v2Tag();
    
-            String artist = ID3.getLeadArtist();
-            String title = ID3.getSongTitle();
-            String genre = ID3.getSongGenre();
+            String artistID3 = ID3.getLeadArtist();
+            String titleID3 = ID3.getSongTitle();
+            String genreID3 = ID3.getSongGenre();
     
             int duration = 0;
             AudioFile audioFile = AudioFileIO.read(mediafile);
             duration = audioFile.getAudioHeader().getTrackLength();
             String time = mtmodel.getSecToMin(duration);
     
-            this.title.setText(title);
-            this.artist.setText(artist);
+            this.title.setText(titleID3);
+            this.artist.setText(artistID3);
             this.time.setText(time);
-            this.genre.setText(genre);
+            this.genre.setText(genreID3);
             this.filepath.setText(path);
         }
         

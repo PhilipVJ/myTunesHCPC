@@ -6,7 +6,6 @@
 package mytunes.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,11 +18,7 @@ import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.MTManager;
-import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
-import org.farng.mp3.id3.AbstractID3v2;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
@@ -53,7 +48,7 @@ public class PlaylistDbDAO
             {
             if (generatedKeys.next()) 
                 {
-                addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName, userId);
+                addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName);
                 
                 System.out.println("Following playlist has been added to the database: "+addedPlaylist.getPlaylistName());
                 return addedPlaylist;
@@ -62,14 +57,24 @@ public class PlaylistDbDAO
 
         return addedPlaylist;    
     }
-    
+    /**
+     * Returns all playlists by the given user ID from the database.
+     * @param userID
+     * @return 
+     * @throws java.io.IOException
+     * @throws com.microsoft.sqlserver.jdbc.SQLServerException
+     * @throws org.farng.mp3.TagException
+     * @throws org.jaudiotagger.audio.exceptions.CannotReadException
+     * @throws org.jaudiotagger.tag.TagException
+     * @throws org.jaudiotagger.audio.exceptions.ReadOnlyFileException
+     * @throws org.jaudiotagger.audio.exceptions.InvalidAudioFrameException
+     */
     public List<Playlist> getPlaylistsByUser(int userID) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         ArrayList<Playlist> allPlaylist = new ArrayList<>();
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
 
-        Statement statement = con.createStatement();
         PreparedStatement pstmt = con.prepareStatement("Select * FROM Playlist WHERE userId = (?)");
         pstmt.setInt(1, userID);
         ResultSet rs = pstmt.executeQuery();
@@ -78,13 +83,9 @@ public class PlaylistDbDAO
         {
             int playlistID = rs.getInt("listId");
             String PlaylistName = rs.getString("playlistName");
-            allPlaylist.add(new Playlist(playlistID, PlaylistName, userID));
-             
-                
+            allPlaylist.add(new Playlist(playlistID, PlaylistName));      
         }
         // Add length in seconds to playlist
-
-
         for (Playlist x : allPlaylist)
         {
             List<Song> allSongs = getPlaylistSongs(x);
@@ -92,9 +93,9 @@ public class PlaylistDbDAO
     
             for (Song y: allSongs)
             {
+                if(!"error".equals(y.getFilepath())){
                 int time = MTManager.getMinToSec(y.getTime());
-                duration+=time;
-   
+                duration+=time;}
             }
             x.addLengthInSeconds(duration);
         }     
@@ -110,7 +111,7 @@ public class PlaylistDbDAO
         PreparedStatement pstmt = con.prepareStatement(SQL);
         pstmt.setInt(1, chosenPlaylist.getId());
         pstmt.setInt(2, songToAdd.getId());
-        pstmt.setInt(3, getNextSongPosition(chosenPlaylist));
+        pstmt.setInt(3, getPlaylistSongs(chosenPlaylist).size()+1);
         System.out.println("Ready to execute");
         pstmt.execute();
 
@@ -121,29 +122,37 @@ public class PlaylistDbDAO
        
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
-        Statement statement = con.createStatement();
-        PreparedStatement pstmt = con.prepareStatement("UPDATE Playlist SET playlistName = (?) WHERE listId = (?)");
-        pstmt.setString(1, newName);
-        pstmt.setInt(2, playlistID);
-        pstmt.execute();
-        pstmt.close();        
+        try (PreparedStatement pstmt = con.prepareStatement("UPDATE Playlist SET playlistName = (?) WHERE listId = (?)"))
+        {
+            pstmt.setString(1, newName);
+            pstmt.setInt(2, playlistID);
+            pstmt.execute();        
+        }
     }    
-    
+    /**
+     * This method deletes the playlist and all its content from the database.
+     * @param playlistToDelete
+     * @throws IOException
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
     public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLServerException, SQLException
     {
         int playlistId = playlistToDelete.getId();
 
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
-        PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE playlistID=(?)");
-        pstmt2.setInt(1, playlistId);
-        pstmt2.execute();
-        pstmt2.close();
+        try (PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE playlistID=(?)"))
+        {
+            pstmt2.setInt(1, playlistId);
+            pstmt2.execute();
+        }
            
-        PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)");
-        pstmt.setInt(1,playlistId);
-        pstmt.execute();
-        pstmt.close();
+        try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)"))
+        {
+            pstmt.setInt(1,playlistId);
+            pstmt.execute();
+        }
         System.out.println("Following playlist has been deleted: "+playlistId);
     }
     
@@ -164,31 +173,21 @@ public class PlaylistDbDAO
             int SongID = rs.getInt("songID");
             int SongPosition = rs.getInt("songPosition");
             Song songToAdd = songDB.getSong(SongID);
+            if(songToAdd!=null){
             songToAdd.setPosition(SongPosition);
-            playlistSongs.add(songToAdd);
+            playlistSongs.add(songToAdd);}
+            else{
+            Song fileHasBeenDeleted = new Song("File has been deleted", "", "","error", SongID, "");    
+            fileHasBeenDeleted.setPosition(SongPosition);
+            playlistSongs.add(fileHasBeenDeleted);
+            
+            }
 
         }
         playlistSongs.sort( Comparator.comparing( Song::getPosition ) ); 
         return playlistSongs;   
     }
 
-    private int getNextSongPosition(Playlist chosenPlaylist) throws IOException, SQLException
-    {
-        int nextId=1;
-        List<Song> allSongsFromPlaylist = getPlaylistSongs(chosenPlaylist);
-
-        for (Song x : allSongsFromPlaylist)
-        {
-              
-            if (x.getPosition()==nextId)
-            {
-                nextId++;
-            }
-        }
-        System.out.println(""+nextId);
-        return nextId;  // Metoden her kan sagtens gøres kortere. Den skal bare returnere den position i rækken. Der er ikke længere huller den skal tjekke.
-    }
-    
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLServerException, SQLException
     {
         int songID = songToDelete.getId();
@@ -198,17 +197,27 @@ public class PlaylistDbDAO
         
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
-        PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?) AND songPosition=(?)");
-        pstmt.setInt(1,songID);
-        pstmt.setInt(2,playlistID);
-        pstmt.setInt(3,position);
-        pstmt.execute();
-        pstmt.close();
+        try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?) AND songPosition=(?)"))
+        {
+            pstmt.setInt(1,songID);
+            pstmt.setInt(2,playlistID);
+            pstmt.setInt(3,position);
+            pstmt.execute();
+        }
         
         System.out.println("Following song has been deleted: "+songID);
         fixSongPositionsAfterDeletion(playlistSize,playlistID, position);
     }
-    
+    /**
+     * Each song on a playlist has an position ID. This method makes sure no gaps appear between the ID's. 
+     * 
+     * @param playlistSize
+     * @param playlistId
+     * @param positionOfDeleted
+     * @throws IOException
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
     private void fixSongPositionsAfterDeletion(int playlistSize, int playlistId, int positionOfDeleted) throws IOException, SQLServerException, SQLException
     {
         int position = positionOfDeleted;
@@ -221,15 +230,22 @@ public class PlaylistDbDAO
         for (int i=position+1;i<=plSize;i++)
         {
             System.out.println("Working");
-            PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
-            pstmt.setInt(1, i-1);
-            pstmt.setInt(2, playId);
-            pstmt.setInt(3, i);
-            pstmt.execute();
-            pstmt.close();
+            try (PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)"))
+            {
+                pstmt.setInt(1, i-1);
+                pstmt.setInt(2, playId);
+                pstmt.setInt(3, i);
+                pstmt.execute();
+            }
         }   
     }
-
+    /**
+     * When you move a song up the playlist the song chosen should switch ID with the song above it. This method does just that.
+     * @param playlistChosen
+     * @param songToMoveUp
+     * @throws IOException
+     * @throws SQLException 
+     */
     public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
     {
         int playlistID = playlistChosen.getId();
@@ -252,7 +268,14 @@ public class PlaylistDbDAO
         pstmt.setInt(4, songID);
         pstmt.execute();    
     }
-
+/**
+ * When you move a song down the playlist it should switch position ID with the song beneath it. This method does just that. 
+ * @param playlistChosen
+ * @param songToMoveDown
+ * @throws IOException
+ * @throws SQLServerException
+ * @throws SQLException 
+ */
     public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLServerException, SQLException
     {
         int playlistID = playlistChosen.getId();

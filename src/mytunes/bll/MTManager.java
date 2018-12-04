@@ -6,23 +6,16 @@
 package mytunes.bll;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.dal.PlaylistDbDAO;
 import mytunes.dal.SongDbDAO;
 import mytunes.dal.UserDbDAO;
-import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
-import org.farng.mp3.id3.AbstractID3v2;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
@@ -132,11 +125,11 @@ public class MTManager
     }
     
     /*
-        Converting seconds to minutes.
+        This method converts seconds to a string format containing both minutes and seconds.
     */
     public static String getSecToMin(int time)
     {
-        String inMinutes= "";
+        String inMinutes;
    
         int inMin = time/60;
         int remainingSec = time-(inMin*60);
@@ -152,12 +145,12 @@ public class MTManager
     }
     
     /*
-        Converting minuts to seconds.
+        This method does the opposite. It takes a formatted string and translates it into seconds again.
     */
     public static int getMinToSec(String time)
     {
         String timeWork = time;
-        String[] timeInTwo = new String[2];
+        String[] timeInTwo;
         timeInTwo= timeWork.split(":");
         String p1 = timeInTwo[0];
         String p2 = timeInTwo[1];
