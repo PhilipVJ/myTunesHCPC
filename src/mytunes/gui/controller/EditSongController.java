@@ -81,6 +81,7 @@ public class EditSongController implements Initializable
         Song editedSong = new Song(newArtist, newTitle, newGenre, filepath, songID, songTime);
         mtmodel.editSong(editedSong);
         mTController.refreshList();
+        mTController.refreshPlaylistSongs();
         Stage stage = (Stage) rootPane2.getScene().getWindow();
         stage.close();    
     }
