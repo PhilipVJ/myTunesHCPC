@@ -51,7 +51,7 @@ public class AddSongController implements Initializable
     private AnchorPane rootPane2;
     
     private MTModel mtmodel;
- 
+    private MyTunesController MTController;
     
 
     /**
@@ -59,7 +59,7 @@ public class AddSongController implements Initializable
      */
     public AddSongController() throws IOException, SQLException
     {
-     
+        mtmodel = new MTModel();
     }
     
     @Override
@@ -136,14 +136,12 @@ public class AddSongController implements Initializable
         mtmodel.addSong(songToAdd);
     
         Stage stage = (Stage) rootPane2.getScene().getWindow();
-      
+        MTController.refreshList();
         stage.close();
     }
 
-
-
-    void setMode(MTModel mtmodel)
+    void setPrevController(MyTunesController prevCon)
     {
-       this.mtmodel = mtmodel;
+        MTController = prevCon;
     }
 }

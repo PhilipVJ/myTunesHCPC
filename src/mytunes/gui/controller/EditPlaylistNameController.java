@@ -20,7 +20,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
-import mytunes.be.User;
 import mytunes.dal.PlaylistDbDAO;
 import mytunes.gui.model.MTModel;
 import org.farng.mp3.TagException;
@@ -43,15 +42,15 @@ public class EditPlaylistNameController implements Initializable
     
     private Playlist plToEdit; 
     private MTModel mtmodel;
-    private User user;
-       
+    private MyTunesController mTController;
+   
     /**
      * Initializes the controller class.
      */
     
     public EditPlaylistNameController() throws IOException, SQLException
     {
-    
+        mtmodel = new MTModel();
     }
     
     @Override
@@ -75,14 +74,14 @@ public class EditPlaylistNameController implements Initializable
         
         if(newName.length()==0)
         {
-            editPlaylistName.setText("Please write a new name here");
+            editPlaylistName.setText("Please put new name here");
             return;
         }
         
         mtmodel.editPlaylist(plToEdit.getId(), newName);
+        mTController.refreshList();
         
-        
-     
+        mTController.setCurrentPL(newName);
         Stage stage = (Stage) rootPane3.getScene().getWindow();
         stage.close();
     }
@@ -92,15 +91,8 @@ public class EditPlaylistNameController implements Initializable
         plToEdit = selectedItem;
     }
     
-
-
-    void setModel(MTModel mtmodel)
+    public void setPrevController(MyTunesController prev)
     {
-this.mtmodel=mtmodel;
-    }
-
-    void setUser(User currentUser)
-    {
-    user=currentUser;
+        mTController=prev;
     }
 }
