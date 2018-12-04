@@ -44,14 +44,13 @@ public class EditSongController implements Initializable
     
     private Song songToEdit;
     private MTModel mtmodel;
-    private MyTunesController mTController;
-
+ 
     /**
      * Initializes the controller class.
      */
     public EditSongController() throws IOException, SQLException
     {
-        mtmodel = new MTModel();
+   
     }
     
     @Override
@@ -80,7 +79,7 @@ public class EditSongController implements Initializable
     
         Song editedSong = new Song(newArtist, newTitle, newGenre, filepath, songID, songTime);
         mtmodel.editSong(editedSong);
-        mTController.refreshList();
+     
         Stage stage = (Stage) rootPane2.getScene().getWindow();
         stage.close();    
     }
@@ -94,8 +93,9 @@ public class EditSongController implements Initializable
        this.time.setText(songToEdit.getTime());
     }
 
-    void setPrevController(MyTunesController prev)
+
+    void setModel(MTModel mtmodel)
     {
-      mTController=prev;
+this.mtmodel=mtmodel;
     }
 }
