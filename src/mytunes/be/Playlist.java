@@ -69,5 +69,10 @@ public class Playlist
     public String getFormattedLength()
     {
       return MTManager.getSecToMin(lengthInSeconds);
-    }   
+    }
+    
+    public void setName(String name)
+    {
+        playlistName=name;
+    }
 }
