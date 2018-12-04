@@ -59,13 +59,24 @@ return users;
 
 public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
 {
-mtmanager.deleteUser(userToDelete); 
+mtmanager.deleteUser(userToDelete);
+List<User> allUsers = users;
+
+for (User x: allUsers)
+{
+    if (x.getID()==userToDelete.getID()){
+        allUsers.remove(x);
+        return;
+    }
+    
+}
 
 }
 
 public void addUser(String username) throws IOException, SQLException
 {
-mtmanager.addUser(username);
+users.add(mtmanager.addUser(username));
+
 
 }
 

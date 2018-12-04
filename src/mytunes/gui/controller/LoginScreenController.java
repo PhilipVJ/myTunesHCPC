@@ -113,7 +113,7 @@ public class LoginScreenController implements Initializable
     {
         User userToDelete = userView.getSelectionModel().getSelectedItem();
         mtmodel.deleteUser(userToDelete);
-        userView.setItems(mtmodel.getUsers());
+      
     }
 
     @FXML
@@ -128,6 +128,6 @@ public class LoginScreenController implements Initializable
         
         mtmodel.addUser(username);
         userName.clear();
-        userView.setItems(mtmodel.getUsers()); 
+       
     }    
 }

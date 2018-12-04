@@ -50,9 +50,9 @@ public class MTManager
         userDB.deleteUser(userToDelete);
     }
 
-    public void addUser(String username) throws IOException, SQLException
+    public User addUser(String username) throws IOException, SQLException
     {
-        userDB.addUser(username);
+        return userDB.addUser(username);
     }
 
     /*
