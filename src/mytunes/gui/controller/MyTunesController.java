@@ -82,7 +82,7 @@ private User currentUser;
     private Mp3Player mp3Player;
     private int chosenView; 
     private int chosenPL; 
-    private int markedPl;
+   
     
     /**
      * Initializes the controller class.
@@ -200,11 +200,11 @@ private User currentUser;
     private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {     
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
-    Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
+    Playlist chosenPLObj = new Playlist(chosenPL, "", currentUser.getID());
     
-        if(songToMove!=null && playlistChosen!=null)
+        if(songToMove!=null && chosenPLObj!=null)
         {
-            mtmodel.addSongToPlaylist(songToMove,playlistChosen);
+            mtmodel.addSongToPlaylist(songToMove,chosenPLObj);
             refreshPlaylistSongs();
             refreshList();
         }
