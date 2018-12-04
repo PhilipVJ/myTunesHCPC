@@ -41,7 +41,7 @@ public class AddPlaylistController implements Initializable
     private AnchorPane rootPane2;
     
     private User currentUser;
- 
+    private MyTunesController mTController;
     private MTModel mtmodel;
    
     
@@ -50,7 +50,7 @@ public class AddPlaylistController implements Initializable
      */
     public AddPlaylistController() throws IOException, SQLException
     {
-        
+        mtmodel = new MTModel();
     }
     
     @Override
@@ -75,15 +75,13 @@ public class AddPlaylistController implements Initializable
         }
         mtmodel.addPlaylist(currentUser.getID(), playlistName);
         Stage stage = (Stage) rootPane2.getScene().getWindow();
-   
+        mTController.refreshList();
         stage.close(); 
     }
     
-
-
-    void setModel(MTModel mtmodel)
+    public void setPrevController(MyTunesController prev)
     {
-       this.mtmodel = mtmodel;
+        mTController=prev;
     }
             
 }

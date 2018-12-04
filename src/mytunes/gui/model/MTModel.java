@@ -88,25 +88,18 @@ return playlists;
 
 public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
     {        
-      playlists.add(mtmanager.addPlaylist(userID, playlistName));
+        mtmanager.addPlaylist(userID, playlistName);
     }
     
 public void addSong(Song songToAdd) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
 {
-   songs.add(mtmanager.addSong(songToAdd));
+    mtmanager.addSong(songToAdd);
 }
 
 
 public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
 {
     mtmanager.deletePlaylist(playlistToDelete);
-    for(Playlist x: playlists){
-        if(x.getId()==playlistToDelete.getId()){
-            playlists.remove(x);
-            return;
-        }
-            
-    }
 }
 
 public String getSecToMin(int time)
@@ -156,18 +149,9 @@ mtmanager.deleteSongFromLibrary(songToDelete);
 
 
 
-    public void editPlaylist(int id, String newName) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void editPlaylist(int id, String newName) throws IOException, SQLException
     {
         mtmanager.editPlaylist(id, newName);
-        for (Playlist x:playlists){
-            if (x.getId()==id){
-                x.setName(newName);
-                break;
-            }
-            }
- 
-      
-        
     }
 
 public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException

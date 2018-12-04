@@ -130,7 +130,8 @@ private User currentUser;
         AddPlaylistController aController = loader.getController();
         aController.setUser(currentUser);
         
-        aController.setModel(mtmodel);
+        MyTunesController mTController = this;
+        aController.setPrevController(this);
         
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -147,8 +148,9 @@ private User currentUser;
             EditPlaylistNameController editPlaylistName = loader.getController();
             editPlaylistName.setPlaylist(playlistView.getSelectionModel().getSelectedItem());
     
-            editPlaylistName.setModel(mtmodel);
-            editPlaylistName.setUser(currentUser);
+            MyTunesController mTController = this;
+            editPlaylistName.setPrevController(this);
+    
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -163,9 +165,9 @@ private User currentUser;
         if(!playlistView.getSelectionModel().isEmpty())
         {
             mtmodel.deletePlaylist(pl);
-           
+            refreshList();
         }
-
+        mtmodel.deletePlaylist(pl);
     }
     
     @FXML
@@ -245,8 +247,8 @@ private User currentUser;
         Parent root = (Parent)loader.load();
         AddSongController addSongCon = loader.getController();
        
-
-        addSongCon.setMode(mtmodel);
+        MyTunesController mTController = this;
+        addSongCon.setPrevController(this);
         
         Stage stage = new Stage();
         stage.setScene(new Scene(root));

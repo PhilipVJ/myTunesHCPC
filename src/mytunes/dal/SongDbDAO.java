@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mytunes.be.Playlist;
 
 import mytunes.be.Song;
 import org.farng.mp3.MP3File;
@@ -67,14 +66,14 @@ public class SongDbDAO
         return searchedSongs;
     }
     
-    public Song addSong(Song songToAdd) throws SQLServerException, SQLException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void addSong(Song songToAdd) throws SQLServerException, SQLException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         String artist = songToAdd.getArtist();
         String title = songToAdd.getTitle();
         String genre = songToAdd.getGenre();
         String path = songToAdd.getFilepath();
         String time = songToAdd.getTime();
-        Song newSong=null;
+        
         
 
         DbConnection dbCon = new DbConnection();
@@ -91,20 +90,8 @@ public class SongDbDAO
             pstmt.setString(4,genre);
             pstmt.setString(5,time);
             
-            pstmt.execute();
-            
-            ResultSet generatedKeys = pstmt.getGeneratedKeys(); 
-            {
-            if (generatedKeys.next()) 
-                {
-                newSong= new Song(artist, title, genre, path, generatedKeys.getInt(1), time);
-                
-                
-                return newSong;
-                }
-            }
+            pstmt.execute();    
         }
-    return newSong;
     }
     
     public void editSong(Song song) throws SQLServerException, SQLException, IOException
