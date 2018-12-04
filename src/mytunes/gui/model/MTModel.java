@@ -32,157 +32,153 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 
 public class MTModel
-
 {
-private ObservableList<User> users;
-private ObservableList<Playlist> playlists;
-private ObservableList<Song> songs;
-private ObservableList<Song> playlistSongs;
+    private ObservableList<User> users;
+    private ObservableList<Playlist> playlists;
+    private ObservableList<Song> songs;
+    private ObservableList<Song> playlistSongs;
+    private MTManager mtmanager;
 
 
-private MTManager mtmanager;
-
-
-public MTModel() throws IOException, SQLException
-{
-mtmanager = new MTManager();
-
-}
-
-public ObservableList<User> getUsers() throws IOException, SQLException
-{
-users = FXCollections.observableList(mtmanager.getAllUsers());
-
-return users;
-
-}
-
-public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
-{
-mtmanager.deleteUser(userToDelete);
-List<User> allUsers = users;
-
-for (User x: allUsers)
-{
-    if (x.getID()==userToDelete.getID()){
-        allUsers.remove(x);
-        return;
+    public MTModel() throws IOException, SQLException
+    {
+        mtmanager = new MTManager();
     }
-    
-}
-
-}
-
-public void addUser(String username) throws IOException, SQLException
-{
-users.add(mtmanager.addUser(username));
-
-
-}
-
-public ObservableList<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
-{
-playlists = FXCollections.observableList(mtmanager.getPlaylists(userID));
-return playlists;
-}
-
-public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
-    {        
-      playlists.add(mtmanager.addPlaylist(userID, playlistName));
+    /*
+        Here starts User related methods.
+    */
+    public ObservableList<User> getUsers() throws IOException, SQLException
+    {
+        users = FXCollections.observableList(mtmanager.getAllUsers());
+        return users;
     }
-    
-public void addSong(Song songToAdd) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
-{
-   songs.add(mtmanager.addSong(songToAdd));
-}
 
+    public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    {
+        mtmanager.deleteUser(userToDelete);
+        List<User> allUsers = users;
 
-public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
-{
-    mtmanager.deletePlaylist(playlistToDelete);
-    for(Playlist x: playlists){
-        if(x.getId()==playlistToDelete.getId()){
-            playlists.remove(x);
-            return;
+        for (User x: allUsers)
+        {
+            if (x.getID()==userToDelete.getID())
+            {
+                allUsers.remove(x);
+                return;
+            }
         }
-            
     }
-}
 
-public String getSecToMin(int time)
-{
-   return mtmanager.getSecToMin(time);
-}
+    public void addUser(String username) throws IOException, SQLException
+    {
+        users.add(mtmanager.addUser(username));
+    }
 
+    /*
+        Here starts Playlist related methods.
+    */
+    public ObservableList<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    {
+        playlists = FXCollections.observableList(mtmanager.getPlaylists(userID));
+        return playlists;
+    }
 
+    public void addPlaylist(int userID, String playlistName) throws IOException, SQLException
+    {        
+        playlists.add(mtmanager.addPlaylist(userID, playlistName));
+    }
+    
+    public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
+    {
+        mtmanager.deletePlaylist(playlistToDelete);
+        
+        for(Playlist x: playlists)
+        {
+            if(x.getId()==playlistToDelete.getId())
+            {
+                playlists.remove(x);
+                return;
+            }        
+        }
+    }
+    
+    public ObservableList<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
+    {
+        playlistSongs = FXCollections.observableList(mtmanager.getPlaylistSongs(chosenPlaylist));
+        return playlistSongs;
+    }
+    
+    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLException
+    {
+        mtmanager.deleteSongFromPlaylist(chosenPlaylist,songToDelete);
+    }
 
-public ObservableList<Song> getSongs() throws IOException, SQLException
-{
-    songs = FXCollections.observableList(mtmanager.getSongs());
-    return songs;
-}
-
-
-
-public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
-{
-mtmanager.editSong(editedSong);
-}
-
-
-public ObservableList<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
-{
-playlistSongs = FXCollections.observableList(mtmanager.getPlaylistSongs(chosenPlaylist));
-return playlistSongs;
-       
-
-}
-
-public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLException
-{
-    mtmanager.deleteSongFromPlaylist(chosenPlaylist,songToDelete);
-}
-
-public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
-{
- mtmanager.addSongToPlaylist(songToMove,playlistChosen);
-}
-
-public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
-{
-mtmanager.deleteSongFromLibrary(songToDelete);
-
-}
-
-
+    public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
+    {
+        mtmanager.addSongToPlaylist(songToMove,playlistChosen);
+    }
 
     public void editPlaylist(int id, String newName) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         mtmanager.editPlaylist(id, newName);
-        for (Playlist x:playlists){
-            if (x.getId()==id){
+        for (Playlist x:playlists)
+        {
+            if (x.getId()==id)
+            {
                 x.setName(newName);
                 break;
             }
-            }
- 
-      
-        
+        }   
     }
-
-public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
-{
-     mtmanager.moveSongUp(playlistChosen, songToMoveUp);
-}
+    
+    public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
+    {
+        mtmanager.moveSongUp(playlistChosen, songToMoveUp);
+    }
 
     public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
     {
-       mtmanager.moveSongDown(playlistChosen, songToMoveDown);
+        mtmanager.moveSongDown(playlistChosen, songToMoveDown);
+    }
+    
+    
+    /*
+        Here starts Song related methods.
+    */
+    public void addSong(Song songToAdd) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
+    {
+        songs.add(mtmanager.addSong(songToAdd));
     }
 
+    public ObservableList<Song> getSongs() throws IOException, SQLException
+    {
+        songs = FXCollections.observableList(mtmanager.getSongs());
+        return songs;
+    }
+
+    public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
+    {
+        mtmanager.editSong(editedSong);
+    }
+    
+    public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
+    {
+        mtmanager.deleteSongFromLibrary(songToDelete);
+    }
+    
+    /*
+        Converts seconds to minutes
+    */
+    public String getSecToMin(int time)
+    {
+        return mtmanager.getSecToMin(time);
+    }
+    
+    /*
+        An observablelist to search for songs.
+    */
     public ObservableList<Song> searchSong(String text) throws IOException, SQLException
     {
-      ObservableList<Song> searchedSongs = FXCollections.observableList(mtmanager.searchSong(text));
+        ObservableList<Song> searchedSongs = FXCollections.observableList(mtmanager.searchSong(text));
         return searchedSongs;
     }
 }
