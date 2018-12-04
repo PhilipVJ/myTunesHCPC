@@ -80,8 +80,6 @@ public class EditPlaylistNameController implements Initializable
         
         mtmodel.editPlaylist(plToEdit.getId(), newName);
         mTController.refreshList();
-        
-        mTController.setCurrentPL(newName);
         Stage stage = (Stage) rootPane3.getScene().getWindow();
         stage.close();
     }
