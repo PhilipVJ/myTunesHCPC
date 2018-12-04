@@ -106,9 +106,9 @@ public class MTManager
     /*
         Here starts Song related methods.
     */
-    public void addSong(Song songToAdd) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public Song addSong(Song songToAdd) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-        songDB.addSong(songToAdd);
+        return songDB.addSong(songToAdd);
     }
 
     public List<Song> getSongs() throws IOException, SQLException

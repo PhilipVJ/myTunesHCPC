@@ -111,69 +111,15 @@ public class MTModel
     {
         mtmanager.deleteSongFromPlaylist(chosenPlaylist,songToDelete);
     }
-    
-    public void addSong(Song songToAdd) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
-    {
-        mtmanager.addSong(songToAdd);
-    }
-
-
-    public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
-    {
-        mtmanager.deletePlaylist(playlistToDelete);
-    }
-
-    public String getSecToMin(int time)
-    {
-        return mtmanager.getSecToMin(time);
-    }
-
-
-
-    public ObservableList<Song> getSongs() throws IOException, SQLException
-    {
-        songs = FXCollections.observableList(mtmanager.getSongs());
-        return songs;
-    }
-
-
-
-    public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
-    {
-        mtmanager.editSong(editedSong);
-    }
-
-
-    public ObservableList<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
-    {
-         playlistSongs = FXCollections.observableList(mtmanager.getPlaylistSongs(chosenPlaylist));
-        return playlistSongs;
-    }
-    
-    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLException
-    {
-        mtmanager.deleteSongFromPlaylist(chosenPlaylist,songToDelete);
-    }
 
     public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
     {
         mtmanager.addSongToPlaylist(songToMove,playlistChosen);
     }
 
-    public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
-    {
-        mtmanager.deleteSongFromLibrary(songToDelete);
-    }
-
-    public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
-    {
-        mtmanager.addSongToPlaylist(songToMove,playlistChosen);
-    }
-
-    public void editPlaylist(int id, String newName) throws IOException, SQLException
+    public void editPlaylist(int id, String newName) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         mtmanager.editPlaylist(id, newName);
-
         for (Playlist x:playlists)
         {
             if (x.getId()==id)
