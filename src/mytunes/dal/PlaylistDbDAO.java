@@ -106,9 +106,6 @@ public class PlaylistDbDAO
         DbConnection dc = new DbConnection();
         Connection con = dc.getConnection();
     
-  
-    
-        Statement statement = con.createStatement();
         String SQL = "INSERT INTO PlaylistContent VALUES (?, ?, ?)";
         PreparedStatement pstmt = con.prepareStatement(SQL);
         pstmt.setInt(1, chosenPlaylist.getId());

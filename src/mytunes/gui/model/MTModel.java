@@ -123,6 +123,7 @@ public class MTModel
     public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
     {
         mtmanager.addSongToPlaylist(songToMove,playlistChosen);
+      
     }
 
     public void editPlaylist(int id, String newName) throws IOException, SQLException
