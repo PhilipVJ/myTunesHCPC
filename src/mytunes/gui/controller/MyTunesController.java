@@ -180,7 +180,8 @@ private User currentUser;
             EditPlaylistNameController editPlaylistName = loader.getController();
             editPlaylistName.setPlaylist(playlistView.getSelectionModel().getSelectedItem());
     
-            editPlaylistName.setPrevControlloer(this);
+            editPlaylistName.setModel(mtmodel);
+            editPlaylistName.setTableView(playlistView);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -197,7 +198,7 @@ private User currentUser;
             mtmodel.deletePlaylist(pl);
            
         }
-
+        
     }
     
     @FXML
@@ -244,14 +245,10 @@ private User currentUser;
     private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         Song songToDelete = playlistSongView.getSelectionModel().getSelectedItem();
-        Playlist playlistChosen = playlistView.getSelectionModel().getSelectedItem();
-        mtmodel.deleteSongFromPlaylist(playlistChosen, songToDelete);
-
         Playlist chosenPLObj = new Playlist(chosenPL, "", 0);
     
         mtmodel.deleteSongFromPlaylist(chosenPLObj, songToDelete);
 
-        refreshPlaylistSongs();
         refreshList();
     }
     
@@ -297,8 +294,8 @@ private User currentUser;
             EditSongController editSongCon = loader.getController();
             editSongCon.setSong(songToEdit);
     
-            MyTunesController mTController = this;
-            editSongCon.setPrevController(this);
+            editSongCon.setTableView(allSongsView);
+            editSongCon.setModel(mtmodel);
     
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -307,12 +304,13 @@ private User currentUser;
     }
     
     @FXML
-    private void deleteSongFromFileLibrary(ActionEvent event) throws IOException, SQLException
+    private void deleteSongFromFileLibrary(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
         mtmodel.deleteSongFromLibrary(songToMove);
-        allSongsView.setItems(mtmodel.getSongs());  
-        refreshPlaylistSongs();
+        refreshList();
+        
+        
     }
     
     /*
@@ -321,13 +319,14 @@ private User currentUser;
     public void refreshList() throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
-     allSongsView.setItems(mtmodel.getSongs());  
+      
     }
     
     public void setListViews() throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
      allSongsView.setItems(mtmodel.getSongs()); 
+     
     }
 
     private void refreshPlaylistSongs() throws IOException, SQLException

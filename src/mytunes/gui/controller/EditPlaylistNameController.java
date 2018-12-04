@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -47,6 +48,7 @@ public class EditPlaylistNameController implements Initializable
     private MTModel mtmodel;
  
     private MyTunesController prevController;
+    private TableView<Playlist> playlistTableView;
        
     /**
      * Initializes the controller class.
@@ -60,16 +62,7 @@ public class EditPlaylistNameController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        try
-        {
-            mtmodel = new MTModel();
-        } catch (IOException ex)
-        {
-            Logger.getLogger(EditPlaylistNameController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(EditPlaylistNameController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }    
 
 
@@ -92,8 +85,8 @@ public class EditPlaylistNameController implements Initializable
         }
         
         mtmodel.editPlaylist(plToEdit.getId(), newName);
-        prevController.refreshList();
-        
+        playlistTableView.refresh();
+     
      
         Stage stage = (Stage) rootPane3.getScene().getWindow();
         stage.close();
@@ -106,9 +99,14 @@ public class EditPlaylistNameController implements Initializable
     
 
 
-    void setPrevControlloer(MyTunesController con)
+    
+    public void setModel(MTModel model){
+        mtmodel = model;
+    }
+
+    void setTableView(TableView<Playlist> playlistView)
     {
-prevController=con;
+playlistTableView = playlistView;
     }
 
 

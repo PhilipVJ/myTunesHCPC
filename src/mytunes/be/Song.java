@@ -78,8 +78,19 @@ public class Song
         return songPosition;
     }
     
+    public void setArtist(String name)
+    {
+     artist.set(name);
+    }
     
+    public void setTitle(String name){
+        title.set(name);
+    }
     
+    public void setGenre(String name)
+    {
+        genre.set(name);
+    }
   
 }
     

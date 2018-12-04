@@ -90,6 +90,14 @@ public class MTModel
     public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLException
     {
         mtmanager.deletePlaylist(playlistToDelete);
+        for (Playlist x:playlists)
+        {
+            if (x.getId()==playlistToDelete.getId())
+            {
+                playlists.remove(x);
+                break;
+            }
+        }
     }
     
     public ObservableList<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
@@ -101,6 +109,15 @@ public class MTModel
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLException
     {
         mtmanager.deleteSongFromPlaylist(chosenPlaylist,songToDelete);
+        for (Song x:playlistSongs)
+        {
+            if (x.getId()==songToDelete.getId())
+            {
+                playlistSongs.remove(x);
+                break;
+            }
+        }
+        
     }
 
     public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
@@ -110,7 +127,13 @@ public class MTModel
 
     public void editPlaylist(int id, String newName) throws IOException, SQLException
     {
-        mtmanager.editPlaylist(id, newName);  
+        mtmanager.editPlaylist(id, newName); 
+        
+        for (Playlist x:playlists){
+            if (x.getId()==id){
+                x.setName(newName);
+                break;}
+        }
     }
     
     public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
@@ -141,11 +164,34 @@ public class MTModel
     public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
     {
         mtmanager.editSong(editedSong);
+        for (Song x:songs)
+        {
+            if (x.getId()==editedSong.getId())
+            {
+                x.setArtist(editedSong.getArtist());
+                x.setTitle(editedSong.getTitle());
+                x.setGenre(editedSong.getGenre());
+                break;
+            }
+        }
     }
     
     public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
     {
         mtmanager.deleteSongFromLibrary(songToDelete);
+        for (Song x:songs){
+            if(x.getId()==songToDelete.getId()){
+                songs.remove(x);
+                break;
+            }
+        }
+        for (Song x:playlistSongs)
+        {
+            if(x.getId()==songToDelete.getId()){
+                playlistSongs.remove(x);
+                break;}
+            
+        }
     }
     
     /*

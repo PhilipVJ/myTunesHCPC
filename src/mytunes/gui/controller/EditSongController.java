@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -45,13 +46,14 @@ public class EditSongController implements Initializable
     private Song songToEdit;
     private MTModel mtmodel;
     private MyTunesController mTController;
+    private TableView<Song> tableView;
 
     /**
      * Initializes the controller class.
      */
     public EditSongController() throws IOException, SQLException
     {
-        mtmodel = new MTModel();
+       
     }
     
     @Override
@@ -80,7 +82,7 @@ public class EditSongController implements Initializable
     
         Song editedSong = new Song(newArtist, newTitle, newGenre, filepath, songID, songTime);
         mtmodel.editSong(editedSong);
-        mTController.refreshList();
+        tableView.refresh();
         Stage stage = (Stage) rootPane2.getScene().getWindow();
         stage.close();    
     }
@@ -97,5 +99,15 @@ public class EditSongController implements Initializable
     void setPrevController(MyTunesController prev)
     {
       mTController=prev;
+    }
+
+    void setTableView(TableView<Song> allSongsView)
+    {
+      tableView = allSongsView;
+    }
+
+    void setModel(MTModel mtmodel)
+    {
+       this.mtmodel=mtmodel;
     }
 }
