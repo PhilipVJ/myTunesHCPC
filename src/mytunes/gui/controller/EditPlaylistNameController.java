@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +45,8 @@ public class EditPlaylistNameController implements Initializable
     
     private Playlist plToEdit; 
     private MTModel mtmodel;
-    private User user;
+ 
+    private MyTunesController prevController;
        
     /**
      * Initializes the controller class.
@@ -57,7 +60,16 @@ public class EditPlaylistNameController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        try
+        {
+            mtmodel = new MTModel();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(EditPlaylistNameController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(EditPlaylistNameController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
 
@@ -80,7 +92,7 @@ public class EditPlaylistNameController implements Initializable
         }
         
         mtmodel.editPlaylist(plToEdit.getId(), newName);
-        
+        prevController.refreshList();
         
      
         Stage stage = (Stage) rootPane3.getScene().getWindow();
@@ -94,13 +106,10 @@ public class EditPlaylistNameController implements Initializable
     
 
 
-    void setModel(MTModel mtmodel)
+    void setPrevControlloer(MyTunesController con)
     {
-this.mtmodel=mtmodel;
+prevController=con;
     }
 
-    void setUser(User currentUser)
-    {
-    user=currentUser;
-    }
+
 }

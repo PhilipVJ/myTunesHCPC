@@ -180,8 +180,7 @@ private User currentUser;
             EditPlaylistNameController editPlaylistName = loader.getController();
             editPlaylistName.setPlaylist(playlistView.getSelectionModel().getSelectedItem());
     
-            editPlaylistName.setModel(mtmodel);
-            editPlaylistName.setUser(currentUser);
+            editPlaylistName.setPrevControlloer(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();

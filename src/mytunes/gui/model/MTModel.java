@@ -129,7 +129,7 @@ public class MTModel
     */
     public void addSong(Song songToAdd) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
     {
-        mtmanager.addSong(songToAdd);
+        songs.add(mtmanager.addSong(songToAdd));
     }
 
     public ObservableList<Song> getSongs() throws IOException, SQLException
