@@ -45,9 +45,8 @@ public class Mp3Player
 
     public void play(int songListNr, ObservableList<Song> songs)
     {
-        System.out.println(""+songListNr);
-        System.out.println("listsize"+songs.size());
         
+             
         if (currentSong==songs.size() || currentSong==-1)
         {
             return;
@@ -56,10 +55,8 @@ public class Mp3Player
         media = new Media(path);
         mediaPlayer = new MediaPlayer(media);
         String songLabel = ""+songs.get(songListNr).getArtist()+" - "+songs.get(songListNr).getTitle();
-        System.out.println("Song label"+songLabel);
         currentTitle.set(songLabel);
-        System.out.println(""+currentTitle.toString());
-    
+          
         mediaPlayer.play();  
 
         mediaPlayer.setOnEndOfMedia(new Runnable() 
@@ -69,7 +66,6 @@ public class Mp3Player
             {
                 //Plays the next song in the list 
                 currentSong++;
-                System.out.println("Currentsong:"+currentSong);
                 play(currentSong,songsToPlay);
             }
         });
@@ -95,7 +91,6 @@ public class Mp3Player
     {
         if (currentSong<songsToPlay.size()-1)
         {
-            System.out.println("Next song");
             stop();
             currentSong++;
             play(currentSong, songsToPlay);
@@ -106,7 +101,6 @@ public class Mp3Player
     {
         if (currentSong>0)
         {
-            System.out.println("Previous song");
             stop();
             currentSong--;
             play(currentSong, songsToPlay); 

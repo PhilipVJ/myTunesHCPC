@@ -251,9 +251,7 @@ private User currentUser;
         if (playlistView.getSelectionModel().getSelectedItem()!=null)
         {
             chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
-            System.out.println(""+chosenPL);
             currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getPlaylistName());  
-
             refreshPlaylistSongs();
         }
     }

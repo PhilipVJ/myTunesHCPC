@@ -119,7 +119,6 @@ public class PlaylistDbDAO
             pstmt.setInt(1, chosenPlaylist.getId());
             pstmt.setInt(2, songToAdd.getId());
             pstmt.setInt(3, getPlaylistSongs(chosenPlaylist).size()+1);
-            System.out.println("Ready to execute");
             pstmt.execute();
         } 
         catch (IOException |SQLException ex)
@@ -268,7 +267,6 @@ public class PlaylistDbDAO
             
             for (int i=position+1;i<=plSize;i++)
             {
-                System.out.println("Working");
                 PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
                 pstmt.setInt(1, i-1);
                 pstmt.setInt(2, playId);
