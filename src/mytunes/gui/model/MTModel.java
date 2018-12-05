@@ -32,6 +32,7 @@ public class MTModel
     {
         mtmanager = new MTManager();
     }
+    
     /*
         Here starts User related methods.
     */
@@ -105,24 +106,25 @@ public class MTModel
                 playlistSongs.remove(x);
                 break;
             }
-        }
-        
+        }    
     }
 
     public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) 
     {
         mtmanager.addSongToPlaylist(songToMove,playlistChosen);
-      
     }
 
     public void editPlaylist(int id, String newName) 
     {
         mtmanager.editPlaylist(id, newName); 
         
-        for (Playlist x:playlists){
-            if (x.getId()==id){
+        for (Playlist x:playlists)
+        {
+            if (x.getId()==id)
+            {
                 x.setName(newName);
-                break;}
+                break;
+            }
         }
     }
     
@@ -169,18 +171,22 @@ public class MTModel
     public void deleteSongFromLibrary(Song songToDelete)
     {
         mtmanager.deleteSongFromLibrary(songToDelete);
-        for (Song x:songs){
-            if(x.getId()==songToDelete.getId()){
+        for (Song x:songs)
+        {
+            if(x.getId()==songToDelete.getId())
+            {
                 songs.remove(x);
                 break;
             }
         }
+        
         for (Song x:playlistSongs)
         {
-            if(x.getId()==songToDelete.getId()){
+            if(x.getId()==songToDelete.getId())
+            {
                 playlistSongs.remove(x);
-                break;}
-            
+                break;
+            }    
         }
     }
     

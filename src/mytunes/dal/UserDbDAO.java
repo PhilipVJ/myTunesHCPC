@@ -45,7 +45,8 @@ public class UserDbDAO
                 return addedUser;
             }
             return addedUser;
-       } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not add user", ex);
         }
@@ -73,7 +74,8 @@ public class UserDbDAO
             {
                 pDbDAO.deletePlaylist(x);
             }
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not delete user", ex);
         }
@@ -97,7 +99,8 @@ public class UserDbDAO
                 allUsers.add(new User(id,username));
             }
             return allUsers;
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not get all users", ex);
         }

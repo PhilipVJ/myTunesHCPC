@@ -29,8 +29,7 @@ public class PlaylistDbDAO
 {
     
     public Playlist addPlaylist(int userId, String playlistName) throws DALException
-    {
-         
+    { 
         try
         {
             DbConnection ds = new DbConnection();
@@ -52,14 +51,14 @@ public class PlaylistDbDAO
                 return addedPlaylist;
             }
         return addedPlaylist; 
-        } catch ( IOException |SQLException ex)
+        } 
+        catch ( IOException |SQLException ex)
         {
             throw new DALException("Could not add playlist", ex);
-        }
-        
-   
-           
+        }   
     }
+    
+    
     /**
      * Returns all playlists by the given user ID from the database.
      * @param userID
@@ -100,7 +99,8 @@ public class PlaylistDbDAO
                 x.addLengthInSeconds(duration);
             }
         return allPlaylist;
-        } catch (IOException | SQLException ex)
+        } 
+        catch (IOException | SQLException ex)
         {
             throw new DALException("Could not get playlists", ex);
         }
@@ -121,7 +121,8 @@ public class PlaylistDbDAO
             pstmt.setInt(3, getPlaylistSongs(chosenPlaylist).size()+1);
             System.out.println("Ready to execute");
             pstmt.execute();
-        } catch (IOException |SQLException ex)
+        } 
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not add song to playlist", ex);
         }
@@ -140,11 +141,14 @@ public class PlaylistDbDAO
             pstmt.setInt(2, playlistID);
             pstmt.execute();
             pstmt.close();
-          } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not rename playlist", ex);
         }
-        }    
+    }    
+    
+    
     /**
      * This method deletes the playlist and all its content from the database.
      * @param playlistToDelete
@@ -165,7 +169,8 @@ public class PlaylistDbDAO
             pstmt.setInt(1,playlistId);
             pstmt.execute();
             System.out.println("Following playlist has been deleted: "+playlistId);
-          } catch (IOException |SQLException ex)
+        } 
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not delete playlist", ex);
         }
@@ -190,10 +195,14 @@ public class PlaylistDbDAO
                 int SongID = rs.getInt("songID");
                 int SongPosition = rs.getInt("songPosition");
                 Song songToAdd = songDB.getSong(SongID);
-                if(songToAdd!=null){
+                
+                if(songToAdd!=null)
+                {
                     songToAdd.setPosition(SongPosition);
-                    playlistSongs.add(songToAdd);}
-                else{
+                    playlistSongs.add(songToAdd);
+                }
+                else
+                {
                     Song fileHasBeenDeleted = new Song("File has been deleted", "", "","error", SongID, "");
                     fileHasBeenDeleted.setPosition(SongPosition);
                     playlistSongs.add(fileHasBeenDeleted);
@@ -203,7 +212,8 @@ public class PlaylistDbDAO
             }
             playlistSongs.sort( Comparator.comparing( Song::getPosition ) );
             return playlistSongs;
-       } catch (IOException |SQLException ex)
+        } 
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not get playlist songs", ex);
         }
@@ -211,7 +221,8 @@ public class PlaylistDbDAO
 
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws DALException 
     {
-        try {
+        try 
+        {
             int songID = songToDelete.getId();
             int position = songToDelete.getPosition();
             int playlistID = chosenPlaylist.getId();
@@ -229,11 +240,14 @@ public class PlaylistDbDAO
             
             System.out.println("Following song has been deleted: "+songID);
             fixSongPositionsAfterDeletion(playlistSize,playlistID, position);
-          } catch (IOException |SQLException ex)
+        } 
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not delete song from playlist", ex);
         }
     }
+    
+    
     /**
      * Each song on a playlist has an position ID. This method makes sure no gaps appear between the ID's. 
      * 
@@ -261,12 +275,14 @@ public class PlaylistDbDAO
                 pstmt.setInt(3, i);
                 pstmt.execute();
             }
-       } catch (IOException |SQLException ex)
+        } 
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not fit song position", ex);
-        }
-         
+        } 
     }
+    
+    
     /**
      * When you move a song up the playlist the song chosen should switch ID with the song above it. This method does just that.
      * @param playlistChosen
@@ -296,11 +312,14 @@ public class PlaylistDbDAO
             pstmt.setInt(3, songPosition);    
             pstmt.setInt(4, songID);
             pstmt.execute();
-          } catch (IOException |SQLException ex)
+        } 
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not move song up", ex);
         }
     }
+    
+    
 /**
  * When you move a song down the playlist it should switch position ID with the song beneath it. This method does just that. 
  * @param playlistChosen
@@ -330,7 +349,8 @@ public class PlaylistDbDAO
             pstmt.setInt(3, songPosition);
             pstmt.setInt(4, songID);
             pstmt.execute();
-          } catch (IOException |SQLException ex)
+        } 
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not move song down", ex);
         }

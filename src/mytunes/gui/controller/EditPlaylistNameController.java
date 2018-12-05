@@ -29,14 +29,14 @@ public class EditPlaylistNameController implements Initializable
     private TextField editPlaylistName;
     @FXML
     private AnchorPane rootPane3;
+    
     private Playlist plToEdit; 
     private MTModel mtmodel;
     private TableView<Playlist> playlistTableView;
        
-    /**
+     /**
      * Initializes the controller class.
      */
-    
     public EditPlaylistNameController()
     {
     
@@ -47,7 +47,6 @@ public class EditPlaylistNameController implements Initializable
     {
 
     }    
-
 
     @FXML
     private void cancel(ActionEvent event)
@@ -80,17 +79,12 @@ public class EditPlaylistNameController implements Initializable
         plToEdit = selectedItem;
     }
     
-
-
-    
     public void setModel(MTModel model){
         mtmodel = model;
     }
 
     void setTableView(TableView<Playlist> playlistView)
     {
-playlistTableView = playlistView;
+        playlistTableView = playlistView;
     }
-
-
 }
