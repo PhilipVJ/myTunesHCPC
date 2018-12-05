@@ -5,31 +5,17 @@
  */
 package mytunes.gui.controller;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
-import mytunes.be.User;
-import mytunes.dal.PlaylistDbDAO;
 import mytunes.gui.model.MTModel;
-import org.farng.mp3.TagException;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  * FXML Controller class
@@ -43,18 +29,15 @@ public class EditPlaylistNameController implements Initializable
     private TextField editPlaylistName;
     @FXML
     private AnchorPane rootPane3;
-    
     private Playlist plToEdit; 
     private MTModel mtmodel;
- 
-    private MyTunesController prevController;
     private TableView<Playlist> playlistTableView;
        
     /**
      * Initializes the controller class.
      */
     
-    public EditPlaylistNameController() throws IOException, SQLException
+    public EditPlaylistNameController()
     {
     
     }
@@ -74,7 +57,7 @@ public class EditPlaylistNameController implements Initializable
     }
 
     @FXML
-    private void save(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void save(ActionEvent event)
     {
         String newName = editPlaylistName.getText();
         

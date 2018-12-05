@@ -10,9 +10,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
 import mytunes.be.Song;
-import mytunes.gui.controller.MyTunesController;
 
 /**
  *
@@ -34,6 +32,7 @@ public Mp3Player(){
 /**
  * Initializes the player class and calls the play function, which plays through 
  * the entire list.
+ * @param songIndex
  * @param songs 
  */
 public void initPlay(int songIndex, ObservableList<Song> songs)

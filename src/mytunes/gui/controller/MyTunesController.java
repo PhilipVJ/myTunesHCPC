@@ -5,7 +5,6 @@
  */
 package mytunes.gui.controller;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -37,10 +36,6 @@ import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.gui.model.MTModel;
 import mytunes.gui.model.Mp3Player;
-import org.farng.mp3.TagException;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  * FXML Controller class
@@ -105,7 +100,7 @@ private User currentUser;
     /**
      * Initializes the controller class.
      */
-    public MyTunesController() throws IOException, SQLException
+    public MyTunesController() 
     {
         
     }
@@ -113,34 +108,26 @@ private User currentUser;
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        try
-        {
             mtmodel = new MTModel();
-            playlistNameCol.setCellValueFactory(new PropertyValueFactory<Playlist, String>("playlistName"));
-            playlistLengthCol.setCellValueFactory(new PropertyValueFactory<Playlist, String>("lengthInMin"));
+// Initializes the tableviews
             
-            playlistSongArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
-            playlistSongTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
-            playlistSongLength.setCellValueFactory(new PropertyValueFactory<Song, String>("time"));
+            playlistNameCol.setCellValueFactory(new PropertyValueFactory<>("playlistName"));
+            playlistLengthCol.setCellValueFactory(new PropertyValueFactory<>("lengthInMin"));
             
-            allSongsArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
-            allSongsTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
-            allSongsLength.setCellValueFactory(new PropertyValueFactory<Song, String>("time"));
-            allSongsGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("genre"));
-        } 
-        catch (IOException ex)
-        {
-            Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            playlistSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+            playlistSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+            playlistSongLength.setCellValueFactory(new PropertyValueFactory<>("time"));
+            
+            allSongsArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+            allSongsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+            allSongsLength.setCellValueFactory(new PropertyValueFactory<>("time"));
+            allSongsGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+
     }    
     /*
         Here starts User methods.
     */
-    void setUser(User user) throws IOException, SQLException
+    void setUser(User user) 
     {
         currentUser=user;
         userName.setText(user.getName());
@@ -150,9 +137,11 @@ private User currentUser;
         Here starts Playlist related methods.
     */     
     @FXML
-    private void newPlaylist(ActionEvent event) throws IOException, SQLException
+    private void newPlaylist(ActionEvent event)
     {
         
+    try
+    {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylist.fxml"));
         Parent root = (Parent)loader.load();
         
@@ -164,28 +153,36 @@ private User currentUser;
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();   
+    } catch (IOException ex)
+    {
+        Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     @FXML
-    private void editPlaylist(ActionEvent event) throws IOException
+    private void editPlaylist(ActionEvent event)
     {
         if (!playlistView.getSelectionModel().isEmpty())
         {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistName.fxml"));
-            Parent root = (Parent)loader.load();
-            EditPlaylistNameController editPlaylistName = loader.getController();
-            editPlaylistName.setPlaylist(playlistView.getSelectionModel().getSelectedItem());
-    
-            editPlaylistName.setModel(mtmodel);
-            editPlaylistName.setTableView(playlistView);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistName.fxml"));
+                Parent root = (Parent)loader.load();
+                EditPlaylistNameController editPlaylistName = loader.getController();
+                editPlaylistName.setPlaylist(playlistView.getSelectionModel().getSelectedItem());
+                
+                editPlaylistName.setModel(mtmodel);
+                editPlaylistName.setTableView(playlistView);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @FXML
-    private void deletePlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void deletePlaylist(ActionEvent event)
     {
         Playlist pl = playlistView.getSelectionModel().getSelectedItem();
         
@@ -198,7 +195,7 @@ private User currentUser;
     }
     
     @FXML
-    private void upPlaylist(MouseEvent event) throws IOException, SQLException
+    private void upPlaylist(MouseEvent event)
     {
         Song songToMoveUp = playlistSongView.getSelectionModel().getSelectedItem();
         Playlist chosenPLObj = new Playlist(chosenPL, "");
@@ -211,7 +208,7 @@ private User currentUser;
     }
     
     @FXML
-    private void downPlaylist(MouseEvent event) throws IOException, SQLException
+    private void downPlaylist(MouseEvent event) 
     {
         Song songToMoveDown = playlistSongView.getSelectionModel().getSelectedItem();
         Playlist chosenPLObj = new Playlist(chosenPL, "");
@@ -224,7 +221,7 @@ private User currentUser;
     }
 
     @FXML
-    private void addSongToUserPlaylist(MouseEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void addSongToUserPlaylist(MouseEvent event)
     {     
     Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
     Playlist chosenPLObj = new Playlist(chosenPL, "");
@@ -238,7 +235,7 @@ private User currentUser;
     }
 
     @FXML
-    private void deleteSongFromPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void deleteSongFromPlaylist(ActionEvent event) 
     {
         Song songToDelete = playlistSongView.getSelectionModel().getSelectedItem();
         Playlist chosenPLObj = new Playlist(chosenPL, "");
@@ -249,7 +246,7 @@ private User currentUser;
     }
     
 @FXML
-    private void choosePlaylist(MouseEvent event) throws IOException, SQLException
+    private void choosePlaylist(MouseEvent event)
     { 
         if (playlistView.getSelectionModel().getSelectedItem()!=null){
         
@@ -265,42 +262,52 @@ private User currentUser;
         Here starts Song related methods.
     */
     @FXML
-    private void newSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
+    private void newSong(ActionEvent event) 
     {    
+    try
+    {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
         Parent root = (Parent)loader.load();
         AddSongController addSongCon = loader.getController();
-       
-
+        
+        
         addSongCon.setMode(mtmodel);
         
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();
+    } catch (IOException ex)
+    {
+        Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
     
     @FXML
-    private void editSong(ActionEvent event) throws IOException
+    private void editSong(ActionEvent event)
     {
         Song songToEdit = allSongsView.getSelectionModel().getSelectedItem();
         if(!allSongsView.getSelectionModel().isEmpty())
         {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSong.fxml"));
-            Parent root = (Parent)loader.load();
-            EditSongController editSongCon = loader.getController();
-            editSongCon.setSong(songToEdit);
-    
-            editSongCon.setTableView(allSongsView);
-            editSongCon.setModel(mtmodel);
-    
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSong.fxml"));
+                Parent root = (Parent)loader.load();
+                EditSongController editSongCon = loader.getController();
+                editSongCon.setSong(songToEdit);
+                
+                editSongCon.setTableView(allSongsView);
+                editSongCon.setModel(mtmodel);
+                
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
     @FXML
-    private void deleteSongFromFileLibrary(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void deleteSongFromFileLibrary(ActionEvent event) 
     {
         Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
         mtmodel.deleteSongFromLibrary(songToMove);
@@ -313,26 +320,26 @@ private User currentUser;
     /*
         Here starts Refresh related methods.
     */
-    public void refreshList() throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void refreshList() 
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
       
     }
     
-    public void setListViews() throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void setListViews() 
     {
      playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
      allSongsView.setItems(mtmodel.getSongs()); 
      
     }
 
-    private void refreshPlaylistSongs() throws IOException, SQLException
+    private void refreshPlaylistSongs() 
     {
     Playlist chosenPLObj = new Playlist(chosenPL, "");
     ObservableList<Song>allSongs = mtmodel.getPlaylistSongs(chosenPLObj);
     for (Song x:allSongs)
     {
-       if (x.getFilepath()=="error"){
+       if ("error".equals(x.getFilepath())){
            Alert alert = new Alert(AlertType.INFORMATION);
            alert.setTitle("Important information");
            alert.setHeaderText("A mediafile on your playlist has been deleted from the library");
@@ -348,13 +355,13 @@ private User currentUser;
         Here starts Search related methods.
     */
     @FXML
-    private void searchEnter(KeyEvent event) throws IOException, SQLException
+    private void searchEnter(KeyEvent event) 
     {
     
     }
 
     @FXML
-    private void searchClicked(MouseEvent event) throws IOException, SQLException
+    private void searchClicked(MouseEvent event) 
     {
         allSongsView.setItems(mtmodel.searchSong(searchTxt.getText()));
     }

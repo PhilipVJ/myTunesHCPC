@@ -5,7 +5,7 @@
  */
 package mytunes.bll;
 
-import java.io.IOException;
+
 
 /**
  *
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class TesterClass
 {
     
-public static void main(String[] args) throws IOException 
+public static void main(String[] args) 
 {
 
 }

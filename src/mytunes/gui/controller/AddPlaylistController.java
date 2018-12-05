@@ -43,10 +43,8 @@ public class AddPlaylistController implements Initializable
     
     /**
      * Initializes the controller class.
-     * @throws java.io.IOException
-     * @throws java.sql.SQLException
      */
-    public AddPlaylistController() throws IOException, SQLException
+    public AddPlaylistController()
     {
         
     }
@@ -57,13 +55,13 @@ public class AddPlaylistController implements Initializable
         // TODO
     }    
     
-    void setUser(User user) throws IOException, SQLException
+    void setUser(User user)
     {
         currentUser=user;
     }
 
     @FXML
-    private void addPlaylist(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void addPlaylist(ActionEvent event)
     {
         String playlistName = playListName.getText();
         if(playlistName.length()==0)

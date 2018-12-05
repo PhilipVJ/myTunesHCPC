@@ -8,8 +8,9 @@ package mytunes.gui.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -55,10 +56,8 @@ public class AddSongController implements Initializable
 
     /**
      * Initializes the controller class.
-     * @throws java.io.IOException
-     * @throws java.sql.SQLException
      */
-    public AddSongController() throws IOException, SQLException
+    public AddSongController()
     {
      
     }
@@ -70,50 +69,57 @@ public class AddSongController implements Initializable
     }    
 
     @FXML
-    private void chooseFile(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void chooseFile(ActionEvent event) 
     {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Music File");
-        Stage stage = (Stage) rootPane2.getScene().getWindow();
-        File mediafile = fileChooser.showOpenDialog(stage);
-   
-        MP3File mp3file = new MP3File(mediafile);
-        String path = mediafile.toURI().toString();
-        
-        if ( mp3file.hasID3v2Tag()==true)
+        try
         {
-            AbstractID3v2 ID3 = mp3file.getID3v2Tag();
-   
-            String artistID3 = ID3.getLeadArtist();
-            String titleID3 = ID3.getSongTitle();
-            String genreID3 = ID3.getSongGenre();
-    
-            int duration = 0;
-            AudioFile audioFile = AudioFileIO.read(mediafile);
-            duration = audioFile.getAudioHeader().getTrackLength();
-            String time = mtmodel.getSecToMin(duration);
-    
-            this.title.setText(titleID3);
-            this.artist.setText(artistID3);
-            this.time.setText(time);
-            this.genre.setText(genreID3);
-            this.filepath.setText(path);
-        }
-        
-        else 
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Music File");
+            Stage stage = (Stage) rootPane2.getScene().getWindow();
+            File mediafile = fileChooser.showOpenDialog(stage);
+            
+            MP3File mp3file = new MP3File(mediafile);
+            String path = mediafile.toURI().toString();
+            
+            if ( mp3file.hasID3v2Tag()==true)
+            {
+                AbstractID3v2 ID3 = mp3file.getID3v2Tag();
+                
+                String artistID3 = ID3.getLeadArtist();
+                String titleID3 = ID3.getSongTitle();
+                String genreID3 = ID3.getSongGenre();
+                
+                int duration = 0;
+                AudioFile audioFile = AudioFileIO.read(mediafile);
+                duration = audioFile.getAudioHeader().getTrackLength(); 
+                String time = mtmodel.getSecToMin(duration);
+                
+                this.title.setText(titleID3);
+                this.artist.setText(artistID3);
+                this.time.setText(time);
+                this.genre.setText(genreID3);
+                this.filepath.setText(path);
+            }
+            
+            else
+            {
+                int duration = 0;
+                AudioFile audioFile = AudioFileIO.read(mediafile);
+                duration = audioFile.getAudioHeader().getTrackLength();
+                String time = mtmodel.getSecToMin(duration);
+                int lastIndex = path.lastIndexOf('/');
+                String toPrint = path.substring(lastIndex+1, path.length()-4);
+                
+                this.title.setText(toPrint);
+                this.artist.setText("");
+                this.time.setText(time);
+                this.genre.setText("");
+                this.filepath.setText(path);
+            }
+        } catch (IOException | TagException | CannotReadException | ReadOnlyFileException | InvalidAudioFrameException |org.jaudiotagger.tag.TagException ex)
         {
-            int duration = 0;
-            AudioFile audioFile = AudioFileIO.read(mediafile);
-            duration = audioFile.getAudioHeader().getTrackLength();
-            String time = mtmodel.getSecToMin(duration);
-            int lastIndex = path.lastIndexOf('/');
-            String toPrint = path.substring(lastIndex+1, path.length()-4);
-    
-            this.title.setText(toPrint);
-            this.artist.setText("");
-            this.time.setText(time);
-            this.genre.setText("");
-            this.filepath.setText(path);    
+            Logger.getLogger(AddSongController.class.getName()).log(Level.SEVERE, null, ex);
+ 
         }
     }
 
@@ -125,7 +131,7 @@ public class AddSongController implements Initializable
     }
 
     @FXML
-    private void saveSong(ActionEvent event) throws IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
+    private void saveSong(ActionEvent event)
     {
         String songTitle = this.title.getText();
         String songArtist = this.artist.getText();

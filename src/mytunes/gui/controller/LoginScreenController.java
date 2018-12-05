@@ -5,15 +5,11 @@
  */
 package mytunes.gui.controller;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,13 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mytunes.be.User;
-import mytunes.bll.MTManager;
-import mytunes.dal.exception.DALException;
 import mytunes.gui.model.MTModel;
-import org.farng.mp3.TagException;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  * FXML Controller class
@@ -61,7 +51,7 @@ public class LoginScreenController implements Initializable
      * Initializes the controller class. 
      */
     
-    public LoginScreenController() throws IOException, SQLException
+    public LoginScreenController()
     {
         mtmodel = new MTModel();
     }
@@ -69,25 +59,11 @@ public class LoginScreenController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-     
-        try
-        {
-            userView.setItems(mtmodel.getUsers());
-        }
-        
-        catch (IOException ex)
-        {
-            Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        catch (SQLException ex)
-        {
-            Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+              userView.setItems(mtmodel.getUsers());
     }    
 
     @FXML
-    private void userLogin(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void userLogin(ActionEvent event) 
     {
         User user = userView.getSelectionModel().getSelectedItem();
         
@@ -98,19 +74,25 @@ public class LoginScreenController implements Initializable
         
         else 
         {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MyTunes.fxml"));
-        Parent root = (Parent)loader.load();
-        MyTunesController mController = loader.getController();
-        mController.setUser(user);
-        mController.setListViews();
-        Stage stage = (Stage) rootPane2.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+            try
+            {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MyTunes.fxml"));
+                Parent root = (Parent)loader.load();
+                MyTunesController mController = loader.getController();
+                mController.setUser(user);
+                mController.setListViews();
+                Stage stage = (Stage) rootPane2.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException ex)
+            {
+                Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @FXML
-    private void deleteUser(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, DALException
+    private void deleteUser(ActionEvent event) 
     {
         User userToDelete = userView.getSelectionModel().getSelectedItem();
         mtmodel.deleteUser(userToDelete);
@@ -118,7 +100,7 @@ public class LoginScreenController implements Initializable
     }
 
     @FXML
-    private void createUser(ActionEvent event) throws IOException, SQLException
+    private void createUser(ActionEvent event)
     {
         String username = userName.getText();
         if (username.length()==0)

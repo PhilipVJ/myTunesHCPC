@@ -5,9 +5,6 @@
  */
 package mytunes.bll;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,10 +15,6 @@ import mytunes.dal.PlaylistDbDAO;
 import mytunes.dal.SongDbDAO;
 import mytunes.dal.UserDbDAO;
 import mytunes.dal.exception.DALException;
-import org.farng.mp3.TagException;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  *
