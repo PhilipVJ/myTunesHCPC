@@ -25,6 +25,7 @@ import mytunes.dal.exception.DALException;
  */
 public class SongDbDAO 
 {
+    
   /**
    * This method returns a list of song objects which contains the searchword.
    * @param keyword
@@ -56,7 +57,8 @@ public class SongDbDAO
                 searchedSongs.add(searchedSong);
             }
             return searchedSongs;
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not get search results", ex);
         }
@@ -89,7 +91,8 @@ public class SongDbDAO
                 return newSong;
             }
             return newSong;
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not add song", ex);
         }
@@ -108,11 +111,11 @@ public class SongDbDAO
             pstmt.setString(3, song.getGenre());
             pstmt.setInt(4, song.getId());
             pstmt.execute();
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not edit song", ex);
         }
-        
     }
 
     public void deleteSongFromLibrary(Song songToDelete) throws DALException
@@ -126,7 +129,8 @@ public class SongDbDAO
             pstmt.setInt(1,songID); 
             pstmt.execute();
             System.out.println("Following song has been deleted: "+songID);
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not delete song from library", ex);
         }
@@ -153,9 +157,9 @@ public class SongDbDAO
                 
                 allSongs.add(new Song(artist, title, genre, path, id, time));
             }
-            
             return allSongs;
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not get all songs", ex);
         }
@@ -185,7 +189,8 @@ public class SongDbDAO
                 songToGet=new Song(artist, title, genre, path, id, time);
             }
             return songToGet;
-      } catch (IOException |SQLException ex)
+        }
+        catch (IOException |SQLException ex)
         {
             throw new DALException("Could not get song", ex);
         }

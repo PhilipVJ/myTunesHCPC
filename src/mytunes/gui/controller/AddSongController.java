@@ -116,7 +116,8 @@ public class AddSongController implements Initializable
                 this.genre.setText("");
                 this.filepath.setText(path);
             }
-        } catch (IOException | TagException | CannotReadException | ReadOnlyFileException | InvalidAudioFrameException |org.jaudiotagger.tag.TagException ex)
+        } 
+        catch (IOException | TagException | CannotReadException | ReadOnlyFileException | InvalidAudioFrameException |org.jaudiotagger.tag.TagException ex)
         {
             Logger.getLogger(AddSongController.class.getName()).log(Level.SEVERE, null, ex);
  

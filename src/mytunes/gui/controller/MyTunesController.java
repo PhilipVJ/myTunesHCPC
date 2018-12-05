@@ -47,7 +47,6 @@ public class MyTunesController implements Initializable
 private User currentUser;
     @FXML
     private TableView<Playlist> playlistView;
-
     @FXML
     private TableView<Song> allSongsView;
     @FXML
@@ -70,11 +69,6 @@ private User currentUser;
     private Slider volume;
     @FXML
     private Label currentPL;
-    
-    private MTModel mtmodel;
-    private Mp3Player mp3Player;
-    private int chosenView; 
-    private int chosenPL; 
     @FXML
     private TableColumn<Playlist, String> playlistNameCol;
     @FXML
@@ -95,6 +89,12 @@ private User currentUser;
     private TableColumn<Song, String> allSongsGenre;
     @FXML
     private TableColumn<Song, String> allSongsLength;
+    
+    private MTModel mtmodel;
+    private Mp3Player mp3Player;
+    private int chosenView; 
+    private int chosenPL; 
+   
    
     
     /**
@@ -108,22 +108,22 @@ private User currentUser;
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-            mtmodel = new MTModel();
-// Initializes the tableviews
+        mtmodel = new MTModel();
             
-            playlistNameCol.setCellValueFactory(new PropertyValueFactory<>("playlistName"));
-            playlistLengthCol.setCellValueFactory(new PropertyValueFactory<>("lengthInMin"));
+        // Initializes the tableviews
+        playlistNameCol.setCellValueFactory(new PropertyValueFactory<>("playlistName"));
+        playlistLengthCol.setCellValueFactory(new PropertyValueFactory<>("lengthInMin"));
             
-            playlistSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-            playlistSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-            playlistSongLength.setCellValueFactory(new PropertyValueFactory<>("time"));
+        playlistSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        playlistSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        playlistSongLength.setCellValueFactory(new PropertyValueFactory<>("time"));
             
-            allSongsArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-            allSongsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-            allSongsLength.setCellValueFactory(new PropertyValueFactory<>("time"));
-            allSongsGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
-
-    }    
+        allSongsArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        allSongsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        allSongsLength.setCellValueFactory(new PropertyValueFactory<>("time"));
+        allSongsGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+    }
+    
     /*
         Here starts User methods.
     */
@@ -140,23 +140,23 @@ private User currentUser;
     private void newPlaylist(ActionEvent event)
     {
         
-    try
-    {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylist.fxml"));
-        Parent root = (Parent)loader.load();
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylist.fxml"));
+            Parent root = (Parent)loader.load();
         
-        AddPlaylistController aController = loader.getController();
-        aController.setUser(currentUser);
+            AddPlaylistController aController = loader.getController();
+            aController.setUser(currentUser);
         
-        aController.setModel(mtmodel);
-        
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();   
-    } catch (IOException ex)
-    {
+            aController.setModel(mtmodel);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();   
+        } 
+        catch (IOException ex)
+        {
         Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        }
     }
 
     @FXML
@@ -164,7 +164,8 @@ private User currentUser;
     {
         if (!playlistView.getSelectionModel().isEmpty())
         {
-            try {
+            try 
+            {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistName.fxml"));
                 Parent root = (Parent)loader.load();
                 EditPlaylistNameController editPlaylistName = loader.getController();
@@ -175,7 +176,9 @@ private User currentUser;
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();
-            } catch (IOException ex) {
+            }
+            catch (IOException ex) 
+            {
                 Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -189,9 +192,8 @@ private User currentUser;
         if(!playlistView.getSelectionModel().isEmpty())
         {
             mtmodel.deletePlaylist(pl);
-           currentPL.setText("Choose a playlist");
+            currentPL.setText("Choose a playlist");
         }
-        
     }
     
     @FXML
@@ -203,7 +205,7 @@ private User currentUser;
         if(!playlistSongView.getSelectionModel().isEmpty())
         {
             mtmodel.moveSongUp(chosenPLObj, songToMoveUp);
-                refreshPlaylistSongs();
+            refreshPlaylistSongs();
         }
     }
     
@@ -241,20 +243,19 @@ private User currentUser;
         Playlist chosenPLObj = new Playlist(chosenPL, "");
     
         mtmodel.deleteSongFromPlaylist(chosenPLObj, songToDelete);
-
         refreshList();
     }
     
 @FXML
     private void choosePlaylist(MouseEvent event)
     { 
-        if (playlistView.getSelectionModel().getSelectedItem()!=null){
-        
-        chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
+        if (playlistView.getSelectionModel().getSelectedItem()!=null)
+        {
+            chosenPL = playlistView.getSelectionModel().getSelectedItem().getId();
             System.out.println(""+chosenPL);
-        currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getPlaylistName());  
+            currentPL.setText(playlistView.getSelectionModel().getSelectedItem().getPlaylistName());  
 
-        refreshPlaylistSongs();
+            refreshPlaylistSongs();
         }
     }
     
@@ -264,22 +265,22 @@ private User currentUser;
     @FXML
     private void newSong(ActionEvent event) 
     {    
-    try
-    {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
-        Parent root = (Parent)loader.load();
-        AddSongController addSongCon = loader.getController();
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSong.fxml"));
+            Parent root = (Parent)loader.load();
+            AddSongController addSongCon = loader.getController();
         
+            addSongCon.setMode(mtmodel);
         
-        addSongCon.setMode(mtmodel);
-        
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
-    } catch (IOException ex)
-    {
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } 
+        catch (IOException ex)
+        {
         Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        }
     }
     
     @FXML
@@ -288,7 +289,8 @@ private User currentUser;
         Song songToEdit = allSongsView.getSelectionModel().getSelectedItem();
         if(!allSongsView.getSelectionModel().isEmpty())
         {
-            try {
+            try 
+            {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSong.fxml"));
                 Parent root = (Parent)loader.load();
                 EditSongController editSongCon = loader.getController();
@@ -300,7 +302,9 @@ private User currentUser;
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();
-            } catch (IOException ex) {
+            } 
+            catch (IOException ex) 
+            {
                 Logger.getLogger(MyTunesController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -313,8 +317,6 @@ private User currentUser;
         mtmodel.deleteSongFromLibrary(songToMove);
         refreshList();
         refreshPlaylistSongs();
-        
-        
     }
     
     /*
@@ -322,33 +324,31 @@ private User currentUser;
     */
     public void refreshList() 
     {
-     playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
-      
+        playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
     }
     
     public void setListViews() 
     {
-     playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
-     allSongsView.setItems(mtmodel.getSongs()); 
-     
+        playlistView.setItems(mtmodel.getPlaylists(currentUser.getID()));
+        allSongsView.setItems(mtmodel.getSongs()); 
     }
 
     private void refreshPlaylistSongs() 
     {
-    Playlist chosenPLObj = new Playlist(chosenPL, "");
-    ObservableList<Song>allSongs = mtmodel.getPlaylistSongs(chosenPLObj);
-    for (Song x:allSongs)
-    {
-       if ("error".equals(x.getFilepath())){
-           Alert alert = new Alert(AlertType.INFORMATION);
-           alert.setTitle("Important information");
-           alert.setHeaderText("A mediafile on your playlist has been deleted from the library");
-           alert.setContentText("You must delete it from your playlist immediately!");
-
-           alert.showAndWait();
-       }
-    }
-    playlistSongView.setItems(allSongs);
+        Playlist chosenPLObj = new Playlist(chosenPL, "");
+        ObservableList<Song>allSongs = mtmodel.getPlaylistSongs(chosenPLObj);
+        for (Song x:allSongs)
+        {
+            if ("error".equals(x.getFilepath()))
+            {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Important information");
+                alert.setHeaderText("A mediafile on your playlist has been deleted from the library");
+                alert.setContentText("You must delete it from your playlist immediately!");
+                alert.showAndWait();
+            }
+        }
+        playlistSongView.setItems(allSongs);
     }
 
     /*
@@ -401,10 +401,10 @@ private User currentUser;
     @FXML
     private void nextSong(MouseEvent event)
     {
-       if(mp3Player!=null)
-       {
-        mp3Player.next();
-       }
+        if(mp3Player!=null)
+        {
+            mp3Player.next();
+        }
     }
     
     @FXML
@@ -420,8 +420,7 @@ private User currentUser;
     {
         if(mp3Player!=null)
         {
-            mp3Player.stop();
-            
+            mp3Player.stop();        
         }
     }
 
@@ -454,13 +453,13 @@ private User currentUser;
         }
     }
     
-@FXML
+    @FXML
     private void playlistSongsChosen(MouseEvent event)
     {
         chosenView=1; 
     }
 
-@FXML
+    @FXML
     private void allSongsChosen(MouseEvent event)
     {
         chosenView=2;

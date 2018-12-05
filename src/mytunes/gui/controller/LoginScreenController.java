@@ -59,7 +59,7 @@ public class LoginScreenController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-              userView.setItems(mtmodel.getUsers());
+         userView.setItems(mtmodel.getUsers());
     }    
 
     @FXML
@@ -84,7 +84,8 @@ public class LoginScreenController implements Initializable
                 Stage stage = (Stage) rootPane2.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -110,7 +111,6 @@ public class LoginScreenController implements Initializable
         }    
         
         mtmodel.addUser(username);
-        userName.clear();
-       
+        userName.clear();  
     }    
 }

@@ -37,7 +37,6 @@ public class AddPlaylistController implements Initializable
     private AnchorPane rootPane2;
     
     private User currentUser;
- 
     private MTModel mtmodel;
    
     

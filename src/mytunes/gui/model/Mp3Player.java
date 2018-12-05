@@ -18,76 +18,62 @@ import mytunes.be.Song;
  */
 public class Mp3Player
 {
-int currentSong=0;
-ObservableList<Song> songsToPlay;
-Media media;
-MediaPlayer mediaPlayer;
-
-StringProperty currentTitle;
-
-public Mp3Player(){
-    currentTitle = new SimpleStringProperty();
-}
-
-/**
- * Initializes the player class and calls the play function, which plays through 
- * the entire list.
- * @param songIndex
- * @param songs 
- */
-public void initPlay(int songIndex, ObservableList<Song> songs)
-{
-    currentSong=songIndex; 
-    songsToPlay=songs;
-    play(currentSong,songsToPlay);
+    int currentSong=0;
     
-    
-    
-    
+    ObservableList<Song> songsToPlay;
+    Media media;
+    MediaPlayer mediaPlayer;
+    StringProperty currentTitle;
 
-  }
-
-//    isPlaying = mediaPlayer.getStatus().equals(Status.PLAYING);
-    
-
-    
-    
-
-
-
-public void play(int songListNr, ObservableList<Song> songs)
-
-{
-    System.out.println(""+songListNr);
-    System.out.println("listsize"+songs.size());
-    if (currentSong==songs.size() || currentSong==-1)
+    public Mp3Player()
     {
-        return;
+        currentTitle = new SimpleStringProperty();
     }
-    
-    String path=songs.get(songListNr).getFilepath();
-    media = new Media(path);
-    mediaPlayer = new MediaPlayer(media);
-    String songLabel = ""+songs.get(songListNr).getArtist()+" - "+songs.get(songListNr).getTitle();
-    System.out.println("Song label"+songLabel);
-    currentTitle.set(songLabel);
-    System.out.println(""+currentTitle.toString());
-    
-    mediaPlayer.play();  
 
-    mediaPlayer.setOnEndOfMedia(new Runnable() {
-    @Override
-    public void run()
+    /**
+    * Initializes the player class and calls the play function, which plays through 
+    * the entire list.
+    * @param songIndex
+    * @param songs 
+    */
+    public void initPlay(int songIndex, ObservableList<Song> songs)
     {
-       
-       //Plays the next song in the list 
-       currentSong++;
-        System.out.println("Currentsong:"+currentSong);
-       play(currentSong,songsToPlay);
+        currentSong=songIndex; 
+        songsToPlay=songs;
+        play(currentSong,songsToPlay);
     }
+
+    public void play(int songListNr, ObservableList<Song> songs)
+    {
+        System.out.println(""+songListNr);
+        System.out.println("listsize"+songs.size());
+        
+        if (currentSong==songs.size() || currentSong==-1)
+        {
+            return;
+        }
+        String path=songs.get(songListNr).getFilepath();
+        media = new Media(path);
+        mediaPlayer = new MediaPlayer(media);
+        String songLabel = ""+songs.get(songListNr).getArtist()+" - "+songs.get(songListNr).getTitle();
+        System.out.println("Song label"+songLabel);
+        currentTitle.set(songLabel);
+        System.out.println(""+currentTitle.toString());
+    
+        mediaPlayer.play();  
+
+        mediaPlayer.setOnEndOfMedia(new Runnable() 
+        {
+            @Override
+            public void run()
+            {
+                //Plays the next song in the list 
+                currentSong++;
+                System.out.println("Currentsong:"+currentSong);
+                play(currentSong,songsToPlay);
+            }
+        });
     }
-    );
-  }
 
     public void stop()
     {
@@ -107,27 +93,27 @@ public void play(int songListNr, ObservableList<Song> songs)
 
     public void next()
     {
-        if (currentSong<songsToPlay.size()-1){
-        System.out.println("Next song");
-        stop();
-        currentSong++;
-        play(currentSong, songsToPlay);
+        if (currentSong<songsToPlay.size()-1)
+        {
+            System.out.println("Next song");
+            stop();
+            currentSong++;
+            play(currentSong, songsToPlay);
         }
     }
 
     public void previous()
     {
-        if (currentSong>0){
-        System.out.println("Previous song");
-        stop();
-        currentSong--;
-        play(currentSong, songsToPlay); 
+        if (currentSong>0)
+        {
+            System.out.println("Previous song");
+            stop();
+            currentSong--;
+            play(currentSong, songsToPlay); 
         }
-        
     }
     
-    
-     public StringProperty getStringPropertyTitle()
+    public StringProperty getStringPropertyTitle()
     {
         return currentTitle;
     }
@@ -136,7 +122,6 @@ public void play(int songListNr, ObservableList<Song> songs)
     {
         mediaPlayer.setVolume(volume);
     }
-
 }
 
 
