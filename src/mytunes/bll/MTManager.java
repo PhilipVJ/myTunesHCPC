@@ -36,25 +36,45 @@ public class MTManager
     /*
         Here starts User related methods.
     */
-    public List<User> getAllUsers() throws IOException, SQLException
+    public List<User> getAllUsers()
     {
-    return userDB.getAllUsers();
+        try
+        {
+            return userDB.getAllUsers();
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, DALException
+    public void deleteUser(User userToDelete) 
     {   
-        userDB.deleteUser(userToDelete);
+        try
+        {
+            userDB.deleteUser(userToDelete);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public User addUser(String username) throws IOException, SQLException
+    public User addUser(String username)
     {
-        return userDB.addUser(username);
+        try
+        {
+            return userDB.addUser(username);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /*
         Here starts Playlist related methods.
     */
-    public List<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public List<Playlist> getPlaylists(int userID) 
     {
         try
         {
@@ -159,29 +179,62 @@ public class MTManager
     /*
         Here starts Song related methods.
     */
-    public Song addSong(Song songToAdd) throws SQLException, SQLServerException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public Song addSong(Song songToAdd) 
     {
-        return songDB.addSong(songToAdd);
+        try
+        {
+            return songDB.addSong(songToAdd);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    public List<Song> getSongs() throws IOException, SQLException
+    public List<Song> getSongs() 
     {
-        return songDB.getAllSongs();
+        try
+        {
+            return songDB.getAllSongs();
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    public void editSong(Song editedSong) throws SQLException, SQLServerException, IOException
+    public void editSong(Song editedSong)
     {
-        songDB.editSong(editedSong);
+        try
+        {
+            songDB.editSong(editedSong);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLException
+    public void deleteSongFromLibrary(Song songToDelete)
     {
-        songDB.deleteSongFromLibrary(songToDelete);
+        try
+        {
+            songDB.deleteSongFromLibrary(songToDelete);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public List<Song> searchSong(String text) throws IOException, SQLException
+    public List<Song> searchSong(String text) 
     {
-        return songDB.searchSongs(text);
+        try
+        {
+            return songDB.searchSongs(text);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     /*

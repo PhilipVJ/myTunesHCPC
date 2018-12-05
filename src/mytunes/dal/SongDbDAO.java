@@ -7,7 +7,6 @@ package mytunes.dal;
 
 
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mytunes.be.Song;
-import org.farng.mp3.TagException;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import mytunes.dal.exception.DALException;
 
 /**
  *
@@ -33,51 +29,51 @@ public class SongDbDAO
    * This method returns a list of song objects which contains the searchword.
    * @param keyword
    * @return
-   * @throws IOException
-   * @throws SQLServerException
-   * @throws SQLException 
+   * @throws mytunes.dal.exception.DALException
    */      
-    public List<Song> searchSongs(String keyword) throws IOException, SQLServerException, SQLException
+    public List<Song> searchSongs(String keyword) throws DALException
     {
-        ArrayList<Song> searchedSongs = new ArrayList();
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        Statement statement = con.createStatement();
-        PreparedStatement pstmt = con.prepareStatement("Select * FROM Songs WHERE Artist LIKE ? OR Title LIKE ?");
-        pstmt.setString(1, "%"+keyword+"%");
-        pstmt.setString(2, "%"+keyword+"%");
-        ResultSet rs = pstmt.executeQuery();
-      
-        while (rs.next())
+        try
         {
-            String title = rs.getString("Title");
-            String path = rs.getString("Filepath");
-            String artist = rs.getString("Artist");
-            String genre = rs.getString("Genre");
-            String time = rs.getString("Time");
-            int id = rs.getInt("SongID");
-            Song searchedSong=new Song(artist, title, genre, path, id, time);
-            searchedSongs.add(searchedSong); 
+            ArrayList<Song> searchedSongs = new ArrayList();
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            Statement statement = con.createStatement();
+            PreparedStatement pstmt = con.prepareStatement("Select * FROM Songs WHERE Artist LIKE ? OR Title LIKE ?");
+            pstmt.setString(1, "%"+keyword+"%");
+            pstmt.setString(2, "%"+keyword+"%");
+            ResultSet rs = pstmt.executeQuery(); 
+            
+            while (rs.next())
+            {
+                String title = rs.getString("Title");
+                String path = rs.getString("Filepath");
+                String artist = rs.getString("Artist");
+                String genre = rs.getString("Genre");
+                String time = rs.getString("Time");
+                int id = rs.getInt("SongID");
+                Song searchedSong=new Song(artist, title, genre, path, id, time);
+                searchedSongs.add(searchedSong);
+            }
+            return searchedSongs;
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not get search results", ex);
         }
-        return searchedSongs;
     }
     
-    public Song addSong(Song songToAdd) throws SQLServerException, SQLException, IOException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public Song addSong(Song songToAdd) throws DALException 
     {
-        String artist = songToAdd.getArtist();
-        String title = songToAdd.getTitle();
-        String genre = songToAdd.getGenre();
-        String path = songToAdd.getFilepath();
-        String time = songToAdd.getTime();
-        Song newSong=null;
-        
-
-        DbConnection dbCon = new DbConnection();
-
-        
-        try (Connection con = dbCon.getConnection()) 
+        try
         {
-            
+            String artist = songToAdd.getArtist();
+            String title = songToAdd.getTitle();
+            String genre = songToAdd.getGenre();
+            String path = songToAdd.getFilepath();
+            String time = songToAdd.getTime();
+            Song newSong=null;
+            DbConnection dbCon = new DbConnection();
+            Connection con = dbCon.getConnection();
             String SQL = "INSERT INTO Songs VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1,title);
@@ -85,97 +81,113 @@ public class SongDbDAO
             pstmt.setString(3,artist);
             pstmt.setString(4,genre);
             pstmt.setString(5,time);
-            
-            pstmt.execute();
-            
-            ResultSet generatedKeys = pstmt.getGeneratedKeys(); 
+            pstmt.execute(); 
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next())
             {
-            if (generatedKeys.next()) 
-                {
                 newSong= new Song(artist, title, genre, path, generatedKeys.getInt(1), time);
-                
-                
                 return newSong;
-                }
             }
+            return newSong;
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not add song", ex);
         }
-    return newSong;
     }
     
-    public void editSong(Song song) throws SQLServerException, SQLException, IOException
+    public void editSong(Song song) throws DALException
     {
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-   
-        try (PreparedStatement pstmt = con.prepareStatement("UPDATE Songs SET Title = (?), Artist = (?), Genre = (?) WHERE songId = (?)"))
+        try
         {
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            PreparedStatement pstmt = con.prepareStatement("UPDATE Songs SET Title = (?), Artist = (?), Genre = (?) WHERE songId = (?)");
             pstmt.setString(1, song.getTitle());
             pstmt.setString(2, song.getArtist());
             pstmt.setString(3, song.getGenre());
             pstmt.setInt(4, song.getId());
             pstmt.execute();
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not edit song", ex);
         }
+        
     }
 
-    public void deleteSongFromLibrary(Song songToDelete) throws IOException, SQLServerException, SQLException
+    public void deleteSongFromLibrary(Song songToDelete) throws DALException
     {
-        int songID = songToDelete.getId();
-
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        
-        try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM Songs WHERE songID=(?)"))
+        try
         {
-            pstmt.setInt(1,songID);
+            int songID = songToDelete.getId();
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            PreparedStatement pstmt = con.prepareStatement("DELETE FROM Songs WHERE songID=(?)");
+            pstmt.setInt(1,songID); 
             pstmt.execute();
+            System.out.println("Following song has been deleted: "+songID);
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not delete song from library", ex);
         }
-        System.out.println("Following song has been deleted: "+songID); 
     }
     
-    public ArrayList<Song> getAllSongs() throws IOException, SQLServerException, SQLException
+    public ArrayList<Song> getAllSongs() throws DALException
     {
-        ArrayList<Song> allSongs = new ArrayList<>();
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        
-        Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery("Select * FROM Songs;");
-        while (rs.next())
+        try
         {
-            String title = rs.getString("Title");
-            String path = rs.getString("Filepath");
-            String artist = rs.getString("Artist");
-            String genre = rs.getString("Genre");
-            String time = rs.getString("Time");
-            int id = rs.getInt("SongID");
-        
-            allSongs.add(new Song(artist, title, genre, path, id, time));
+            ArrayList<Song> allSongs = new ArrayList<>();
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery("Select * FROM Songs;");
+            while (rs.next())
+            {
+                String title = rs.getString("Title");
+                String path = rs.getString("Filepath");
+                String artist = rs.getString("Artist");
+                String genre = rs.getString("Genre");
+                String time = rs.getString("Time");
+                int id = rs.getInt("SongID");
+                
+                allSongs.add(new Song(artist, title, genre, path, id, time));
+            }
+            
+            return allSongs;
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not get all songs", ex);
         }
-                    
-        return allSongs;
     }
     
-    public Song getSong(int songID) throws SQLException, IOException
+    public Song getSong(int songID) throws DALException 
     {
-        Song songToGet=null;
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        
-        Statement statement = con.createStatement();
-        PreparedStatement pstmt = con.prepareStatement("Select * FROM Songs WHERE songID= (?)");
-        pstmt.setInt(1, songID);
-        ResultSet rs = pstmt.executeQuery();
-      
-        while (rs.next())
+        try
         {
-         String title = rs.getString("Title");
-         String path = rs.getString("Filepath");
-         String artist = rs.getString("Artist");
-         String genre = rs.getString("Genre");
-         String time = rs.getString("Time");
-         int id = rs.getInt("SongID");
-         songToGet=new Song(artist, title, genre, path, id, time);     
+            Song songToGet=null;
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            Statement statement = con.createStatement();
+            PreparedStatement pstmt = con.prepareStatement("Select * FROM Songs WHERE songID= (?)");
+            pstmt.setInt(1, songID);     
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next())
+            {
+                String title = rs.getString("Title");
+                String path = rs.getString("Filepath");
+                String artist = rs.getString("Artist");
+                String genre = rs.getString("Genre");
+                String time = rs.getString("Time");
+                int id = rs.getInt("SongID");
+                songToGet=new Song(artist, title, genre, path, id, time);
+            }
+            return songToGet;
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not get song", ex);
         }
-      return songToGet;
     } 
 }

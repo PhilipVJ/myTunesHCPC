@@ -5,7 +5,6 @@
  */
 package mytunes.dal;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,10 +16,6 @@ import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.User;
 import mytunes.dal.exception.DALException;
-import org.farng.mp3.TagException;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 
 /**
  *
@@ -29,66 +24,82 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 public class UserDbDAO
 {
     
-    public User addUser(String username) throws IOException, SQLServerException, SQLException
+    public User addUser(String username) throws DALException
     {
-        DbConnection tester = new DbConnection();
-        Connection con = tester.getConnection();
-        User addedUser = null;
- 
-        String SQL = "INSERT INTO Users VALUES (?)";
-        PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-        pstmt.setString(1,username);
-        pstmt.execute();
-  
-        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) 
+        try
         {
-            if (generatedKeys.next()) 
+            DbConnection tester = new DbConnection();
+            Connection con = tester.getConnection();
+            User addedUser = null;
+            
+            String SQL = "INSERT INTO Users VALUES (?)";
+            PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1,username);
+            pstmt.execute();
+             
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next())
             {
                 addedUser= new User(generatedKeys.getInt(1), username);
                 System.out.println("Following user has been added to the database: "+addedUser.getName()+"   "+addedUser.getID());
                 return addedUser;
             }
-        }
-        return addedUser;
-    }
-
-    public void deleteUser(User userToDelete) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, DALException
-    {
-        int userID = userToDelete.getID();
-
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        
-        PreparedStatement pstmt = con.prepareStatement("DELETE FROM Users WHERE id=(?)");
-        pstmt.setInt(1,userID);
-        pstmt.execute();
-        pstmt.close();
-        System.out.println("Following user has been deleted: "+userToDelete.getName());
-        
-        PlaylistDbDAO pDbDAO = new PlaylistDbDAO();
-        List<Playlist> allPlaylists = pDbDAO.getPlaylistsByUser(userToDelete.getID());
-        
-        for (Playlist x: allPlaylists)
+            return addedUser;
+       } catch (IOException |SQLException ex)
         {
-            pDbDAO.deletePlaylist(x);
+            throw new DALException("Could not add user", ex);
         }
     }
 
-    public List<User> getAllUsers() throws IOException, SQLServerException, SQLException
+    public void deleteUser(User userToDelete) throws DALException
     {
-        ArrayList<User> allUsers = new ArrayList<>();
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        
-        Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery("Select * FROM Users;");
-        
-        while (rs.next())
+        try
         {
-            int id = rs.getInt("id");
-            String username = rs.getString("username");
-            allUsers.add(new User(id,username));      
+            int userID = userToDelete.getID();
+            
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            PreparedStatement pstmt = con.prepareStatement("DELETE FROM Users WHERE id=(?)");
+            pstmt.setInt(1,userID);
+            pstmt.execute();
+            pstmt.close();
+            System.out.println("Following user has been deleted: "+userToDelete.getName());
+            
+            PlaylistDbDAO pDbDAO = new PlaylistDbDAO();
+            List<Playlist> allPlaylists = pDbDAO.getPlaylistsByUser(userToDelete.getID());
+            
+            for (Playlist x: allPlaylists)
+            {
+                pDbDAO.deletePlaylist(x);
+            }
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not delete user", ex);
         }
-       return allUsers;
+    }
+
+    public List<User> getAllUsers() throws DALException
+    {
+        try
+        {
+            ArrayList<User> allUsers = new ArrayList<>();
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();      
+            
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery("Select * FROM Users;");
+            
+            while (rs.next())
+            {
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                allUsers.add(new User(id,username));
+            }
+            return allUsers;
+      } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not get all users", ex);
+        }
     }
 }
