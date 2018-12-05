@@ -28,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mytunes.be.User;
 import mytunes.bll.MTManager;
+import mytunes.dal.exception.DALException;
 import mytunes.gui.model.MTModel;
 import org.farng.mp3.TagException;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -109,7 +110,7 @@ public class LoginScreenController implements Initializable
     }
 
     @FXML
-    private void deleteUser(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    private void deleteUser(ActionEvent event) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, DALException
     {
         User userToDelete = userView.getSelectionModel().getSelectedItem();
         mtmodel.deleteUser(userToDelete);

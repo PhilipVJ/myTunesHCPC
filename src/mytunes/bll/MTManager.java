@@ -9,12 +9,15 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.dal.PlaylistDbDAO;
 import mytunes.dal.SongDbDAO;
 import mytunes.dal.UserDbDAO;
+import mytunes.dal.exception.DALException;
 import org.farng.mp3.TagException;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
@@ -38,7 +41,7 @@ public class MTManager
     return userDB.getAllUsers();
     }
 
-    public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, DALException
     {   
         userDB.deleteUser(userToDelete);
     }
@@ -53,47 +56,104 @@ public class MTManager
     */
     public List<Playlist> getPlaylists(int userID) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
-        return playlistDB.getPlaylistsByUser(userID);
+        try
+        {
+            return playlistDB.getPlaylistsByUser(userID);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    public Playlist addPlaylist(int userID, String playlistName) throws IOException, SQLException
+    public Playlist addPlaylist(int userID, String playlistName) 
     {
-        return playlistDB.addPlaylist(userID, playlistName);
+        try
+        {
+            return playlistDB.addPlaylist(userID, playlistName);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    public void editPlaylist(int id, String newName) throws IOException, SQLException
+    public void editPlaylist(int id, String newName) 
     {
-        playlistDB.renamePlaylist(id, newName);
+        try
+        {
+            playlistDB.renamePlaylist(id, newName);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void deletePlaylist (Playlist playlistToDelete) throws IOException, SQLException
+    public void deletePlaylist (Playlist playlistToDelete) 
     {
-        playlistDB.deletePlaylist(playlistToDelete);
+        try
+        {
+            playlistDB.deletePlaylist(playlistToDelete);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public List<Song> getPlaylistSongs(Playlist chosenPlaylist) throws IOException, SQLException
+    public List<Song> getPlaylistSongs(Playlist chosenPlaylist)
     {
-        return playlistDB.getPlaylistSongs(chosenPlaylist);
+        try
+        {
+            return playlistDB.getPlaylistSongs(chosenPlaylist);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
-    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song deleteSongs) throws IOException, SQLException
+    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song deleteSongs) 
     {
-        playlistDB.deleteSongFromPlaylist(chosenPlaylist, deleteSongs);
+        try
+        {
+            playlistDB.deleteSongFromPlaylist(chosenPlaylist, deleteSongs);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void addSongToPlaylist(Song songToMove, Playlist playlistChosen) throws IOException, SQLException
+    public void addSongToPlaylist(Song songToMove, Playlist playlistChosen)
     {
-        playlistDB.addSongToPlaylist(songToMove, playlistChosen);
+        try
+        {
+            playlistDB.addSongToPlaylist(songToMove, playlistChosen);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
+    public void moveSongUp(Playlist playlistChosen, Song songToMoveUp)
     {
-        playlistDB.moveSongUp(playlistChosen, songToMoveUp);
+        try
+        {
+            playlistDB.moveSongUp(playlistChosen, songToMoveUp);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLException
+    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown)
     {
-        playlistDB.moveSongDown(playlistChosen, songToMoveDown);
+        try
+        {
+            playlistDB.moveSongDown(playlistChosen, songToMoveDown);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /*

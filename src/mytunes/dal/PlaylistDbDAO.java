@@ -5,7 +5,6 @@
  */
 package mytunes.dal;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +17,7 @@ import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.MTManager;
-import org.farng.mp3.TagException;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import mytunes.dal.exception.DALException;
 
 
 
@@ -32,181 +28,211 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 public class PlaylistDbDAO
 {
     
-    public Playlist addPlaylist(int userId, String playlistName) throws IOException, SQLServerException, SQLException
+    public Playlist addPlaylist(int userId, String playlistName) throws DALException
     {
-        DbConnection ds = new DbConnection();
-        Connection con = ds.getConnection();
-        Playlist addedPlaylist = null;
-        
-        String SQL = "INSERT INTO Playlist VALUES (?, ?)";
-        PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-        pstmt.setInt(1,userId);
-        pstmt.setString(2,playlistName);
-        pstmt.execute();
-  
-        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) 
+         
+        try
+        {
+            DbConnection ds = new DbConnection();
+            Connection con = ds.getConnection();
+            Playlist addedPlaylist = null;
+            
+            String SQL = "INSERT INTO Playlist VALUES (?, ?)"; 
+            PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1,userId);
+            pstmt.setString(2,playlistName);
+            pstmt.execute();
+            
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            
+            if (generatedKeys.next())
             {
-            if (generatedKeys.next()) 
-                {
                 addedPlaylist= new Playlist(generatedKeys.getInt(1), playlistName);
-                
                 System.out.println("Following playlist has been added to the database: "+addedPlaylist.getPlaylistName());
                 return addedPlaylist;
-                }
             }
-
-        return addedPlaylist;    
+        return addedPlaylist; 
+        } catch ( IOException |SQLException ex)
+        {
+            throw new DALException("Could not add playlist", ex);
+        }
+        
+   
+           
     }
     /**
      * Returns all playlists by the given user ID from the database.
      * @param userID
      * @return 
-     * @throws java.io.IOException
-     * @throws com.microsoft.sqlserver.jdbc.SQLServerException
-     * @throws org.farng.mp3.TagException
-     * @throws org.jaudiotagger.audio.exceptions.CannotReadException
-     * @throws org.jaudiotagger.tag.TagException
-     * @throws org.jaudiotagger.audio.exceptions.ReadOnlyFileException
-     * @throws org.jaudiotagger.audio.exceptions.InvalidAudioFrameException
+     * @throws mytunes.dal.exception.DALException 
      */
-    public List<Playlist> getPlaylistsByUser(int userID) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public List<Playlist> getPlaylistsByUser(int userID) throws DALException
     {
-        ArrayList<Playlist> allPlaylist = new ArrayList<>();
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-
-        PreparedStatement pstmt = con.prepareStatement("Select * FROM Playlist WHERE userId = (?)");
-        pstmt.setInt(1, userID);
-        ResultSet rs = pstmt.executeQuery();
-         
-        while (rs.next())
-        {
-            int playlistID = rs.getInt("listId");
-            String PlaylistName = rs.getString("playlistName");
-            allPlaylist.add(new Playlist(playlistID, PlaylistName));      
-        }
-        // Add length in seconds to playlist
-        for (Playlist x : allPlaylist)
-        {
-            List<Song> allSongs = getPlaylistSongs(x);
-            int duration = 0;
     
-            for (Song y: allSongs)
+        try
+        {
+            ArrayList<Playlist> allPlaylist = new ArrayList<>();
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            PreparedStatement pstmt = con.prepareStatement("Select * FROM Playlist WHERE userId = (?)");
+            pstmt.setInt(1, userID);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next())
             {
-                if(!"error".equals(y.getFilepath())){
-                int time = MTManager.getMinToSec(y.getTime());
-                duration+=time;}
+                int playlistID = rs.getInt("listId");
+                String PlaylistName = rs.getString("playlistName");
+                allPlaylist.add(new Playlist(playlistID, PlaylistName));
             }
-            x.addLengthInSeconds(duration);
-        }     
+            // Add length in seconds to playlist
+            for (Playlist x : allPlaylist)
+            {
+                List<Song> allSongs = getPlaylistSongs(x);
+                int duration = 0;
+                
+                for (Song y: allSongs)
+                {
+                    if(!"error".equals(y.getFilepath())){
+                        int time = MTManager.getMinToSec(y.getTime());
+                        duration+=time;}
+                }
+                x.addLengthInSeconds(duration);
+            }
         return allPlaylist;
+        } catch (IOException | SQLException ex)
+        {
+            throw new DALException("Could not get playlists", ex);
+        }
+    
     }
     
-    public void addSongToPlaylist(Song songToAdd, Playlist chosenPlaylist) throws IOException, SQLServerException, SQLException
+    public void addSongToPlaylist(Song songToAdd, Playlist chosenPlaylist) throws DALException 
     {
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-    
-        String SQL = "INSERT INTO PlaylistContent VALUES (?, ?, ?)";
-        PreparedStatement pstmt = con.prepareStatement(SQL);
-        pstmt.setInt(1, chosenPlaylist.getId());
-        pstmt.setInt(2, songToAdd.getId());
-        pstmt.setInt(3, getPlaylistSongs(chosenPlaylist).size()+1);
-        System.out.println("Ready to execute");
-        pstmt.execute();
+        try
+        {
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            String SQL = "INSERT INTO PlaylistContent VALUES (?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setInt(1, chosenPlaylist.getId());
+            pstmt.setInt(2, songToAdd.getId());
+            pstmt.setInt(3, getPlaylistSongs(chosenPlaylist).size()+1);
+            System.out.println("Ready to execute");
+            pstmt.execute();
+        } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not add song to playlist", ex);
+        }
 
     }
     
-    public void renamePlaylist(int playlistID, String newName) throws IOException, SQLServerException, SQLException
+    public void renamePlaylist(int playlistID, String newName) throws DALException
     {
        
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        try (PreparedStatement pstmt = con.prepareStatement("UPDATE Playlist SET playlistName = (?) WHERE listId = (?)"))
+        try
         {
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            PreparedStatement pstmt = con.prepareStatement("UPDATE Playlist SET playlistName = (?) WHERE listId = (?)");
             pstmt.setString(1, newName);
             pstmt.setInt(2, playlistID);
-            pstmt.execute();        
+            pstmt.execute();
+            pstmt.close();
+          } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not rename playlist", ex);
         }
-    }    
+        }    
     /**
      * This method deletes the playlist and all its content from the database.
      * @param playlistToDelete
-     * @throws IOException
-     * @throws SQLServerException
-     * @throws SQLException 
+     * @throws mytunes.dal.exception.DALException
      */
-    public void deletePlaylist(Playlist playlistToDelete) throws IOException, SQLServerException, SQLException
+    public void deletePlaylist(Playlist playlistToDelete) throws DALException
     {
-        int playlistId = playlistToDelete.getId();
-
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        try (PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE playlistID=(?)"))
+        try
         {
+            int playlistId = playlistToDelete.getId();
+            
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM PlaylistContent WHERE playlistID=(?)");
             pstmt2.setInt(1, playlistId);
             pstmt2.execute();
-        }
-           
-        try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)"))
-        {
+            PreparedStatement pstmt = con.prepareStatement("DELETE FROM Playlist WHERE listId=(?)");
             pstmt.setInt(1,playlistId);
             pstmt.execute();
+            System.out.println("Following playlist has been deleted: "+playlistId);
+          } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not delete playlist", ex);
         }
-        System.out.println("Following playlist has been deleted: "+playlistId);
     }
     
-    public List<Song> getPlaylistSongs(Playlist playList) throws IOException, SQLServerException, SQLException
+    public List<Song> getPlaylistSongs(Playlist playList) throws DALException
     {
-        SongDbDAO songDB = new SongDbDAO();
-        
-        ArrayList<Song> playlistSongs = new ArrayList<>();
-        int playlistId = playList.getId();
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        PreparedStatement pstmt = con.prepareStatement("Select * FROM PlaylistContent WHERE playlistId = (?)");
-        pstmt.setInt(1,playlistId);
-        ResultSet rs = pstmt.executeQuery();
-         
-        while (rs.next())
+        try
         {
-            int SongID = rs.getInt("songID");
-            int SongPosition = rs.getInt("songPosition");
-            Song songToAdd = songDB.getSong(SongID);
-            if(songToAdd!=null){
-            songToAdd.setPosition(SongPosition);
-            playlistSongs.add(songToAdd);}
-            else{
-            Song fileHasBeenDeleted = new Song("File has been deleted", "", "","error", SongID, "");    
-            fileHasBeenDeleted.setPosition(SongPosition);
-            playlistSongs.add(fileHasBeenDeleted);
+            SongDbDAO songDB = new SongDbDAO();
             
+            ArrayList<Song> playlistSongs = new ArrayList<>();
+            int playlistId = playList.getId();
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            PreparedStatement pstmt = con.prepareStatement("Select * FROM PlaylistContent WHERE playlistId = (?)");
+            pstmt.setInt(1,playlistId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next())
+            {
+                int SongID = rs.getInt("songID");
+                int SongPosition = rs.getInt("songPosition");
+                Song songToAdd = songDB.getSong(SongID);
+                if(songToAdd!=null){
+                    songToAdd.setPosition(SongPosition);
+                    playlistSongs.add(songToAdd);}
+                else{
+                    Song fileHasBeenDeleted = new Song("File has been deleted", "", "","error", SongID, "");
+                    fileHasBeenDeleted.setPosition(SongPosition);
+                    playlistSongs.add(fileHasBeenDeleted);
+                    
+                }
+                
             }
-
+            playlistSongs.sort( Comparator.comparing( Song::getPosition ) );
+            return playlistSongs;
+       } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not get playlist songs", ex);
         }
-        playlistSongs.sort( Comparator.comparing( Song::getPosition ) ); 
-        return playlistSongs;   
     }
 
-    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws IOException, SQLServerException, SQLException
+    public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws DALException 
     {
-        int songID = songToDelete.getId();
-        int position = songToDelete.getPosition();
-        int playlistID = chosenPlaylist.getId();
-        int playlistSize = getPlaylistSongs(chosenPlaylist).size();
-        
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-        try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?) AND songPosition=(?)"))
+        try {
+            int songID = songToDelete.getId();
+            int position = songToDelete.getPosition();
+            int playlistID = chosenPlaylist.getId();
+            int playlistSize = getPlaylistSongs(chosenPlaylist).size();
+            
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM PlaylistContent WHERE songID=(?) AND playlistId=(?) AND songPosition=(?)"))
+            {
+                pstmt.setInt(1,songID);
+                pstmt.setInt(2,playlistID);
+                pstmt.setInt(3,position);
+                pstmt.execute();
+            }
+            
+            System.out.println("Following song has been deleted: "+songID);
+            fixSongPositionsAfterDeletion(playlistSize,playlistID, position);
+          } catch (IOException |SQLException ex)
         {
-            pstmt.setInt(1,songID);
-            pstmt.setInt(2,playlistID);
-            pstmt.setInt(3,position);
-            pstmt.execute();
+            throw new DALException("Could not delete song from playlist", ex);
         }
-        
-        System.out.println("Following song has been deleted: "+songID);
-        fixSongPositionsAfterDeletion(playlistSize,playlistID, position);
     }
     /**
      * Each song on a playlist has an position ID. This method makes sure no gaps appear between the ID's. 
@@ -214,88 +240,99 @@ public class PlaylistDbDAO
      * @param playlistSize
      * @param playlistId
      * @param positionOfDeleted
-     * @throws IOException
-     * @throws SQLServerException
-     * @throws SQLException 
      */
-    private void fixSongPositionsAfterDeletion(int playlistSize, int playlistId, int positionOfDeleted) throws IOException, SQLServerException, SQLException
+    private void fixSongPositionsAfterDeletion(int playlistSize, int playlistId, int positionOfDeleted) throws DALException 
     {
-        int position = positionOfDeleted;
-        int plSize = playlistSize;
-        int playId = playlistId;
-            
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-                        
-        for (int i=position+1;i<=plSize;i++)
+        try
         {
-            System.out.println("Working");
-            try (PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)"))
+            int position = positionOfDeleted;
+            int plSize = playlistSize;
+            int playId = playlistId;
+            
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            for (int i=position+1;i<=plSize;i++)
             {
+                System.out.println("Working");
+                PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
                 pstmt.setInt(1, i-1);
                 pstmt.setInt(2, playId);
                 pstmt.setInt(3, i);
                 pstmt.execute();
             }
-        }   
+       } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not fit song position", ex);
+        }
+         
     }
     /**
      * When you move a song up the playlist the song chosen should switch ID with the song above it. This method does just that.
      * @param playlistChosen
      * @param songToMoveUp
-     * @throws IOException
-     * @throws SQLException 
+     * @throws mytunes.dal.exception.DALException
      */
-    public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws IOException, SQLException
+    public void moveSongUp(Playlist playlistChosen, Song songToMoveUp) throws DALException 
     {
-        int playlistID = playlistChosen.getId();
-        int songPosition = songToMoveUp.getPosition();
-        int songID = songToMoveUp.getId();
-       
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-       
-        PreparedStatement pstmt2 = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
-        pstmt2.setInt(1, songPosition);
-        pstmt2.setInt(2, playlistID);
-        pstmt2.setInt(3, songPosition-1);
-        pstmt2.execute();
-    
-        PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
-        pstmt.setInt(1, songPosition-1);
-        pstmt.setInt(2, playlistID);
-        pstmt.setInt(3, songPosition);
-        pstmt.setInt(4, songID);
-        pstmt.execute();    
+        try
+        {
+            int playlistID = playlistChosen.getId();
+            int songPosition = songToMoveUp.getPosition();
+            int songID = songToMoveUp.getId();
+            
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            PreparedStatement pstmt2 = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+            pstmt2.setInt(1, songPosition);
+            pstmt2.setInt(2, playlistID);
+            pstmt2.setInt(3, songPosition-1);
+            pstmt2.execute();
+            
+            PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
+            pstmt.setInt(1, songPosition-1);
+            pstmt.setInt(2, playlistID);
+            pstmt.setInt(3, songPosition);    
+            pstmt.setInt(4, songID);
+            pstmt.execute();
+          } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not move song up", ex);
+        }
     }
 /**
  * When you move a song down the playlist it should switch position ID with the song beneath it. This method does just that. 
  * @param playlistChosen
  * @param songToMoveDown
- * @throws IOException
- * @throws SQLServerException
- * @throws SQLException 
+ * @throws mytunes.dal.exception.DALException
  */
-    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws IOException, SQLServerException, SQLException
+    public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws DALException
     {
-        int playlistID = playlistChosen.getId();
-        int songPosition = songToMoveDown.getPosition();
-        int songID = songToMoveDown.getId();
-       
-        DbConnection dc = new DbConnection();
-        Connection con = dc.getConnection();
-       
-        PreparedStatement pstmt2 = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
-        pstmt2.setInt(1, songPosition);
-        pstmt2.setInt(2, playlistID);
-        pstmt2.setInt(3, songPosition+1);
-        pstmt2.execute();
-    
-        PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
-        pstmt.setInt(1, songPosition+1);
-        pstmt.setInt(2, playlistID);
-        pstmt.setInt(3, songPosition);
-        pstmt.setInt(4, songID);
-        pstmt.execute();
+        try
+        {
+            int playlistID = playlistChosen.getId();
+            int songPosition = songToMoveDown.getPosition();
+            int songID = songToMoveDown.getId();
+            
+            DbConnection dc = new DbConnection();
+            Connection con = dc.getConnection();
+            
+            PreparedStatement pstmt2 = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?)");
+            pstmt2.setInt(1, songPosition);
+            pstmt2.setInt(2, playlistID);
+            pstmt2.setInt(3, songPosition+1);
+            pstmt2.execute();
+            
+            PreparedStatement pstmt = con.prepareStatement("UPDATE PlaylistContent SET songPosition = (?) WHERE playlistId = (?) AND songPosition=(?) AND songID=(?)");
+            pstmt.setInt(1, songPosition+1);
+            pstmt.setInt(2, playlistID);
+            pstmt.setInt(3, songPosition);
+            pstmt.setInt(4, songID);
+            pstmt.execute();
+          } catch (IOException |SQLException ex)
+        {
+            throw new DALException("Could not move song down", ex);
+        }
     }
 }

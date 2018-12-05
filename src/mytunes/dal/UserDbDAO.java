@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import mytunes.be.Playlist;
 import mytunes.be.User;
+import mytunes.dal.exception.DALException;
 import org.farng.mp3.TagException;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
@@ -51,7 +52,7 @@ public class UserDbDAO
         return addedUser;
     }
 
-    public void deleteUser(User userToDelete) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void deleteUser(User userToDelete) throws IOException, SQLServerException, SQLException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, DALException
     {
         int userID = userToDelete.getID();
 

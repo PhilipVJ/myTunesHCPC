@@ -16,6 +16,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.User;
 import mytunes.bll.MTManager;
+import mytunes.dal.exception.DALException;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.id3.AbstractID3v2;
@@ -53,7 +54,7 @@ public class MTModel
         return users;
     }
 
-    public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public void deleteUser(User userToDelete) throws IOException, SQLException, SQLServerException, TagException, CannotReadException, org.jaudiotagger.tag.TagException, ReadOnlyFileException, InvalidAudioFrameException, DALException
     {
         mtmanager.deleteUser(userToDelete);
         List<User> allUsers = users;
