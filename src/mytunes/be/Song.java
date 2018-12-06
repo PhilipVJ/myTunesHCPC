@@ -30,7 +30,6 @@ public class Song
         this.filepath=filepath;
         this.id=id;
         this.time=new SimpleStringProperty(time);
-                
     }
 
     public String getArtist()
@@ -69,7 +68,8 @@ public class Song
         return  ""+artist+" - "+title+"     "+genre+"    "+time;
     }
     
-    public void setPosition(int position){
+    public void setPosition(int position)
+    {
         songPosition=position;
     }
     
@@ -80,10 +80,11 @@ public class Song
     
     public void setArtist(String name)
     {
-     artist.set(name);
+        artist.set(name);
     }
     
-    public void setTitle(String name){
+    public void setTitle(String name)
+    {
         title.set(name);
     }
     
@@ -91,7 +92,6 @@ public class Song
     {
         genre.set(name);
     }
-  
 }
     
             

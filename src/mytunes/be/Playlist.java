@@ -18,7 +18,6 @@ public class Playlist
     private final int id;
     private SimpleStringProperty playlistName;
     private ArrayList<Song> songs;
- 
     private int lengthInSeconds;
 
     
@@ -26,8 +25,6 @@ public class Playlist
     {
         this.id = id;
         this.playlistName = new SimpleStringProperty(playlistName);
-  
-        
     }
 
     public int getId()
@@ -48,7 +45,8 @@ public class Playlist
     @Override
     public String toString()
     {
-        if(lengthInSeconds>0){
+        if(lengthInSeconds>0)
+        {
             return playlistName+"   "+getLengthInMin();
         }
         
@@ -65,8 +63,7 @@ public class Playlist
     
     public void addLengthInSeconds(int length)
     {
-        lengthInSeconds=length;
-        
+        lengthInSeconds=length; 
     }
     
     public String getLengthInMin()
