@@ -179,7 +179,7 @@ public class MTModel
                 break;
             }
         }
-        
+       if (playlistSongs!=null){
         for (Song x:playlistSongs)
         {
             if(x.getId()==songToDelete.getId())
@@ -188,6 +188,7 @@ public class MTModel
                 break;
             }    
         }
+       }
     }
     
     /*
@@ -205,5 +206,10 @@ public class MTModel
     {
         ObservableList<Song> searchedSongs = FXCollections.observableList(mtmanager.searchSong(text));
         return searchedSongs;
+    }
+
+    public void deleteSongFromHardDisk(String filepath)
+    {
+      mtmanager.deleteSongFromHardDisk(filepath);
     }
 }

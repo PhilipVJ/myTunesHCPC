@@ -314,55 +314,21 @@ private User currentUser;
     @FXML
     private void deleteSongFromFileLibrary(ActionEvent event) 
     {
-        Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
-        ObservableList<Song> AllSong = mtmodel.getSongs();
-        
-        Alert alertSongDB = new Alert(AlertType.CONFIRMATION);
-        
-        alertSongDB.setTitle("Deleting Song");
-        alertSongDB.setHeaderText("You are about to delete a song from the Database");
-        alertSongDB.setContentText("Clicking 'OK' deletes the song from the Database");
-        
-        Optional<ButtonType> result = alertSongDB.showAndWait();
-        if(result.get() == ButtonType.OK)
-        {  
-            mtmodel.deleteSongFromLibrary(songToMove);
-            
-            refreshList();
-            refreshPlaylistSongs();
-            
-            if(result.get() == ButtonType.OK == true)
-            {
-                Alert alertSongLocal = new Alert(AlertType.CONFIRMATION);
-            
-                alertSongLocal.setTitle("Delete song local");
-                alertSongLocal.setHeaderText("You are about to delete a song from you're local PC");
-                alertSongLocal.setContentText("Clicking 'Yes' means deleting the file permanently from your PC");
-            
-                Optional<ButtonType> result2 = alertSongDB.showAndWait();
-                if(result2.get() == ButtonType.OK)
-                {
-                    for (Song SongToMove : AllSong)
-                    {
-                        System.out.println("Test");
-                    
-                    }
-                    
-                }
-                
-                else
-                {
-                System.out.println("You have canceled the deletion of the chosen Song local");
-                }
-             
-            }
+Alert alert = new Alert(AlertType.CONFIRMATION, "Do you want to delete this song from the library?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+alert.showAndWait();
+
+if (alert.getResult() == ButtonType.YES) {
+     Song songToDelete = allSongsView.getSelectionModel().getSelectedItem();
+     mtmodel.deleteSongFromLibrary(songToDelete);  
+     refreshList();
+     refreshPlaylistSongs();
+     alert.close();
+     Alert alert2 = new Alert(AlertType.CONFIRMATION, "Do you want to delete this song from your hard disk?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+     alert2.showAndWait();
+     if (alert2.getResult() == ButtonType.YES) {
+        mtmodel.deleteSongFromHardDisk(songToDelete.getFilepath());
         }
-        
-        else
-        {
-            System.out.println("You have canceled the deletion of the choosen Song");
-        }
-        
+    }
     }
     
     /*

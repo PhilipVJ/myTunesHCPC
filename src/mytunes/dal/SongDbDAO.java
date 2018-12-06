@@ -7,7 +7,10 @@ package mytunes.dal;
 
 
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +18,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import mytunes.be.Song;
 import mytunes.dal.exception.DALException;
@@ -194,4 +199,19 @@ public class SongDbDAO
             throw new DALException("Could not get song", ex);
         }
     } 
+
+    public void deleteSongFromHardDisk(String filepath) throws DALException
+    {
+        try
+        {
+            System.out.println("Deleting song from hard disk: "+filepath);
+            File fileToDelete = new File(new URI(filepath));
+            if(fileToDelete.delete()==true){
+                System.out.println("File has been deleted");
+            }
+        } catch (URISyntaxException ex)
+        {
+            throw new DALException("Could not delete file from hard disk", ex);
+        }
+    }
 }

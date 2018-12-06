@@ -265,4 +265,15 @@ public class MTManager
     
         return totalup; 
     }   
+
+    public void deleteSongFromHardDisk(String filepath)
+    {
+        try
+        {
+            songDB.deleteSongFromHardDisk(filepath);
+        } catch (DALException ex)
+        {
+            Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

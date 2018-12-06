@@ -82,7 +82,7 @@ public class AddSongController implements Initializable
             fileChooser.setTitle("Open Music File");
             Stage stage = (Stage) rootPane2.getScene().getWindow();
             File mediafile = fileChooser.showOpenDialog(stage);
-            
+                     
             MP3File mp3file = new MP3File(mediafile);
             String path = mediafile.toURI().toString();
             
