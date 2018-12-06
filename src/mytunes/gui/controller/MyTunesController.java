@@ -93,6 +93,7 @@ private User currentUser;
     private Mp3Player mp3Player;
     private int chosenView; 
     private int chosenPL; 
+    private boolean hasBeenFiltered;
    
    
     
@@ -101,6 +102,7 @@ private User currentUser;
      */
     public MyTunesController() 
     {
+        hasBeenFiltered=false;
         
     }
     
@@ -360,7 +362,19 @@ private User currentUser;
     @FXML
     private void searchClicked(MouseEvent event) 
     {
+        if(hasBeenFiltered==false){
         allSongsView.setItems(mtmodel.searchSong(searchTxt.getText()));
+        hasBeenFiltered=true;
+        searchTxt.setText("Click again to clear");
+        return;}
+        
+        if (hasBeenFiltered==true)
+        {
+       allSongsView.setItems(mtmodel.getSongs());
+       hasBeenFiltered=false;
+       searchTxt.clear();
+        }
+        
     }
 
     /*
