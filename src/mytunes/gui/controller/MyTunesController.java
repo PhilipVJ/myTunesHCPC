@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import java.awt.AWTEventMulticaster;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -314,6 +315,7 @@ private User currentUser;
     private void deleteSongFromFileLibrary(ActionEvent event) 
     {
         Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
+        ObservableList<Song> AllSong = mtmodel.getSongs();
         
         Alert alertSongDB = new Alert(AlertType.CONFIRMATION);
         
@@ -329,22 +331,33 @@ private User currentUser;
             refreshList();
             refreshPlaylistSongs();
             
-            Alert alertSongLocal = new Alert(AlertType.CONFIRMATION);
-            
-            alertSongLocal.setTitle("Delete song local");
-            alertSongLocal.setHeaderText("You are about to delete a song from you're local PC");
-            alertSongLocal.setContentText("Clicking 'Yes' means deleting the file permanently from your PC");
-            
-            Optional<ButtonType> result2 = alertSongDB.showAndWait();
-            if(result2.get() == ButtonType.OK)
+            if(result.get() == ButtonType.OK == true)
             {
-                System.out.println("Test");
-            }
-            else
-            {
+                Alert alertSongLocal = new Alert(AlertType.CONFIRMATION);
+            
+                alertSongLocal.setTitle("Delete song local");
+                alertSongLocal.setHeaderText("You are about to delete a song from you're local PC");
+                alertSongLocal.setContentText("Clicking 'Yes' means deleting the file permanently from your PC");
+            
+                Optional<ButtonType> result2 = alertSongDB.showAndWait();
+                if(result2.get() == ButtonType.OK)
+                {
+                    for (Song SongToMove : AllSong)
+                    {
+                        System.out.println("Test");
+                    
+                    }
+                    
+                }
+                
+                else
+                {
                 System.out.println("You have canceled the deletion of the chosen Song local");
+                }
+             
             }
         }
+        
         else
         {
             System.out.println("You have canceled the deletion of the choosen Song");
