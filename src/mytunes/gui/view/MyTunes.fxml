@@ -56,7 +56,7 @@
          </image>
       </ImageView>
       <Label fx:id="playlistinfo" layoutX="22.0" layoutY="154.0" />
-      <ImageView fx:id="searchBtn" fitHeight="30.0" fitWidth="30.0" layoutX="944.0" layoutY="29.0" onKeyPressed="#searchEnter" onMouseClicked="#searchClicked">
+      <ImageView fx:id="searchBtn" fitHeight="30.0" fitWidth="30.0" layoutX="944.0" layoutY="29.0" onMouseClicked="#searchClicked">
          <image>
             <Image url="@search-button-png-search-icon-png-image-9966-600.png" />
          </image>

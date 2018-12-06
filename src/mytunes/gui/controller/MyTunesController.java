@@ -353,12 +353,7 @@ private User currentUser;
     /*
         Here starts Search related methods.
     */
-    @FXML
-    private void searchEnter(KeyEvent event) 
-    {
     
-    }
-
     @FXML
     private void searchClicked(MouseEvent event) 
     {
