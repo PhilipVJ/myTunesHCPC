@@ -93,8 +93,11 @@ private User currentUser;
     
     private MTModel mtmodel;
     private Mp3Player mp3Player;
-    private int chosenView; 
+    // 1 fortæller at det sidste markede tableview er playlistSongs - 2 fortælle det er allSongs
+    private int chosenView;
+    // Holder ID'et på den sidst valgte playliste.
     private int chosenPL; 
+    //Holder en boolean som fortæller om filter-knappen er blevet brugt eller ej. Bruges
     private boolean hasBeenFiltered;
    
    
@@ -391,11 +394,12 @@ if (alert.getResult() == ButtonType.YES) {
     @FXML
     private void playSong(MouseEvent event)
     {
+        // Checker om en sang allerede bliver afspillet. Hvis den gør - så stopper vi den
         if(mp3Player!=null)
         {
             mp3Player.stop();
         } 
-        
+        // Derefter ser vi hvilken sang der er markeret og starter med at afspille den.
         if (chosenView==2)
         {
             ObservableList<Song>allSongs = allSongsView.getItems();

@@ -73,6 +73,7 @@ public class Mp3Player
 
     public void stop()
     {
+        
         mediaPlayer.stop();
         currentTitle.set("Song has been stopped");
     }

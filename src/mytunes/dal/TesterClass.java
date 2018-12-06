@@ -8,8 +8,6 @@ package mytunes.dal;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-import mytunes.be.Song;
 import org.farng.mp3.TagException;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
