@@ -5,10 +5,8 @@
  */
 package mytunes.gui.controller;
 
-import java.awt.AWTEventMulticaster;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,10 +91,13 @@ private User currentUser;
     
     private MTModel mtmodel;
     private Mp3Player mp3Player;
+    
     // 1 fortæller at det sidste markede tableview er playlistSongs - 2 fortælle det er allSongs
     private int chosenView;
+    
     // Holder ID'et på den sidst valgte playliste.
     private int chosenPL; 
+    
     //Holder en boolean som fortæller om filter-knappen er blevet brugt eller ej. Bruges
     private boolean hasBeenFiltered;
    
@@ -317,21 +318,25 @@ private User currentUser;
     @FXML
     private void deleteSongFromFileLibrary(ActionEvent event) 
     {
-Alert alert = new Alert(AlertType.CONFIRMATION, "Do you want to delete this song from the library?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-alert.showAndWait();
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Do you want to delete this song from the library?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.showAndWait();
 
-if (alert.getResult() == ButtonType.YES) {
-     Song songToDelete = allSongsView.getSelectionModel().getSelectedItem();
-     mtmodel.deleteSongFromLibrary(songToDelete);  
-     refreshList();
-     refreshPlaylistSongs();
-     alert.close();
-     Alert alert2 = new Alert(AlertType.CONFIRMATION, "Do you want to delete this song from your hard disk?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-     alert2.showAndWait();
-     if (alert2.getResult() == ButtonType.YES) {
-        mtmodel.deleteSongFromHardDisk(songToDelete.getFilepath());
+        if (alert.getResult() == ButtonType.YES) 
+        {
+            Song songToDelete = allSongsView.getSelectionModel().getSelectedItem();
+            mtmodel.deleteSongFromLibrary(songToDelete);  
+            refreshList();
+            refreshPlaylistSongs();
+            alert.close();
+            
+            Alert alert2 = new Alert(AlertType.CONFIRMATION, "Do you want to delete this song from your hard disk?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert2.showAndWait();
+            
+            if (alert2.getResult() == ButtonType.YES) 
+            {
+                mtmodel.deleteSongFromHardDisk(songToDelete.getFilepath());
+            }
         }
-    }
     }
     
     /*
@@ -369,23 +374,23 @@ if (alert.getResult() == ButtonType.YES) {
     /*
         Here starts Search related methods.
     */
-    
     @FXML
     private void searchClicked(MouseEvent event) 
     {
-        if(hasBeenFiltered==false){
+        if(hasBeenFiltered==false)
+        {
         allSongsView.setItems(mtmodel.searchSong(searchTxt.getText()));
         hasBeenFiltered=true;
         searchTxt.setText("Click again to clear");
-        return;}
+        return;
+        }
         
         if (hasBeenFiltered==true)
         {
-       allSongsView.setItems(mtmodel.getSongs());
-       hasBeenFiltered=false;
-       searchTxt.clear();
+            allSongsView.setItems(mtmodel.getSongs());
+            hasBeenFiltered=false;
+            searchTxt.clear();
         }
-        
     }
 
     /*
@@ -438,6 +443,7 @@ if (alert.getResult() == ButtonType.YES) {
             mp3Player.previous();
         }
     }
+    
     @FXML
     private void stopSong(ActionEvent event)
     {

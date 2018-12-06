@@ -14,11 +14,9 @@ import mytunes.be.User;
 import mytunes.bll.MTManager;
 
 /**
- *
+ * 
  * @author Philip
  */
-
-
 public class MTModel
 {
     private ObservableList<User> users;
@@ -27,7 +25,9 @@ public class MTModel
     private ObservableList<Song> playlistSongs;
     private MTManager mtmanager;
 
-
+    /**
+     * Connects gui.model to bll
+     */
     public MTModel()
     {
         mtmanager = new MTManager();
@@ -179,16 +179,17 @@ public class MTModel
                 break;
             }
         }
-       if (playlistSongs!=null){
-        for (Song x:playlistSongs)
-        {
-            if(x.getId()==songToDelete.getId())
+       if (playlistSongs!=null)
+       {
+            for (Song x:playlistSongs)
             {
+                if(x.getId()==songToDelete.getId())
+                {
                 playlistSongs.remove(x);
                 break;
-            }    
+                }    
+            }
         }
-       }
     }
     
     /*
@@ -210,6 +211,6 @@ public class MTModel
 
     public void deleteSongFromHardDisk(String filepath)
     {
-      mtmanager.deleteSongFromHardDisk(filepath);
+        mtmanager.deleteSongFromHardDisk(filepath);
     }
 }

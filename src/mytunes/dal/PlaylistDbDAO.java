@@ -27,7 +27,13 @@ import mytunes.dal.exception.DALException;
  */
 public class PlaylistDbDAO
 {
-    
+    /**
+     * Adds a playlist in database with given userId and playlistName
+     * @param userId
+     * @param playlistName
+     * @return
+     * @throws DALException 
+     */
     public Playlist addPlaylist(int userId, String playlistName) throws DALException
     { 
         try
@@ -104,9 +110,14 @@ public class PlaylistDbDAO
         {
             throw new DALException("Could not get playlists", ex);
         }
-    
     }
     
+    /**
+     * Adds a song to the choosen playlist
+     * @param songToAdd
+     * @param chosenPlaylist
+     * @throws DALException 
+     */
     public void addSongToPlaylist(Song songToAdd, Playlist chosenPlaylist) throws DALException 
     {
         try
@@ -125,8 +136,8 @@ public class PlaylistDbDAO
         {
             throw new DALException("Could not add song to playlist", ex);
         }
-
     }
+    
     /**
      * This method sets a new name to the specified playlist.
      * @param playlistID
@@ -135,7 +146,6 @@ public class PlaylistDbDAO
      */
     public void renamePlaylist(int playlistID, String newName) throws DALException
     {
-       
         try
         {
             DbConnection dc = new DbConnection();
@@ -180,6 +190,13 @@ public class PlaylistDbDAO
         }
     }
     
+    
+    /**
+     * Returns the songs in the given playlist
+     * @param playList
+     * @return
+     * @throws DALException 
+     */
     public List<Song> getPlaylistSongs(Playlist playList) throws DALException
     {
         try
@@ -223,6 +240,12 @@ public class PlaylistDbDAO
         }
     }
 
+    /**
+     * Deletes only the song in the given playlist
+     * @param chosenPlaylist
+     * @param songToDelete
+     * @throws DALException 
+     */
     public void deleteSongFromPlaylist(Playlist chosenPlaylist, Song songToDelete) throws DALException 
     {
         try 
@@ -323,12 +346,12 @@ public class PlaylistDbDAO
     }
     
     
-/**
- * When you move a song down the playlist it should switch position ID with the song beneath it. This method does just that. 
- * @param playlistChosen
- * @param songToMoveDown
- * @throws mytunes.dal.exception.DALException
- */
+    /**
+    * When you move a song down the playlist it should switch position ID with the song beneath it. This method does just that. 
+    * @param playlistChosen
+    * @param songToMoveDown
+    * @throws mytunes.dal.exception.DALException
+    */
     public void moveSongDown(Playlist playlistChosen, Song songToMoveDown) throws DALException
     {
         try

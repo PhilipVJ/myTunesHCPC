@@ -19,6 +19,7 @@ import mytunes.dal.exception.DALException;
 /**
  *
  * @author Philip
+ * Connects dal to bll
  */
 public class MTManager
 {
@@ -34,7 +35,8 @@ public class MTManager
         try
         {
             return userDB.getAllUsers();
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -46,7 +48,8 @@ public class MTManager
         try
         {
             userDB.deleteUser(userToDelete);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,7 +60,8 @@ public class MTManager
         try
         {
             return userDB.addUser(username);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,7 +76,8 @@ public class MTManager
         try
         {
             return playlistDB.getPlaylistsByUser(userID);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -84,7 +89,8 @@ public class MTManager
         try
         {
             return playlistDB.addPlaylist(userID, playlistName);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,7 +102,8 @@ public class MTManager
         try
         {
             playlistDB.renamePlaylist(id, newName);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -107,7 +114,8 @@ public class MTManager
         try
         {
             playlistDB.deletePlaylist(playlistToDelete);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,7 +126,8 @@ public class MTManager
         try
         {
             return playlistDB.getPlaylistSongs(chosenPlaylist);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -130,7 +139,8 @@ public class MTManager
         try
         {
             playlistDB.deleteSongFromPlaylist(chosenPlaylist, deleteSongs);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -141,7 +151,8 @@ public class MTManager
         try
         {
             playlistDB.addSongToPlaylist(songToMove, playlistChosen);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -152,7 +163,8 @@ public class MTManager
         try
         {
             playlistDB.moveSongUp(playlistChosen, songToMoveUp);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -163,7 +175,8 @@ public class MTManager
         try
         {
             playlistDB.moveSongDown(playlistChosen, songToMoveDown);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -177,7 +190,8 @@ public class MTManager
         try
         {
             return songDB.addSong(songToAdd);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -189,7 +203,8 @@ public class MTManager
         try
         {
             return songDB.getAllSongs();
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -201,7 +216,8 @@ public class MTManager
         try
         {
             songDB.editSong(editedSong);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -212,7 +228,8 @@ public class MTManager
         try
         {
             songDB.deleteSongFromLibrary(songToDelete);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -223,7 +240,8 @@ public class MTManager
         try
         {
             return songDB.searchSongs(text);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -238,6 +256,7 @@ public class MTManager
         String inMinutes;
         int inMin = time/60;
         int remainingSec = time-(inMin*60);
+        
         if (remainingSec>=10)
         {
             inMinutes=""+inMin+":"+remainingSec;
@@ -271,7 +290,8 @@ public class MTManager
         try
         {
             songDB.deleteSongFromHardDisk(filepath);
-        } catch (DALException ex)
+        } 
+        catch (DALException ex)
         {
             Logger.getLogger(MTManager.class.getName()).log(Level.SEVERE, null, ex);
         }

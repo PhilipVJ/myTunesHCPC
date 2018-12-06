@@ -13,7 +13,7 @@ import java.sql.Connection;
 import java.util.Properties;
 
 /**
- *
+ * Connects to Database with database information.
  * @author Philip
  */
 public class DbConnection

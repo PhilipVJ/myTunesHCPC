@@ -57,6 +57,12 @@ public class UserDbDAO
         }
     }
 
+    
+    /**
+     * Deletes user from Database
+     * @param userToDelete
+     * @throws DALException 
+     */
     public void deleteUser(User userToDelete) throws DALException
     {
         try
@@ -85,11 +91,13 @@ public class UserDbDAO
             throw new DALException("Could not delete user", ex);
         }
     }
-/**
- * Returns all users from the database.
- * @return
- * @throws DALException 
- */
+    
+    
+    /**
+    * Returns all users from the database.
+    * @return
+    * @throws DALException 
+    */
     public List<User> getAllUsers() throws DALException
     {
         try

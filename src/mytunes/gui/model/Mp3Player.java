@@ -19,7 +19,6 @@ import mytunes.be.Song;
 public class Mp3Player
 {
     int currentSong=0;
-    
     ObservableList<Song> songsToPlay;
     Media media;
     MediaPlayer mediaPlayer;
@@ -45,8 +44,6 @@ public class Mp3Player
 
     public void play(int songListNr, ObservableList<Song> songs)
     {
-        
-             
         if (currentSong==songs.size() || currentSong==-1)
         {
             return;
@@ -73,7 +70,6 @@ public class Mp3Player
 
     public void stop()
     {
-        
         mediaPlayer.stop();
         currentTitle.set("Song has been stopped");
     }
@@ -118,5 +114,3 @@ public class Mp3Player
         mediaPlayer.setVolume(volume);
     }
 }
-
-

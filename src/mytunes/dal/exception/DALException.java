@@ -31,5 +31,4 @@ public class DALException extends Exception
     {
         super(message, ex);
     }
-
 }

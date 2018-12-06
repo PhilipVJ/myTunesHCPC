@@ -73,6 +73,11 @@ public class AddSongController implements Initializable
         // TODO
     }    
 
+    
+    /**
+     * Reads the given audio file and sets Title, Artist, Genre, Time and filepath.
+     * @param event 
+     */
     @FXML
     private void chooseFile(ActionEvent event) 
     {

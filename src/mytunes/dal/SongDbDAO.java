@@ -18,7 +18,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import mytunes.be.Song;
 import mytunes.dal.exception.DALException;
 
@@ -66,6 +65,13 @@ public class SongDbDAO
         }
     }
     
+    
+    /**
+     * Adds a song to the database
+     * @param songToAdd
+     * @return
+     * @throws DALException 
+     */
     public Song addSong(Song songToAdd) throws DALException 
     {
         try
@@ -100,6 +106,12 @@ public class SongDbDAO
         }
     }
     
+    
+    /**
+     * Edits a songs Title, Artist or Genre with it's given songID
+     * @param song
+     * @throws DALException 
+     */
     public void editSong(Song song) throws DALException
     {
         try
@@ -120,6 +132,12 @@ public class SongDbDAO
         }
     }
 
+    
+    /**
+     * Deletes the song from the database
+     * @param songToDelete
+     * @throws DALException 
+     */
     public void deleteSongFromLibrary(Song songToDelete) throws DALException
     {
         try
@@ -138,6 +156,12 @@ public class SongDbDAO
         }
     }
     
+    
+    /**
+     * Returns all songs
+     * @return
+     * @throws DALException 
+     */
     public ArrayList<Song> getAllSongs() throws DALException
     {
         try
@@ -167,6 +191,13 @@ public class SongDbDAO
         }
     }
     
+    
+    /**
+     * Returns the song with it's songID
+     * @param songID
+     * @return
+     * @throws DALException 
+     */
     public Song getSong(int songID) throws DALException 
     {
         try
@@ -198,16 +229,24 @@ public class SongDbDAO
         }
     } 
 
+    
+    /**
+     * Deletes song from Local PC
+     * @param filepath
+     * @throws DALException 
+     */
     public void deleteSongFromHardDisk(String filepath) throws DALException
     {
         try
         {
             System.out.println("Deleting song from hard disk: "+filepath);
             File fileToDelete = new File(new URI(filepath));
-            if(fileToDelete.delete()==true){
+            if(fileToDelete.delete()==true)
+            {
                 System.out.println("File has been deleted");
             }
-        } catch (URISyntaxException ex)
+        } 
+        catch (URISyntaxException ex)
         {
             throw new DALException("Could not delete file from hard disk", ex);
         }
