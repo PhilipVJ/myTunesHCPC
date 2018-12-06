@@ -7,6 +7,7 @@ package mytunes.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -28,7 +30,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
@@ -312,10 +313,29 @@ private User currentUser;
     @FXML
     private void deleteSongFromFileLibrary(ActionEvent event) 
     {
-        Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
-        mtmodel.deleteSongFromLibrary(songToMove);
-        refreshList();
-        refreshPlaylistSongs();
+        Alert alertSong = new Alert(AlertType.CONFIRMATION);
+        
+        alertSong.setTitle("Deleting Song");
+        alertSong.setHeaderText("You are about to delete a song permanently");
+        alertSong.setContentText("Clicking 'OK' deletes the song permanently from local host");
+        
+        Optional<ButtonType> result = alertSong.showAndWait();
+        if(result.get() == ButtonType.OK)
+        {
+            if(!allSongsView.getSelectionModel().isEmpty())
+            {
+            Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
+            mtmodel.deleteSongFromLibrary(songToMove);
+            
+            refreshList();
+            refreshPlaylistSongs();
+            }
+        }
+        else
+        {
+            System.out.println("You have canceled the deletion of the choosen Song");
+        }
+        
     }
     
     /*
