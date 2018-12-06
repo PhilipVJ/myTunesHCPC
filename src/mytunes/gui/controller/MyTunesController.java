@@ -270,7 +270,7 @@ private User currentUser;
             Parent root = (Parent)loader.load();
             AddSongController addSongCon = loader.getController();
         
-            addSongCon.setMode(mtmodel);
+            addSongCon.setModel(mtmodel);
         
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
