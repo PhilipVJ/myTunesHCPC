@@ -23,7 +23,12 @@ import mytunes.dal.exception.DALException;
  */
 public class UserDbDAO
 {
-    
+    /**
+     * Adds a user to the database with the specified name
+     * @param username
+     * @return
+     * @throws DALException 
+     */
     public User addUser(String username) throws DALException
     {
         try
@@ -80,7 +85,11 @@ public class UserDbDAO
             throw new DALException("Could not delete user", ex);
         }
     }
-
+/**
+ * Returns all users from the database.
+ * @return
+ * @throws DALException 
+ */
     public List<User> getAllUsers() throws DALException
     {
         try

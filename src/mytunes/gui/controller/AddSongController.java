@@ -150,7 +150,7 @@ public class AddSongController implements Initializable
 
 
 
-    void setMode(MTModel mtmodel)
+    void setModel(MTModel mtmodel)
     {
        this.mtmodel = mtmodel;
     }

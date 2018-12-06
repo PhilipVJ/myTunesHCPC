@@ -127,7 +127,12 @@ public class PlaylistDbDAO
         }
 
     }
-    
+    /**
+     * This method sets a new name to the specified playlist.
+     * @param playlistID
+     * @param newName
+     * @throws DALException 
+     */
     public void renamePlaylist(int playlistID, String newName) throws DALException
     {
        

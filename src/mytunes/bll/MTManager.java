@@ -236,16 +236,13 @@ public class MTManager
     public static String getSecToMin(int time)
     {
         String inMinutes;
-   
         int inMin = time/60;
         int remainingSec = time-(inMin*60);
-   
         if (remainingSec>=10)
         {
             inMinutes=""+inMin+":"+remainingSec;
             return inMinutes;
         }
-   
         inMinutes=""+inMin+":0"+remainingSec;   
         return inMinutes;
     }
