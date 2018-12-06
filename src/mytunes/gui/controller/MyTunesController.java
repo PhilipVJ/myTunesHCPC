@@ -5,8 +5,10 @@
  */
 package mytunes.gui.controller;
 
+import java.awt.AWTEventMulticaster;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -312,9 +315,54 @@ private User currentUser;
     private void deleteSongFromFileLibrary(ActionEvent event) 
     {
         Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
-        mtmodel.deleteSongFromLibrary(songToMove);
-        refreshList();
-        refreshPlaylistSongs();
+        ObservableList<Song> AllSong = mtmodel.getSongs();
+        
+        Alert alertSongDB = new Alert(AlertType.CONFIRMATION);
+        
+        alertSongDB.setTitle("Deleting Song");
+        alertSongDB.setHeaderText("You are about to delete a song from the Database");
+        alertSongDB.setContentText("Clicking 'OK' deletes the song from the Database");
+        
+        Optional<ButtonType> result = alertSongDB.showAndWait();
+        if(result.get() == ButtonType.OK)
+        {  
+            mtmodel.deleteSongFromLibrary(songToMove);
+            
+            refreshList();
+            refreshPlaylistSongs();
+            
+            if(result.get() == ButtonType.OK == true)
+            {
+                Alert alertSongLocal = new Alert(AlertType.CONFIRMATION);
+            
+                alertSongLocal.setTitle("Delete song local");
+                alertSongLocal.setHeaderText("You are about to delete a song from you're local PC");
+                alertSongLocal.setContentText("Clicking 'Yes' means deleting the file permanently from your PC");
+            
+                Optional<ButtonType> result2 = alertSongDB.showAndWait();
+                if(result2.get() == ButtonType.OK)
+                {
+                    for (Song SongToMove : AllSong)
+                    {
+                        System.out.println("Test");
+                    
+                    }
+                    
+                }
+                
+                else
+                {
+                System.out.println("You have canceled the deletion of the chosen Song local");
+                }
+             
+            }
+        }
+        
+        else
+        {
+            System.out.println("You have canceled the deletion of the choosen Song");
+        }
+        
     }
     
     /*

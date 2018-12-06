@@ -26,5 +26,6 @@
       <Button layoutX="422.0" layoutY="288.0" mnemonicParsing="false" onAction="#chooseFile" text="Choose" />
       <Button layoutX="422.0" layoutY="348.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Button layoutX="515.0" layoutY="348.0" mnemonicParsing="false" onAction="#saveSong" text="Save" />
+      <Label fx:id="songChoosePlease" layoutX="245.0" layoutY="353.0" />
    </children>
 </AnchorPane>
