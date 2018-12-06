@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -49,8 +50,12 @@ public class AddSongController implements Initializable
     private TextField filepath;
     @FXML
     private AnchorPane rootPane2;
+    @FXML
+    private Label songChoosePlease;
     
     private MTModel mtmodel;
+    
+    
  
     
 
@@ -139,7 +144,12 @@ public class AddSongController implements Initializable
         String songTime = this.time.getText();
         String songGenre = this.genre.getText();
         String songFilepath = this.filepath.getText();
-    
+        
+        if(songTitle.length()==0 && songArtist.length()==0 && songTime.length()==0 && songGenre.length()==0 && songFilepath.length()==0)
+        {
+            songChoosePlease.setText("Please choose a song");
+            return;
+        }
         Song songToAdd = new Song(songArtist, songTitle, songGenre, songFilepath, 0, songTime);
         mtmodel.addSong(songToAdd);
     

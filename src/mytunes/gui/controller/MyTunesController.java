@@ -313,22 +313,36 @@ private User currentUser;
     @FXML
     private void deleteSongFromFileLibrary(ActionEvent event) 
     {
-        Alert alertSong = new Alert(AlertType.CONFIRMATION);
+        Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
         
-        alertSong.setTitle("Deleting Song");
-        alertSong.setHeaderText("You are about to delete a song permanently");
-        alertSong.setContentText("Clicking 'OK' deletes the song permanently from local host");
+        Alert alertSongDB = new Alert(AlertType.CONFIRMATION);
         
-        Optional<ButtonType> result = alertSong.showAndWait();
+        alertSongDB.setTitle("Deleting Song");
+        alertSongDB.setHeaderText("You are about to delete a song from the Database");
+        alertSongDB.setContentText("Clicking 'OK' deletes the song from the Database");
+        
+        Optional<ButtonType> result = alertSongDB.showAndWait();
         if(result.get() == ButtonType.OK)
-        {
-            if(!allSongsView.getSelectionModel().isEmpty())
-            {
-            Song songToMove = allSongsView.getSelectionModel().getSelectedItem();
+        {  
             mtmodel.deleteSongFromLibrary(songToMove);
             
             refreshList();
             refreshPlaylistSongs();
+            
+            Alert alertSongLocal = new Alert(AlertType.CONFIRMATION);
+            
+            alertSongLocal.setTitle("Delete song local");
+            alertSongLocal.setHeaderText("You are about to delete a song from you're local PC");
+            alertSongLocal.setContentText("Clicking 'Yes' means deleting the file permanently from your PC");
+            
+            Optional<ButtonType> result2 = alertSongDB.showAndWait();
+            if(result2.get() == ButtonType.OK)
+            {
+                System.out.println("Test");
+            }
+            else
+            {
+                System.out.println("You have canceled the deletion of the chosen Song local");
             }
         }
         else
