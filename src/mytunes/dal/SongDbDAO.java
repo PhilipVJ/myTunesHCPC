@@ -39,7 +39,6 @@ public class SongDbDAO
             ArrayList<Song> searchedSongs = new ArrayList();
             DbConnection dc = new DbConnection();
             Connection con = dc.getConnection();
-            Statement statement = con.createStatement();
             PreparedStatement pstmt = con.prepareStatement("Select * FROM Songs WHERE Artist LIKE ? OR Title LIKE ?");
             pstmt.setString(1, "%"+keyword+"%");
             pstmt.setString(2, "%"+keyword+"%");
