@@ -11,8 +11,8 @@ package mytunes.be;
  */
 public class User
 {
-    int id;
-    String username;
+    private int id;
+    private String username;
 
     public User(int id, String username)
     {

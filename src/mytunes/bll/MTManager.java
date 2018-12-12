@@ -23,9 +23,9 @@ import mytunes.dal.exception.DALException;
  */
 public class MTManager
 {
-    UserDbDAO userDB = new UserDbDAO(); 
-    PlaylistDbDAO playlistDB = new PlaylistDbDAO();
-    SongDbDAO songDB = new SongDbDAO();
+    private UserDbDAO userDB = new UserDbDAO(); 
+    private PlaylistDbDAO playlistDB = new PlaylistDbDAO();
+    private SongDbDAO songDB = new SongDbDAO();
 
     /*
         Here starts User related methods.

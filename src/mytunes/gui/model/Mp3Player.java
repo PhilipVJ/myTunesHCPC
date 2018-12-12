@@ -18,11 +18,11 @@ import mytunes.be.Song;
  */
 public class Mp3Player
 {
-    int currentSong=0;
-    ObservableList<Song> songsToPlay;
-    Media media;
-    MediaPlayer mediaPlayer;
-    StringProperty currentTitle;
+    private int currentSong=0;
+    private ObservableList<Song> songsToPlay;
+    private Media media;
+    private MediaPlayer mediaPlayer;
+    private StringProperty currentTitle;
 
     public Mp3Player()
     {

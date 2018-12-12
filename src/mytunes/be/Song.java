@@ -14,13 +14,13 @@ import javafx.beans.property.SimpleStringProperty;
 public class Song
 {
     
-    public SimpleStringProperty artist;
-    public SimpleStringProperty title;
-    public SimpleStringProperty genre;
-    public String filepath;
-    public int id;
-    public SimpleStringProperty time;
-    public int songPosition;
+    private SimpleStringProperty artist;
+    private SimpleStringProperty title;
+    private SimpleStringProperty genre;
+    private String filepath;
+    private int id;
+    private SimpleStringProperty time;
+    private int songPosition;
     
     public Song(String artist, String title, String genre, String filepath, int id, String time)
     {
